@@ -454,7 +454,8 @@ Das Subsystem stellt seine Funktionalität über das Java-Interface *de.dokchess
 
 *Tabelle: Methoden der Schnittstelle Eroeffnungsbibliothek*
 
-PolyglotOpeningBook
+#### PolyglotOpeningBook <!-- omit in toc -->
+
 Die Klasse PolyglotOpeningBook ist ein Adapter zum Polyglot Opening Book-Dateiformat.
 Implementierung der Eroeffnungsbibliothek, die eine Binärdatei im entsprechenden Format einliest und einen Zug zur angegebenen Stellung zurückliefert, falls es einen gibt.
 
@@ -469,10 +470,11 @@ Implementierung der Eroeffnungsbibliothek, die eine Binärdatei im entsprechende
 
 [Konzept 8.2 („Schach-Domänenmodell“)](#82-schach-domänenmodell) beschreibt die in der Schnittstelle verwendeten Aufruf- und Rückgabeparameter (*Zug*, *Stellung*).
 
-Ablageort / Datei
+#### Ablageort / Datei <!-- omit in toc -->
+
 Die Implementierung, Unit-Tests und Testdaten für das Polyglot Opening Book-Fomat liegen unterhalb der Pakete *de.dokchess.eroeffnung...*
 
-Offene Punkte
+#### Offene Punkte <!-- omit in toc -->
 
 - Die Möglichkeiten zur Auswahl eines Zuges aus der Eröffnungsbibliothek im Fall von mehreren Kandidaten sind beschränkt (der erste, der am häufigsten gespielte, per Zufall).
 - Die Implementierung kann nicht mit mehreren Bibliotheksdateien zur gleichen Zeit umgehen – sie also nicht mischen – um das Wissen zu vereinen.
@@ -497,13 +499,15 @@ Nur wenn diese keinen Rat weiß, kommt die Zugsuche zum Einsatz.
 
 ### 5.7 Zugsuche (Blackbox)
 
-Zweck/Verantwortlichkeit
+#### Zweck/Verantwortlichkeit <!-- omit in toc -->
+
 Das Modul ermittelt zu einer Stellung den unter bestimmten Bedingungen optimalen Zug.
 Theoretisch gäbe es im Schach einen generell optimalen Zug.
 Die hohe Anzahl der möglichen Züge und die damit verbundene schier unglaubliche Anzahl zu bewertender Spielsituationen macht es in der Praxis aber unmöglich, ihn zu bestimmen.
 Gängige Algorithmen wie der Minimax begnügen sich daher damit, den "Spielbaum" nur bis zu einer bestimmten Tiefe zu explorieren.
 
-Schnittstellen
+#### Schnittstellen <!-- omit in toc -->
+
 Das Modul stellt seine Funktionalität über die Schnittstelle *de.dokchess.engine.suche.Suche* zur Verfügung.
 
 Der Minimax-Algorithmus liegt in der Klasse *de.dokchess.engine.suche.MinimaxAlgorithmus* vor.
@@ -795,7 +799,7 @@ Hier kommt die Forsyth-Edwards-Notation (kurz FEN) zum Einsatz. Diese Notation e
 Die Grundstellung wird in FEN beispielsweise so notiert:
 
 ```text
-"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
+    "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
 ```
 
 Kleine Buchstaben stehen für schwarze, große für weiße Figuren, es werden die englischen Bezeichnungen (Rook für Turm, Pawn für Bauer, ...) verwendet.
