@@ -1,8 +1,10 @@
+<!-- markdownlint-disable MD033 MD036 MD055 -->
+
+# DokChess (arc42) <!-- omit in toc -->
+
 > "Eines Tages werden Computer uns alle überflüssig machen."
 >
 > Robert (“Bobby”) Fisher (US-amerikanischer Schachspieler, Schachweltmeister 1972–1975), 1975
-
-## DokChess
 
 DokChess ist eine voll funktionsfähige Schach-Engine.
 
@@ -13,7 +15,6 @@ Die Gliederung der Inhalte erfolgt nach der arc42-Vorlage.
 Zielgruppe dieses Überblicks sind in erster Linie Softwarearchitektinnen und -architekten, die Anregungen und Beispiele suchen, wie sie Architekturentwürfe angemessen dokumentieren können.
 Darüber hinaus erhalten alle, die selbst ein Schachprogramm schreiben wollen, wertvolle Tipps und lernen en passant einiges über methodische Softwarearchitektur.
 
-- [DokChess](#dokchess)
 - [1. Einführung und Ziele](#1-einführung-und-ziele)
   - [1.1 Aufgabenstellung](#11-aufgabenstellung)
   - [1.2 Qualitätsziele](#12-qualitätsziele)
@@ -31,9 +32,9 @@ Darüber hinaus erhalten alle, die selbst ein Schachprogramm schreiben wollen, w
   - [4.3 Spielstrategie](#43-spielstrategie)
   - [4.4 Die Anbindung](#44-die-anbindung)
 - [5. Bausteinsicht](#5-bausteinsicht)
-  - [5.1	Ebene 1](#51ebene-1)
+  - [5.1 Ebene 1](#51-ebene-1)
   - [5.2 XBoard-Protokoll (Blackbox)](#52-xboard-protokoll-blackbox)
-  - [5.3	Spielregeln (Blackbox)](#53spielregeln-blackbox)
+  - [5.3 Spielregeln (Blackbox)](#53-spielregeln-blackbox)
   - [5.4 Engine (Blackbox)](#54-engine-blackbox)
   - [5.5 Eröffnung (Blackbox)](#55-eröffnung-blackbox)
   - [5.6 Ebene 2: Engine (Whitebox)](#56-ebene-2-engine-whitebox)
@@ -47,7 +48,7 @@ Darüber hinaus erhalten alle, die selbst ein Schachprogramm schreiben wollen, w
   - [8.1 Querschnittliche Konzepte](#81-querschnittliche-konzepte)
   - [8.1 Abhängigkeiten zwischen Modulen](#81-abhängigkeiten-zwischen-modulen)
   - [8.2 Schach-Domänenmodell](#82-schach-domänenmodell)
-  - [8.3	Benutzungsoberfläche](#83benutzungsoberfläche)
+  - [8.3 Benutzungsoberfläche](#83-benutzungsoberfläche)
   - [8.4 Plausibilisierung und Validierung](#84-plausibilisierung-und-validierung)
   - [8.5 Ausnahme- und Fehlerbehandlung](#85-ausnahme--und-fehlerbehandlung)
   - [8.6 Logging, Protokollierung, Tracing](#86-logging-protokollierung-tracing)
@@ -108,7 +109,7 @@ Die folgende Tabelle stellt die Stakeholder von DokChess und ihre jeweilige Inte
 |---------------------|----------------------------|
 | Softwarearchitektinnen und -architekten | <ul> <li>wollen ein Gefühl bekommen, wie Architekturdokumentation für ein konkretes System aussehen kann <li>möchten sich Dinge (z.B. Form, Notation) für Ihre tägliche Arbeit abgucken <li>gewinnen Sicherheit für Ihre eigenen Dokumentationsvorhaben <li>haben in der Regel keine tiefen Schachkenntnisse</ul>|
 | Entwicklerinnen und Entwickler | <ul> <li>nehmen auch Architekturaufgaben im Team wahr <li>bekommen beim Studium von DokChess Lust, selbst eine Schach-Engine zu implementieren <li>sind neugierig auf konkrete Anregungen, wie man das macht</ul>|
-|Stefan Zörner|	<ul><li>benötigt attraktive Beispiele für sein Buch <li> will DokChess in Workshops und Vorträgen zu Softwareentwurf und -architektur als Anschauungsmaterial verwenden|
+|Stefan Zörner| <ul><li>benötigt attraktive Beispiele für sein Buch <li> will DokChess in Workshops und Vorträgen zu Softwareentwurf und -architektur als Anschauungsmaterial verwenden|
 |oose Innovative Informatik|<ul><li>Schulungsunternehmen, Arbeitgeber von Stefan Zörner zum Zeitpunkt der Konzeption von DokChess<li>bietet Seminare, Workshops und Coaching zu Themen rund um Softwareentwicklung an</ul>|
 
 ## 2. Randbedingungen
@@ -124,7 +125,6 @@ Beim Lösungsentwurf waren zu Beginn verschiedene Randbedingungen zu beachten, s
 | Implementierung in Java | Einsatz als Beispiel in Java-lastigen Seminaren und auf Java-Konferenzen.  Entwicklung unter Version Java SE 6 (DokChess 1.0), später Java SE 7 und Java SE 11. Die Engine soll auch auf neueren Java-Versionen, sobald verfügbar, laufen.
 | Fremdsoftware frei verfügbar | Falls zur Lösung Fremdsoftware hinzugezogen wird (z.B. grafisches Frontend), sollte diese idealerweise frei verfügbar und kostenlos sein. Die Schwelle der Verwendung wird auf diese Weise niedrig gehalten. |
 
-
 ### 2.2 Organisatorische Randbedingungen
 
 | Randbedingung | Erläuterungen, Hintergrund |
@@ -135,7 +135,7 @@ Beim Lösungsentwurf waren zu Beginn verschiedene Randbedingungen zu beachten, s
 | Entwicklungswerkzeuge | Entwurf mit Stift und Papier, ergänzend Enterprise Architect. Arbeitsergebnisse zur Architekturdokumentation gesammelt im Confluence Wiki. Erstellung der Java-Quelltexte in Eclipse oder IntelliJ. Die Software muss jedoch auch, allein mit Gradle, also ohne IDE baubar sein. |
 | Konfigurations- und Versionsverwaltung | Zu Beginn (Version 1.0) Subversion bei SourceForge, später Git bei GitHub |
 | Testwerkzeuge und -prozesse | JUnit im Annotationsstil sowohl für inhaltliche Richtigkeit als auch für Integrationstests und die Einhaltung von Effizienzvorgaben |
-| Veröffentlichung als Open Source | Die Quelltexte der Lösung oder zumindest Teile werden als Open Source verfügbar gemacht. Lizenz: GNU General Public License version 3.0 (GPLv3). Gehostet bei GitHub: https://github.com/DokChess/ |
+| Veröffentlichung als Open Source | Die Quelltexte der Lösung oder zumindest Teile werden als Open Source verfügbar gemacht. Lizenz: GNU General Public License version 3.0 (GPLv3). Gehostet bei GitHub: <https://github.com/DokChess/> |
 
 ### 2.3 Konventionen
 
@@ -143,9 +143,8 @@ Beim Lösungsentwurf waren zu Beginn verschiedene Randbedingungen zu beachten, s
 |---------------|----------------------------|
 |Architekturdokumentation | Terminologie und Gliederung nach dem deutschen arc42-Template in der Version 6.0 |
 | Kodierrichtlinien für Java | Java Coding Conventions von Sun/Oracle, geprüft mit Hilfe von CheckStyle |
-| Sprache (Deutsch vs. Englisch)	| Benennung von Dingen (Komponenten, Schnittstellen) in Diagrammen und Texten innerhalb dieser (deutschen) arc42-Architekturdokumentation in Deutsch. Verwendung deutscher Bezeichner für Klassen, Methoden etc. im Java-Quelltext (es sei denn, die Java-Kodierrichtlinien stehen dem im Wege). Hintergrund: Die Zielgruppe sind keine Schach-Experten, es soll keine zusätzliche Barriere durch englische (Schach-)begriffe erzeugt werden. |
+| Sprache (Deutsch vs. Englisch) | Benennung von Dingen (Komponenten, Schnittstellen) in Diagrammen und Texten innerhalb dieser (deutschen) arc42-Architekturdokumentation in Deutsch. Verwendung deutscher Bezeichner für Klassen, Methoden etc. im Java-Quelltext (es sei denn, die Java-Kodierrichtlinien stehen dem im Wege). Hintergrund: Die Zielgruppe sind keine Schach-Experten, es soll keine zusätzliche Barriere durch englische (Schach-)begriffe erzeugt werden. |
 | Schach-Spezifische Datenformate | Verwendung etablierter Standards für Schach-spezifische Notationen und Austauschformate innerhalb der Lösung. Themen: Züge, Stellungen, Partien, Eröffnungen, ... Keinesfalls sind eigene Formate zu entwickeln.  Prinzip: Offene Standards sind proprietären Formaten (wie sie ggf. kommerzielle Programme verwenden) vorzuziehen.
-
 
 ## 3. Kontextabgrenzung
 
@@ -219,21 +218,22 @@ Kleine Buchstaben in Klammern →&nbsp;**(x)** verorten einzelne Ansätze aus de
 Der restliche Abschnitt 4 führt in wesentliche Architekturaspekte ein und verweist auf weitere Informationen.
 
 ![Informelles Überblicksbild für DokChess](images/Abb09_06_Ueberblick.png "Informelles Überblicksbild für DokChess")
-*Bild: Informelles Überblicksbild für DokChess*
+
+\*Bild: Informelles Überblicksbild für DokChess*
 
 ### 4.2 Der Aufbau von DokChess
 
 DokChess ist als Java-Programm mit main-Routine realisiert. Es zerfällt grob in folgende Teile:
 
-* eine Implementierung der Schachregeln
-* die eigentliche Engine, welche die Züge ermittelt
-* die Anbindung an eine grafische Benutzeroberfläche über das XBoard-Protokoll
-* einen Adapter für ein konkretes Eröffnungsbibliotheksformat (Polyglot Opening Book)
+- eine Implementierung der Schachregeln
+- die eigentliche Engine, welche die Züge ermittelt
+- die Anbindung an eine grafische Benutzeroberfläche über das XBoard-Protokoll
+- einen Adapter für ein konkretes Eröffnungsbibliotheksformat (Polyglot Opening Book)
 
 Diese Zerlegung ermöglicht es, Dinge wie das Kommunikationsprotokoll oder das Eröffnungsbibliotheksformat bei Bedarf auszutauschen. Alle Teile sind durch Schnittstellen abstrahiert, die Implementierungen werden per Dependency Injection zusammengesteckt ([→ 5. Bausteinsicht](#5-bausteinsicht), [→ Konzept 8.1 „Abhängigkeiten zwischen Modulen"](#81-abhängigkeiten-zwischen-modulen).
 Die Zerlegung erlaubt es weiterhin die Software, allen voran die Schachalgorithmen, leicht automatisiert zu testen ([→ Konzept 8.7 „Testbarkeit“](#87-testbarkeit).
 
-Die Interaktion zwischen Algorithmen­Teilen erfolgt über den Austausch fachlich motivierter Datenstrukturen, realisiert als Klassen (_Figur_, _Zug_, ... [→ Konzept 8.2 „Schach­Domänenmodell“](#82-schach-domänenmodell)).
+Die Interaktion zwischen Algorithmen­Teilen erfolgt über den Austausch fachlich motivierter Datenstrukturen, realisiert als Klassen (*Figur*, *Zug*, ... [→ Konzept 8.2 „Schach­Domänenmodell“](#82-schach-domänenmodell)).
 Hier wurde bewusst eine bessere Verständlichkeit angestrebt, auf Kosten von Effizienz.
 Gleichwohl erreicht DokChess eine akzeptable Spielstärke, wie ein Durchspielen der entsprechenden Szenarien zeigt ([→ 10. Qualitätsszenarien](#10-qualitätsanforderungen)).
 
@@ -261,7 +261,7 @@ DokChess lässt sich interaktiv per Kommandozeile bedienen, wenn man die XBoard�
 Die eigentliche Engine von DokChess wird dabei über einen reaktiven Ansatz („Reactive Extensions“) angebunden ([→ 6. Laufzeitsicht, „Zugermittlung Walkthrough“](#61-zugermittlung-walkthrough)).
 DokChess bleibt so auch während der Zugermittlung ansprechbar, ein Benutzer kann zum Beispiel ein sofortiges Ziehen erzwingen.
 
-Die Integration von DokChess in ein UI erfolgt unter Windows über eine Batch­-Datei (_\*.bat_), welche die Java Virtual Machine (JVM) unter Angabe der Klasse mit _main_ Methode startet ([→ 7. Verteilungssicht](#7-verteilungssicht)).
+Die Integration von DokChess in ein UI erfolgt unter Windows über eine Batch­-Datei (*\*.bat*), welche die Java Virtual Machine (JVM) unter Angabe der Klasse mit *main* Methode startet ([→ 7. Verteilungssicht](#7-verteilungssicht)).
 
 ## 5. Bausteinsicht
 
@@ -271,15 +271,16 @@ Die [→ Bausteinsicht, Ebene 1](#51-ebene-1) stellt sie inklusive ihrer Schnitt
 
 Für das Subsystem Engine enthält dieser Überblick auch eine detailliertere Zerlegung in [→ Ebene 2](#52-xboard-protokoll-blackbox).
 
-### 5.1	Ebene 1
+### 5.1 Ebene 1
 
 DokChess zerfällt wie in Bild unten dargestellt in vier Subsysteme. Die gestrichelten Pfeile stellen fachliche Abhängigkeiten der Subsysteme untereinander dar ("x -> y" für "x ist abhängig von y"). Die Kästchen auf der Membran des Systems sind Interaktionspunkte mit Außenstehenden
 ([→ 3.2 Kontextabgrenzung](#32-technischer--oder-verteilungskontext)).
 
 ![DokChess, Bausteinsicht, Ebene 1](images/Abb09_08_Bausteinsicht_Ebene1.png "DokChess, Bausteinsicht, Ebene 1")
-*Bild: DokChess, Bausteinsicht, Ebene 1*
 
-----
+\*Bild: DokChess, Bausteinsicht, Ebene 1*
+
+-----
 
 | Subsystem | Kurzbeschreibung |
 |-----------|------------------|
@@ -287,6 +288,7 @@ DokChess zerfällt wie in Bild unten dargestellt in vier Subsysteme. Die gestric
 | [Spielregeln](#53-spielregeln-blackbox) | Beinhaltet die Schachregeln und kann z.B. zu einer Stellung alle gültigen Züge ermitteln. |
 | [Engine](#54-engine-blackbox)) | Beinhaltet die Ermittlung eines nächsten Zuges ausgehend von einer Spielsituation. |
 | [Eröffnung](#55-eröffnung-blackbox) | Stellt Züge aus der Eröffnungsliteratur zu einer Spielsituation bereit.|
+
 *Tabelle: Überblick über Subsysteme von DokChess*
 
 Abschnitt [→ 6.1 Zugermittlung Walkthrough](#61-zugermittlung-walkthrough) erklärt exemplarisch das Zusammenspiel der Subsysteme zur Laufzeit.
@@ -302,12 +304,13 @@ Das Subsystem treibt somit das ganze Spielgeschehen. Es enthält auch die main-M
 
 Schnittstellen
 
-Das Subsystem stellt seine Funktionalität über die Java-Klassen _de.dokchess.xboard.XBoard_ und _de.dokchess.xboard.Main_ bereit:
+Das Subsystem stellt seine Funktionalität über die Java-Klassen *de.dokchess.xboard.XBoard* und *de.dokchess.xboard.Main* bereit:
 
 ![Klassen XBoard und Main](images/Abb09_09_Schnittstellen_Xboard.png "Klassen XBoard und Main")
-*Bild: Klassen XBoard und Main*
 
-----
+\*Bild: Klassen XBoard und Main*
+
+-----
 
 | Methode | Kurzbeschreibung |
 |---------|------------------|
@@ -316,41 +319,39 @@ Das Subsystem stellt seine Funktionalität über die Java-Klassen _de.dokchess.x
 | setSpielregeln | Setzt eine Implementierung der Spielregeln, [→ 5.3 Spielregeln (Blackbox)](#53-spielregeln-blackbox)
 | setEngine | Setzt eine Implementierung der Engine, [→ 5.4 Engine (Blackbox)](#54-engine-blackbox) |
 | spielen | Startet die eigentliche Kommunikation (Eingabe/Verarbeitung/Ausgabe) in einer Endlosschleife, bis zum Beenden-Kommando.|
+
 *Tabelle: Methoden der Klasse XBoard*
 
-
 Ablageort / Datei
-Die Implementierung liegt unterhalb der Pakete   
-_de.dokchess.xboard..._
-
+Die Implementierung liegt unterhalb der Pakete
+*de.dokchess.xboard...*
 
 Offene Punkte
 Die Implementierung des Protokolls ist unvollständig.
 Sie reicht aber für die an DokChess gestellten Anforderungen aus.
 Insbesondere werden folgende Features nicht unterstützt:
 
-* Zeitkontrolle
-* Permanent Brain (Denken, auch während die andere Seite denkt)
-* Remis-Angebote und Aufgabe der anderen Seite
-* Schach-Varianten (alternative Regeln, z.B. Schach960)
+- Zeitkontrolle
+- Permanent Brain (Denken, auch während die andere Seite denkt)
+- Remis-Angebote und Aufgabe der anderen Seite
+- Schach-Varianten (alternative Regeln, z.B. Schach960)
 
-
-### 5.3	Spielregeln (Blackbox)
+### 5.3 Spielregeln (Blackbox)
 
 Zweck/Verantwortlichkeit
 Dieses Subsystem beinhaltet die Spielregeln für Schach gemäß Internationalem Schachverband (FIDE). Es ermittelt zu einer Stellung alle gültigen Züge und entscheidet, ob ein Schach, ein Matt oder ein Patt vorliegt.
 
 Schnittstelle
-Das Subsystem stellt seine Funktionalität über das Java-Interface _de.dokchess.regeln.Spielregeln_ bereit.
+Das Subsystem stellt seine Funktionalität über das Java-Interface *de.dokchess.regeln.Spielregeln* bereit.
 
 Default-Implementierung der Schnittstelle ist die Klasse  
-_de.dokchess.regeln.DefaultSpielregeln_.
+*de.dokchess.regeln.DefaultSpielregeln*.
 
 ![Schnittstelle Spielregeln](images/Abb09_10_Schnittstelle_Spielregeln.png "Schnittstelle Spielregeln")
 
 *Bild: Schnittstelle Spielregeln*
 
-----
+-----
 
 | Methode | Kurzbeschreibung |
 |---------|------------------|
@@ -359,21 +360,22 @@ _de.dokchess.regeln.DefaultSpielregeln_.
 | aufSchachPruefen | Püft, ob der König der angegebenen Farbe angegriffen ist, also im Schach steht. |
 | aufMattPruefen | Prüft, ob die übergebene Stellung ein Matt ist, also der aktuelle Spieler im Schach steht und kein Zug ihn aus diesem Angriff führt. Eine solche Spielsituation ist für den Spieler am Zug verloren ("Schach Matt").|
 | aufPattPruefen | Prüft, ob die übergebene Stellung ein Patt ist, also der aktuelle Spieler keinen gültigen Zug hat, aber nicht im Schach steht. Eine solche Spielsituation wird Remis gewertet.|
+
 *Tabelle: Methoden der Schnittstelle Spielregeln*
 
-----
+-----
 
-[Konzept 8.2 („Schach-Domänenmodell“)](#82-schach-domänenmodell) beschreibt die in der Schnittstelle verwendeten Aufruf- und Rückgabeparameter (_Zug_, _Stellung_, _Farbe_).
+[Konzept 8.2 („Schach-Domänenmodell“)](#82-schach-domänenmodell) beschreibt die in der Schnittstelle verwendeten Aufruf- und Rückgabeparameter (*Zug*, *Stellung*, *Farbe*).
 Weitere Details entnehmen Sie der Quelltextdokumentation (javadoc).
 
 Ablageort / Datei
-Die Implementierung liegt unterhalb der Pakete _de.dokchess.regeln..._
+Die Implementierung liegt unterhalb der Pakete *de.dokchess.regeln...*
 
 Offene Punkte
 Abgesehen vom Patt kann das Subsystem kein Remis erkennen. Insbesondere sind die folgenden Spielregeln bisher nicht implementiert ([→ Risiko 11.2 „Aufwand der Implementierung“](#112-risiko-aufwand-der-implementierung-zu-hoch)):
 
-* 50-Züge-Regel
-* Stellungswiederholung
+- 50-Züge-Regel
+- Stellungswiederholung
   
 ### 5.4 Engine (Blackbox)
 
@@ -381,12 +383,11 @@ Zweck/Verantwortlichkeit
 Dieses Subsystem beinhaltet die Ermittlung eines nächsten Zuges ausgehend von einer Spielsituation. Diese Situation wird von außen vorgegeben. Die Engine ist zustandsbehaftet und spielt stets eine Partie zur gleichen Zeit. Die Default-Implementierung benötigt zum Arbeiten eine Implementierung der Spielregeln, die Eröffnungsbibliothek hingegen ist optional.
 
 Schnittstellen
-Das Subsystem stellt seine Funktionalität über das Java-Interface _de.dokchess.engine.Engine_ bereit. Default-Implementierung ist die Klasse _de.dokchess.engine.DefaultEngine_.
+Das Subsystem stellt seine Funktionalität über das Java-Interface *de.dokchess.engine.Engine* bereit. Default-Implementierung ist die Klasse *de.dokchess.engine.DefaultEngine*.
 
 ![Schnittstelle Engine, Implementierung](images/Abb09_11_Schnittstellen_Engine.png "Schnittstelle Engine, Implementierung")
 
 *Bild: Schnittstelle Engine, Implementierung*
-
 
 | Methode | Kurzbeschreibung |
 |---------|------------------|
@@ -394,24 +395,25 @@ Das Subsystem stellt seine Funktionalität über das Java-Interface _de.dokchess
 | ermittleDeinenZug | Startet die Ermittlung eines Zuges für die aktuelle Spielsituation. Liefert Zugkandidaten asynchron über ein Observable zurück ([→ Laufzeitsicht 6.1](#61-zugermittlung-walkthrough)). Die Engine führt die Züge nicht aus.|
 | ziehen | Führt den angegebenen Zug aus, d.h. ändert den Zustand der Engine. Falls aktuell eine Zugermittlung läuft, wird diese abgebrochen.|
 | schliessen | Schließt die Engine. Die Methode erlaubt es Ressourcen frei zu geben. Im Anschluss sind keine Zugermittlungen mehr zulässig.|
+
 *Tabelle: Methoden der Schnittstelle Engine*
 
-----
-
+-----
 
 | Methode | Kurzbeschreibung |
 |---------|------------------|
 | setSpielregeln | Setzt eine Implementierung der Spielregeln, [→ 5.3 Spielregeln (Blackbox)](#53-spielregeln-blackbox)|
 | setEroeffnungsbibliothek | Setzt eine (optionale) Eröffnungsbibliothek, deren Züge gegenüber eigenen Überlegungen präferiert werden. [→ 5.5 Eröffnung (Blackbox)](#55-eröffnung-blackbox)|
+
 *Tabelle: Methoden der Klasse DefaultEngine (zusätzlich zu Engine)*
 
-----
+-----
 
-[Konzept 8.2 („Schach-Domänenmodell“)](#82-schach-domänenmodell) beschreibt die in der Schnittstelle verwendeten Aufruf- und Rückgabeparameter (_Zug_, _Stellung_).
+[Konzept 8.2 („Schach-Domänenmodell“)](#82-schach-domänenmodell) beschreibt die in der Schnittstelle verwendeten Aufruf- und Rückgabeparameter (*Zug*, *Stellung*).
 Details zum Engine-Subsystem finden Sie in der Whitebox-Sicht in [Abschnitt 5.6](#56-ebene-2-engine-whitebox).
 
 Ablageort / Datei
-Die Implementierung sowie Unit-Tests liegen unterhalb der Pakete _de.dokchess.engine..._
+Die Implementierung sowie Unit-Tests liegen unterhalb der Pakete *de.dokchess.engine...*
 
 ### 5.5 Eröffnung (Blackbox)
 
@@ -421,17 +423,18 @@ Bei diesem Format handelt es sich gegenwärtig um das einzig geläufige, das nic
 Entsprechende Buchdateien und zugehörige Werkzeuge sind im Internet frei verfügbar.
 
 Schnittstellen
-Das Subsystem stellt seine Funktionalität über das Java-Interface _de.dokchess.eroeffnung.Eroeffnungsbibliothek_ bereit. Als Implementierung liegt die Klasse _de.dokchess.eroeffnung.polyglot.PolyglotOpeningBook_ vor.
+Das Subsystem stellt seine Funktionalität über das Java-Interface *de.dokchess.eroeffnung.Eroeffnungsbibliothek* bereit. Als Implementierung liegt die Klasse *de.dokchess.eroeffnung.polyglot.PolyglotOpeningBook* vor.
 
 ![Schnittstelle Eroeffnungsbibliothek, Implementierung PolyglotOpeningBook](images/Abb09_12_SchnittstellenEroeffnung.png "Schnittstelle Eroeffnungsbibliothek, Implementierung PolyglotOpeningBook")
 
 *Bild: Schnittstelle Eroeffnungsbibliothek, Implementierung PolyglotOpeningBook*
 
-----
+-----
 
 | Methode | Kurzbeschreibung |
 |---------|------------------|
 | liefereZug | Liefert zur angegebenen Stellung einen aus der Bibliothek bekannten Zug, oder null |
+
 *Tabelle: Methoden der Schnittstelle Eroeffnungsbibliothek*
 
 PolyglotOpeningBook
@@ -443,20 +446,19 @@ Implementierung der Eroeffnungsbibliothek, die eine Binärdatei im entsprechende
 | PolyglotOpeningBook | Konstruktor, erwartet die einzulesende Datei.|
 | setAuswahlModus | Setzt den Modus zur Auswahl eines Zuges, falls es in der Bibliothek für die Stellung mehr als einen Kandidaten gibt.|
 
-
 *Tabelle: Methoden der Klasse PolyglotOpeningBook (zusätzlich zur Schnittstelle)*
 
-----
+-----
 
-[Konzept 8.2 („Schach-Domänenmodell“)](#82-schach-domänenmodell) beschreibt die in der Schnittstelle verwendeten Aufruf- und Rückgabeparameter (_Zug_, _Stellung_).
+[Konzept 8.2 („Schach-Domänenmodell“)](#82-schach-domänenmodell) beschreibt die in der Schnittstelle verwendeten Aufruf- und Rückgabeparameter (*Zug*, *Stellung*).
 
 Ablageort / Datei
-Die Implementierung, Unit-Tests und Testdaten für das Polyglot Opening Book-Fomat liegen unterhalb der Pakete _de.dokchess.eroeffnung..._
+Die Implementierung, Unit-Tests und Testdaten für das Polyglot Opening Book-Fomat liegen unterhalb der Pakete *de.dokchess.eroeffnung...*
 
 Offene Punkte
 
-* Die Möglichkeiten zur Auswahl eines Zuges aus der Eröffnungsbibliothek im Fall von mehreren Kandidaten sind beschränkt (der erste, der am häufigsten gespielte, per Zufall).
-* Die Implementierung kann nicht mit mehreren Bibliotheksdateien zur gleichen Zeit umgehen – sie also nicht mischen – um das Wissen zu vereinen.
+- Die Möglichkeiten zur Auswahl eines Zuges aus der Eröffnungsbibliothek im Fall von mehreren Kandidaten sind beschränkt (der erste, der am häufigsten gespielte, per Zufall).
+- Die Implementierung kann nicht mit mehreren Bibliotheksdateien zur gleichen Zeit umgehen – sie also nicht mischen – um das Wissen zu vereinen.
 
 ### 5.6 Ebene 2: Engine (Whitebox)
 
@@ -467,13 +469,14 @@ Nur wenn diese keinen Rat weiß, kommt die Zugsuche zum Einsatz.
 ![Subsystem Engine, Bausteinsicht, Ebene 2](images/Abb09_13_Subsystem_Engine.png "Subsystem Engine, Bausteinsicht, Ebene 2")
 *Bild: Subsystem Engine, Bausteinsicht, Ebene 2*
 
-----
+-----
 
 | Modul | Kurzbeschreibung |
 |-------|------------------|
 | [Zugsuche](#57-zugsuche-blackbox) | Ermittelt zu einer Stellung den unter bestimmten Bedingungen optimalen Zug.|
 | [Stellungsbewertung](#53-spielregeln-blackbox) | Bewertet eine Stellung aus Sicht eines Spielers.|
-*Tabelle: Module des Subsystems Engine*
+
+\*Tabelle: Module des Subsystems Engine*
 
 ### 5.7 Zugsuche (Blackbox)
 
@@ -484,24 +487,24 @@ Die hohe Anzahl der möglichen Züge und die damit verbundene schier unglaublich
 Gängige Algorithmen wie der Minimax begnügen sich daher damit, den "Spielbaum" nur bis zu einer bestimmten Tiefe zu explorieren.
 
 Schnittstellen
-Das Modul stellt seine Funktionalität über die Schnittstelle _de.dokchess.engine.suche.Suche_ zur Verfügung.
+Das Modul stellt seine Funktionalität über die Schnittstelle *de.dokchess.engine.suche.Suche* zur Verfügung.
 
-Der Minimax-Algorithmus liegt in der Klasse _de.dokchess.engine.suche.MinimaxAlgorithmus_ vor.
-Die Klasse _MinimaxParalleleSuche_ nutzt den Algorithmus und implementiert gleichzeitig die Schnittstelle _Suche_.
+Der Minimax-Algorithmus liegt in der Klasse *de.dokchess.engine.suche.MinimaxAlgorithmus* vor.
+Die Klasse *MinimaxParalleleSuche* nutzt den Algorithmus und implementiert gleichzeitig die Schnittstelle *Suche*.
 Sie untersucht mehrere Teilbäume parallel; wenn sie einen besseren Zug findet erhält der Aufrufer eine Nachricht onNext über das Observer-Pattern.
-Den Abschluss der Suche signalisiert die Suche über die Nachricht _onComplete_.
+Den Abschluss der Suche signalisiert die Suche über die Nachricht *onComplete*.
 
 ![Schnittstelle Suche, Klassen MinimaxAlgorithmus und MinimaxParalleleSuche](images/Abb09_14_Schnittstellen_Zugsuche.png "Schnittstelle Suche, Klassen MinimaxAlgorithmus und MinimaxParalleleSuche")
 
 *Bild: Schnittstelle Suche, Klassen MinimaxAlgorithmus und MinimaxParalleleSuche*
-
 
 | Methode | Kurzbeschreibung |
 |---------|------------------|
 | zugSuchen | Startet eine Suche nach einem Zug für die angegebene Stellung. Liefert nach und nach bessere Züge als Ereignisse an den übergebenen Observer. Das Ende der Suche (keinen besseren Zug mehr gefunden) wird ebenfalls an den Observer signalisiert.|
 | sucheAbbrechen | Bricht die aktuelle Suche ab.|
 | schliessen | Schließt die Suche vollständig. Anschließend dürfen keine Züge mehr damit ermittelt werden.|
-*Tabelle: Methoden der Schnittstelle Suche*
+
+\*Tabelle: Methoden der Schnittstelle Suche*
 
 | Methode | Kurzbeschreibung |
 |---------|------------------|
@@ -509,10 +512,11 @@ Den Abschluss der Suche signalisiert die Suche über die Nachricht _onComplete_.
 | setBewertung | Setzt die Bewertungsfunktion, anhand derer die Stellungen bei Erreichen der maximalen Suchtiefe bewertet werden. [→ 5.8 Stellungsbewertung (Blackbox)](#57-zugsuche-blackbox)|
 | setTiefe | Setzt die maximale Suchtiefe in Halbzügen, d.h. bei 4 zieht jeder Spieler zweimal.|
 | ermittleBestenZug | Ermittelt zur übergebenen Stellung den optimalen Zug gemäß Minimax und vorgegebener Stellungsbewertung bei fester Suchtiefe. Die Methode blockiert und ist deterministisch.|
-*Tabelle: Methoden der Klasse MinimaxAlgorithmus*
+
+\*Tabelle: Methoden der Klasse MinimaxAlgorithmus*
 
 Ablageort / Datei
-Die Implementierung liegt unterhalb der Pakete _de.dokchess.engine.suche..._
+Die Implementierung liegt unterhalb der Pakete *de.dokchess.engine.suche...*
 
 ### 5.8 Stellungsbewertung  (Blackbox)
 
@@ -523,19 +527,18 @@ Je höher der Betrag, desto größer der Vor- bzw. Nachteil.
 Das Modul ermöglicht es so, Stellungen miteinander zu vergleichen.
 
 Schnittstellen
-Das Modul stellt seine Funktionalität über die Schnittstelle _de.dokchess.engine.bewertung.Bewertung_ bereit, _de.dokchess.engine.bewertung.ReineMaterialBewertung_ ist eine sehr einfache Implementierung.
+Das Modul stellt seine Funktionalität über die Schnittstelle *de.dokchess.engine.bewertung.Bewertung* bereit, *de.dokchess.engine.bewertung.ReineMaterialBewertung* ist eine sehr einfache Implementierung.
 Die Schnittstelle enthält Konstanten für typische Bewertungen.
 
 ![Schnittstelle Bewertung, Klasse ReineMaterialBewertung](images/Abb09_15_SchnittstellenBewertung.png "Schnittstelle Bewertung, Klasse ReineMaterialBewertung")
 
 *Bild: Schnittstelle Bewertung, Klasse ReineMaterialBewertung*
 
-
 | Methode | Kurzbeschreibung |
 |---------|------------------|
 | bewerteStellung | Liefert zur gegebenen Stellung eine Bewertung aus Sicht der angegebenen Spielerfarbe. Je höher, desto besser.|
-*Tabelle: Methoden der Schnittstelle Bewertung*
 
+*Tabelle: Methoden der Schnittstelle Bewertung*
 
 ReineMaterialBewertung
 Die Implementierung berücksichtigt ausschließlich die vorhandenen Figuren (Material).
@@ -543,7 +546,7 @@ Jede Figurenart enthält einen Wert (Bauer 1, Springer 3, ..., Dame 9), die Figu
 Entsprechend ist bei ausgeglichenem Material das Ergebnis 0, verliert man z.B. eine Dame, sinkt der Wert um 9.
 
 Ablageort / Datei
-Die Implementierung liegt unterhalb der Pakete _de.dokchess.engine.bewertung..._
+Die Implementierung liegt unterhalb der Pakete *de.dokchess.engine.bewertung...*
 
 Offene Punkte
 Bei der reinen Materialbewertung spielt es keine Rolle, wo die Figur steht.
@@ -561,9 +564,10 @@ Nach Aufbau des XBoard-Protokolls startet der Client (weiß) über die Angabe ei
 Das Sequenzdiagramm im Bild unten zeigt eine exemplarische Interaktion auf Subsystem-Ebene von der Eingabe "e2e4" (weißer Bauer e2-e4) bis zur Antwort von DokChess, also der Ausgabe "move b8c6" (schwarzer Springer b8-c6, [„Nimzowitsch-Verteidigung“](https://de.wikipedia.org/wiki/Nimzowitsch-Verteidigung)).
 
 ![Beispielhaftes Zusammenspiel für eine Zugermittlung](images/Abb09_16_ZugErmittlungWalkthrough.png "Beispielhaftes Zusammenspiel für eine Zugermittlung")
+
 *Bild: Beispielhaftes Zusammenspiel für eine Zugermittlung*
 
-Zunächst validiert das XBoard-Protokoll-Subsystem die Eingabe unter Zuhilfenahme der Spielregeln ([→ 8.4 „Plausibilisierung und Validierung“](#84-plausibility-checks-and-validation)).
+Zunächst validiert das XBoard-Protokoll-Subsystem die Eingabe unter Zuhilfenahme der Spielregeln ([→ 8.4 „Plausibilisierung und Validierung“](#84-plausibilisierung-und-validierung)).
 Der Zug wird im Beispiel als zulässig erkannt und auf der (zustandsbehafteten) Engine ausgeführt (Nachricht "ziehen").
 Anschließend fordert das XBoard-Protokoll-Subsystem die Engine auf, ihren Zug zu ermitteln.
 Da eine Zugberechnung sehr lange dauern kann, DokChess aber weiter auf Eingaben reagieren können soll, erfolgt der Aufruf asynchron.
@@ -590,17 +594,18 @@ Das Verteilungsdiagramm im Bild unten zeigt den Einsatz von DokChess unter Windo
 Als Frontend wird exemplarisch Arena verwendet ([→ Entscheidung 9.1 „Wie kommuniziert die Engine mit der Außenwelt?“](#91-wie-kommuniziert-die-engine-mit-der-außenwelt)).
 
 ![Deployment von DokChess auf einem Windows-PC](images/Abb09_17_DeploymentDokChess.png "Deployment von DokChess auf einem Windows-PC")
-*Bild:	Deployment von DokChess auf einem Windows-PC*
+
+\*Bild: Deployment von DokChess auf einem Windows-PC*
 
 Software-Voraussetzungen auf dem PC:
 
-* Java Runtime Environment SE 11 (oder höher)
-* Die JVM (javaw.exe) muss im Pfad liegen, ansonsten ist dokchess.bat anzupassen
-* Arena (siehe http://www.playwitharena.de)
+- Java Runtime Environment SE 11 (oder höher)
+- Die JVM (javaw.exe) muss im Pfad liegen, ansonsten ist dokchess.bat anzupassen
+- Arena (siehe <http://www.playwitharena.de>)
 
-_DokChess.jar_ enthält den kompilierten Java-Quelltext sämtlicher Module und alle nötigen Abhängigkeiten („Über-jar“).
+*DokChess.jar* enthält den kompilierten Java-Quelltext sämtlicher Module und alle nötigen Abhängigkeiten („Über-jar“).
 Die Script-Datei dokchess.bat startet die Java Virtual Machine mit DokChess.
-Beides liegt auf dem Rechner in einem gemeinsamen Verzeichnis, da _dokchess.bat_ die jar-Datei relativ anspricht.
+Beides liegt auf dem Rechner in einem gemeinsamen Verzeichnis, da *dokchess.bat* die jar-Datei relativ anspricht.
 
 Innerhalb von Arena wird die Skript-Datei im (deutschen) Menü unter "Motoren|Neuen Motor installieren..." bekannt gemacht.
 Es erscheint eine Dateiauswahl, deren Dateityp sich auf \*.bat-Dateien einschränken lässt. Anschließend ist als Motoren-Typ "Winboard" auszuwählen.
@@ -621,7 +626,7 @@ Dieser Abschnitt beschreibt allgemeine Strukturen und Aspekte, die systemweit ge
 ### 8.1 Abhängigkeiten zwischen Modulen
 
 DokChess soll zum Experimentieren und zum Erweitern der Engine einladen ([→ 1. Aufgabenstellung](#1-einführung-und-ziele)). Die Module sind daher über Schnittstellen lose gekoppelt.
-Module sind Implementierungen von Java-Schnittstellen. Java-Klassen, welche Teile benötigen, signalisieren dies über entsprechende Methoden _set«Module»(«Interface» ...)_.
+Module sind Implementierungen von Java-Schnittstellen. Java-Klassen, welche Teile benötigen, signalisieren dies über entsprechende Methoden *set«Module»(«Interface» ...)*.
 Sie kümmern sich nicht selbst um das Auflösen einer Abhängigkeit, indem sie beispielsweise Exemplare mit new bauen, oder eine Factory bemühen.
 Stattdessen löst der Verwender die Abhängigkeiten auf, indem er passende Implementierungen erzeugt und über die Setter-Methoden zusammensteckt ([Dependency Injection](https://martinfowler.com/articles/injection.html), kurz DI).
 
@@ -644,7 +649,7 @@ Als Aufruf- und Rückgabeparameter finden in allen Modulen dieselben Klassen Ver
 
 An dieser Stelle finden Sie einen groben Überblick über diese Datenstrukturen und deren Abhängigkeiten untereinander.
 Details sind in der Quelltextdokumentation (javadoc) enthalten.
-Die Klassen und Aufzählungstypen (enums) befinden sich im Paket _de.dokchess.allgemein_.
+Die Klassen und Aufzählungstypen (enums) befinden sich im Paket *de.dokchess.allgemein*.
 
 Eine Schachfigur ist gekennzeichnet durch Farbe (schwarz oder weiß) und Art (König, Dame, ...).
 Im Domänenmodell von DokChess weiß eine Figur nicht, wo sie steht.
@@ -654,13 +659,13 @@ Die Klasse ist unveränderlich (immutable) wie alle anderen im Domänenmodell au
 
 *Bild: Eine Figur hat eine Farbe (z.B. weiß) und eine Art (z.B. Bauer)*
 
-Das Schachbrett besteht aus 8 x 8 Feldern die in 8 Reihen (1-8) und 8 Linien (a-h) angeordnet sind. Die Klasse _Feld_ beschreibt ein ebensolches. Da ein Feld maximal von einer Figur besetzt sein kann, reicht für die Angabe eines Zuges, von wo nach wo gezogen wird. Einzige Ausnahme bildet die Umwandlung eines Bauern auf der gegnerischen Grundlinie, da der Spieler selbst entscheidet, in welche Figur er umwandelt (in der Regel, aber nicht zwingend, eine Dame). Rochadezüge werden als Königszüge über zwei Felder in die entsprechende Richtung repräsentiert.
+Das Schachbrett besteht aus 8 x 8 Feldern die in 8 Reihen (1-8) und 8 Linien (a-h) angeordnet sind. Die Klasse *Feld* beschreibt ein ebensolches. Da ein Feld maximal von einer Figur besetzt sein kann, reicht für die Angabe eines Zuges, von wo nach wo gezogen wird. Einzige Ausnahme bildet die Umwandlung eines Bauern auf der gegnerischen Grundlinie, da der Spieler selbst entscheidet, in welche Figur er umwandelt (in der Regel, aber nicht zwingend, eine Dame). Rochadezüge werden als Königszüge über zwei Felder in die entsprechende Richtung repräsentiert.
 
 ![Ein Zug geht von einem Feld zu einem Feld](images/Abb09_19_Zug.png "Ein Zug geht von einem Feld zu einem Feld")
 
 *Bild: Ein Zug geht von einem Feld zu einem Feld*
 
-Die Klasse _Stellung_ stellt die aktuelle Situation auf dem Brett dar.
+Die Klasse *Stellung* stellt die aktuelle Situation auf dem Brett dar.
 Vor allem sind das die Figuren auf dem Brett, das intern als zweidimensionales Array (8 x 8) implementiert ist.
 Falls ein Feld unbesetzt ist, steht null im Array.
 Zur Komplettierung der Spielsituation gehört die Information, wer am Zug ist, ob noch Rochaden möglich sind und ob en passant geschlagen werden kann.
@@ -669,9 +674,9 @@ Zur Komplettierung der Spielsituation gehört die Information, wer am Zug ist, o
 
 *Bild: Die Klasse Stellung (Ausschnitt, Details wie Rochade fehlen)*
 
-Die Klasse _Stellung_ ist ebenfalls unveränderlich, die Methode _fuehreZugAus()_ liefert eine neue Stellung mit der veränderten Spielsituation zurück ([→ Entscheidung 9.2 „Sind Stellungsobjekte veränderlich oder nicht?“](#92-sind-stellungsobjekte-veränderlich-oder-nicht)).
+Die Klasse *Stellung* ist ebenfalls unveränderlich, die Methode *fuehreZugAus()* liefert eine neue Stellung mit der veränderten Spielsituation zurück ([→ Entscheidung 9.2 „Sind Stellungsobjekte veränderlich oder nicht?“](#92-sind-stellungsobjekte-veränderlich-oder-nicht)).
 
-### 8.3	Benutzungsoberfläche
+### 8.3 Benutzungsoberfläche
 
 DokChess verfügt selbst über keine grafische Oberfläche, sondern agiert über das XBoard-Protokoll mit der Außenwelt ([→ Entscheidung 9.1](#91-wie-kommuniziert-die-engine-mit-der-außenwelt)). Im Folgenden wird dies kurz skizziert.
 
@@ -680,13 +685,13 @@ Die folgende Tabelle zeigt einen Beispieldialog, alle Kommandos werden mit einer
 
 | Client -> DokChess | DokChess -> Client | Bemerkung |
 |--------------------|--------------------|-----------|
-| _xboard_           | &nbsp;             | Client will XBoard-Protokoll verwenden (erforderlich, da Engines teilweise andere, teileweise sogar mehrere Protokolle verstehen) |
+| *xboard*           | &nbsp;             | Client will XBoard-Protokoll verwenden (erforderlich, da Engines teilweise andere, teileweise sogar mehrere Protokolle verstehen) |
 | &nbsp;             | (neue&nbsp;Zeile)       | &nbsp; |
-| _protover&nbsp;2_       | &nbsp;             |	Protokollversion 2 |
-| &nbsp;             | _feature&nbsp;done=1_   | zeilenweise Mitteilung über zusätzliche Features der Engine (hier: keine) |
-| _e2e4_             | &nbsp;             | Weiß zieht Bauer e2-e4 |
-| &nbsp;             | _move&nbsp;b8c6_        | Schwarz (DokChess) zieht Springer b8-c6 |
-| _quit_             | &nbsp;             | Der Client beendet das Spiel (DokChess terminiert) |
+| *protover&nbsp;2*       | &nbsp;             | Protokollversion 2 |
+| &nbsp;             | *feature&nbsp;done=1*   | zeilenweise Mitteilung über zusätzliche Features der Engine (hier: keine) |
+| *e2e4*             | &nbsp;             | Weiß zieht Bauer e2-e4 |
+| &nbsp;             | *move&nbsp;b8c6*        | Schwarz (DokChess) zieht Springer b8-c6 |
+| *quit*             | &nbsp;             | Der Client beendet das Spiel (DokChess terminiert) |
 
 *Tabelle: Beispielkommunikation zwischen einem Client und DokChess (XBoard)*
 
@@ -719,12 +724,11 @@ Im Extremfall antwortet die Engine mit einem ungültigen Zug.
 
 DokChess verfügt über keine eigene Oberfläche. Es muss Probleme daher nach außen signalisieren.
 
-Die Methoden der DokChess-Subsysteme werfen dazu Runtime Exceptions, im Falle des Engine-Subsystems bei asynchroner Zugermittlung zusätzlich Fehlernachrichten (_onError_). Eigene Erweiterungen (beispielsweise eine eigene Zugauswahl) müssen entsprechend implementiert sein, Checked Exceptions (zum Beispiel _java.io.IOException_) etwa sind geeignet zu verpacken.
+Die Methoden der DokChess-Subsysteme werfen dazu Runtime Exceptions, im Falle des Engine-Subsystems bei asynchroner Zugermittlung zusätzlich Fehlernachrichten (*onError*). Eigene Erweiterungen (beispielsweise eine eigene Zugauswahl) müssen entsprechend implementiert sein, Checked Exceptions (zum Beispiel *java.io.IOException*) etwa sind geeignet zu verpacken.
 
-Die wenigen erwarteten Exceptions bei DokChess zeigt das javadoc der entsprechenden Methoden und Konstruktoren an. Probleme beim Einlesen einer Eröffnungsbibliothek etwa, oder beim Versuch der Zugermittlung innerhalb der Engine bei ungültiger Stellung (falls erkannt). Alle übrigen Exceptions wären Programmierfehler (bitte melden Sie solche Fälle unter https://github.com/DokChess/).
+Die wenigen erwarteten Exceptions bei DokChess zeigt das javadoc der entsprechenden Methoden und Konstruktoren an. Probleme beim Einlesen einer Eröffnungsbibliothek etwa, oder beim Versuch der Zugermittlung innerhalb der Engine bei ungültiger Stellung (falls erkannt). Alle übrigen Exceptions wären Programmierfehler (bitte melden Sie solche Fälle unter <https://github.com/DokChess/>).
 
 Das XBoard-Subsystem fängt sämtliche Exceptions und kommuniziert sie über das XBoard-Protokoll nach außen (Kommando "tellusererror"). Ein grafisches Frontend visualisiert sie in der Regel in einem Fehler-Dialog oder einer Alert-Box, das folgende Bild zeigt das für das Schachfrontend Arena.
-
 
 ![DokChess-Fehlermeldung visualisiert durch Arena](images/Abb09_22_FehlermeldungArena.png "DokChess-Fehlermeldung visualisiert durch Arena")
 
@@ -755,18 +759,20 @@ Solche Werkzeuge sind von unschätzbarem Wert, wenn die Engine hängt und unklar
 Nichts ist peinlicher für eine Engine als ein unzulässiger Zug.
 
 Die Funktionalität der einzelnen Module von DokChess wird durch umfangreiche Unit-Tests sichergestellt.
-In der Quelltextstruktur ist neben dem Ordner src/main, wo die Java-Quelltexte der Module abgelegt sind, ein Ordner _src/test_ zu finden.
+In der Quelltextstruktur ist neben dem Ordner src/main, wo die Java-Quelltexte der Module abgelegt sind, ein Ordner *src/test* zu finden.
 Er enthält ein Spiegelbild der Paketstruktur, und in den entsprechenden Paketen Unit-Tests zu den Klassen, die mit [JUnit 4](https://junit.org/junit4/) realisiert sind.
 
 Reine Unit-Tests, die einzelne Klassen prüfen, heißen wie die Klasse selbst, nur hinten mit Test.
 Darüber hinaus gibt es Tests, die das Zusammenspiel von Modulen prüfen, und im Extremfall das ganze System. Mit Hilfe solcher Tests wird die korrekte Spielweise von DokChess überprüft, unter anderem mit Hilfe von Mattaufgaben.
-Unterhalb von _src/integTest_ liegen aufwändigere, länger laufende Integrationstests. Hierzu zählt etwa das Durchspielen ganzer Partien.
+Unterhalb von *src/integTest* liegen aufwändigere, länger laufende Integrationstests. Hierzu zählt etwa das Durchspielen ganzer Partien.
 
-Viele Tests erfordern das Vorlegen einer Stellung als Eingabe. 
+Viele Tests erfordern das Vorlegen einer Stellung als Eingabe.
 Hier kommt die Forsyth-Edwards-Notation (kurz FEN) zum Einsatz. Diese Notation erlaubt die Angabe einer kompletten Spielsituation als kompakte Zeichenkette ohne Zeilenumbruch und ist daher wie geschaffen für den Einsatz in automatisierten Test.
 Die Grundstellung wird in FEN beispielsweise so notiert:
 
-    "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
+```text
+"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
+```
 
 Kleine Buchstaben stehen für schwarze, große für weiße Figuren, es werden die englischen Bezeichnungen (Rook für Turm, Pawn für Bauer, ...) verwendet.
 
@@ -776,13 +782,15 @@ Kleine Buchstaben stehen für schwarze, große für weiße Figuren, es werden di
 
 Die Spielsituation in Bild oben mit weiß vor dem 79. Zug, wobei 30 Halbzüge lang keine Figur geschlagen und kein Bauer bewegt wurde, sähe in FEN so aus:
 
+```text
     "6r1/6pp/7r/1B5K/1P3k2/N7/3R4/8 w - - 30 79"
+```
 
 und liest sich "6 Felder frei, schwarzer Turm, Feld frei, neue Reihe ...".
 
-Details zur Notation sind beispielsweise bei Wikipedia nachzulesen. Die Klasse Stellung verfügt über einen Konstruktor, der eine Zeichenkette in FEN akzeptiert. Die _toString_-Methode der Klasse liefert ebenfalls FEN.
+Details zur Notation sind beispielsweise bei Wikipedia nachzulesen. Die Klasse Stellung verfügt über einen Konstruktor, der eine Zeichenkette in FEN akzeptiert. Die *toString*-Methode der Klasse liefert ebenfalls FEN.
 
-Neben Tests auf korrekte Funktionalität wird auch überprüft, ob die geforderten Antwortzeiten für exemplarische Spielsituationen eingehalten werden können. Dies erfolgt mit der _@Test_-Annotation und deren Timeout-Parameter. Der Erfolg dieser Tests hängt von der eingesetzten Hardware ab.
+Neben Tests auf korrekte Funktionalität wird auch überprüft, ob die geforderten Antwortzeiten für exemplarische Spielsituationen eingehalten werden können. Dies erfolgt mit der *@Test*-Annotation und deren Timeout-Parameter. Der Erfolg dieser Tests hängt von der eingesetzten Hardware ab.
 
 ## 9. Entscheidungen
 
@@ -800,33 +808,33 @@ Je nachdem, wie die Anbindung an solche Programme realisiert wird, kann DokChess
 
 Relevante Einflussfaktoren
 
-* Randbedingungen
- * Betrieb der Frontends zumindest auf Windows-Desktop-Betriebssystemen
- * Unterstützung frei verfügbarer Frontends
- * Bevorzugung etablierter (Schach-)Standards ([→ 2.3 Konventionen](#23-konventionen))
-* Maßgeblich betroffene Qualitätsmerkmale ([→ 1.2 Qualitätsziele](#12-qualitätsziele))
- * Qualitätsziel: Bestehende Frontends nutzen (Interoperabilität)
- * Qualitätsziel: Einladende Experimentierplattform (Änderbarkeit)
- * Anpassbarkeit (an zukünftige Schach-Software)
-* Betroffene Risiken
- * Anbindung an das Frontend schlägt fehl ([→ 11.1](#111-risiko-anbindung-an-das-frontend-schlägt-fehl))
+- Randbedingungen
+- Betrieb der Frontends zumindest auf Windows-Desktop-Betriebssystemen
+- Unterstützung frei verfügbarer Frontends
+- Bevorzugung etablierter (Schach-)Standards ([→ 2.3 Konventionen](#23-konventionen))
+- Maßgeblich betroffene Qualitätsmerkmale ([→ 1.2 Qualitätsziele](#12-qualitätsziele))
+- Qualitätsziel: Bestehende Frontends nutzen (Interoperabilität)
+- Qualitätsziel: Einladende Experimentierplattform (Änderbarkeit)
+- Anpassbarkeit (an zukünftige Schach-Software)
+- Betroffene Risiken
+- Anbindung an das Frontend schlägt fehl ([→ 11.1](#111-risiko-anbindung-an-das-frontend-schlägt-fehl))
 
 Annahmen
 
-* Die Untersuchung weniger verfügbarer Frontends führt zu allen interessanten Integrationsoptionen.
+- Die Untersuchung weniger verfügbarer Frontends führt zu allen interessanten Integrationsoptionen.
 
 Betrachtete Alternativen
 
 Anfang 2011 wurden folgende Schach-Frontends untersucht:
 
-* Arena Chess GUI (frei verfügbar, läuft unter Windows)
-* Fritz for Fun (kommerziell, Anbieter ChessBase GmbH, läuft unter Windows)
-* Winboard/XBoard (Open Source, läuft unter Windows, Max OS X, \*nix)
+- Arena Chess GUI (frei verfügbar, läuft unter Windows)
+- Fritz for Fun (kommerziell, Anbieter ChessBase GmbH, läuft unter Windows)
+- Winboard/XBoard (Open Source, läuft unter Windows, Max OS X, \*nix)
 
 Als Ergebnis wurden zwei Kommunikationsprotokolle als Optionen identifiziert:
 
-* Option 1: UCI Protocol (Universal Chess Interface, Details siehe [hier](https://www.chessprogramming.org/UCI))
-* Option 2: XBoard Protocol (auch bekannt als Winboard, und als Chess Engine Communication Protocol, , Details siehe [hier](https://www.chessprogramming.org/Chess_Engine_Communication_Protocol))
+- Option 1: UCI Protocol (Universal Chess Interface, Details siehe [hier](https://www.chessprogramming.org/UCI))
+- Option 2: XBoard Protocol (auch bekannt als Winboard, und als Chess Engine Communication Protocol, , Details siehe [hier](https://www.chessprogramming.org/Chess_Engine_Communication_Protocol))
 
 Keines der beiden Protokolle ist formal spezifiziert, aber beide sind öffentlich dokumentiert.
 
@@ -843,7 +851,7 @@ Die folgende Tabelle zeigt, welches der untersuchten Frontend welches Protokoll 
 
 Entscheidung
 
-Grundsätzlich lassen sich die Qualitätsziele unter den gegebenen Randbedingungen von beiden Protokollen erreichen. 
+Grundsätzlich lassen sich die Qualitätsziele unter den gegebenen Randbedingungen von beiden Protokollen erreichen.
 Je nachdem, welches Protokoll wir implementieren, unterstützen wir unterschiedliche Frontends.
 
 Die Entscheidung fiel Anfang 2011 zugunsten des XBoard-Protokolls. Die Struktur von DokChess erlaubt es, alternative Kommunikationsprotokolle (UCI oder andere) hinzuzufügen, ohne die Engine selbst dafür verändern zu müssen, siehe hierzu Abhängigkeiten in der ([Bausteinsicht](#51-ebene-1)).
@@ -867,21 +875,21 @@ Von der Schnittstelle der Stellung hängen sämtliche Module ab; eine nachträgl
 
 Relevante Einflussfaktoren
 
-* Randbedingungen ([→ 2.1 „Technische Randbedingungen“](#21-technische-randbedingungen))
- * Implementierungssprache Java
- * moderate Hardwareausstattung
-* Maßgeblich betroffene Qualitätsmerkmale ([→ 1.2 „Qualitätsziele“](#12-qualitätsziele))
- * Qualitätsziel: Einladende Experimentierplattform (Änderbarkeit)
- * Qualitätsziel: Akzeptable Spielstärke (Funktionale Eignung)
- * Qualitätsziel: Schnelles Antworten auf Züge (Effizienz)
-* Betroffene Risiken
- * Aufwand der Implementierung zu hoch ([→ 11.2](#112-risiko-aufwand-der-implementierung-zu-hoch))
- * Erreichen der Spielstärke scheitert ([→ 11.3](#113-risiko-erreichen-der-spielstärke-scheitert))
+- Randbedingungen ([→ 2.1 „Technische Randbedingungen“](#21-technische-randbedingungen))
+- Implementierungssprache Java
+- moderate Hardwareausstattung
+- Maßgeblich betroffene Qualitätsmerkmale ([→ 1.2 „Qualitätsziele“](#12-qualitätsziele))
+- Qualitätsziel: Einladende Experimentierplattform (Änderbarkeit)
+- Qualitätsziel: Akzeptable Spielstärke (Funktionale Eignung)
+- Qualitätsziel: Schnelles Antworten auf Züge (Effizienz)
+- Betroffene Risiken
+- Aufwand der Implementierung zu hoch ([→ 11.2](#112-risiko-aufwand-der-implementierung-zu-hoch))
+- Erreichen der Spielstärke scheitert ([→ 11.3](#113-risiko-erreichen-der-spielstärke-scheitert))
 
 Annahmen
 
-* Es ist möglich, eine Datenstruktur mit ausformuliertem Objektmodell (also Klassen Feld, Figur, Zug etc.) effizient genug zu implementieren, um die geforderte Spielstärke bei angemessener Antwortzeit zu liefern.
-* In Zukunft sollen mit der Datenstruktur auch nebenläufige Algorithmen realisiert werden können.
+- Es ist möglich, eine Datenstruktur mit ausformuliertem Objektmodell (also Klassen Feld, Figur, Zug etc.) effizient genug zu implementieren, um die geforderte Spielstärke bei angemessener Antwortzeit zu liefern.
+- In Zukunft sollen mit der Datenstruktur auch nebenläufige Algorithmen realisiert werden können.
 
 Betrachtete Alternativen
 
@@ -890,23 +898,23 @@ Die Klassen sind unveränderlich als Wertobjekte realisiert (Feld e4 bleibt nach
 
 Für die Stellung betrachten wir zwei Alternativen:
 
-* **Option (1)**: Die Stellung ist veränderlich. Einzelne Methoden der Schnittstelle verändern den Zustand, führen beispielsweise Züge aus oder nehmen sie zurück.
+- **Option (1)**: Die Stellung ist veränderlich. Einzelne Methoden der Schnittstelle verändern den Zustand, führen beispielsweise Züge aus oder nehmen sie zurück.
 
-
-
-<pre>// Pseudocode
+```java
+// Pseudocode
 Stellung s = new Stellung(); // Anfangsstellung, weiss am Zug
 s.fuehreZugAus(e2e4);        // Koenigsbauer zwei Felder vor, danach schwarz am Zug
 s.nimmLetztenZugZurueck();   // anschliessend wieder auf Anfang
 ...
-</pre>
+```
 
-* **Option (2)**: Die Stellung ist unveränderlich ("immutable"), d.h. eine Methode zum Ausführen eines Zuges liefert die neue Stellung (Kopie der alten, anschließend Zug ausgeführt) als ebenfalls unveränderliches Objekt zurück.
+- **Option (2)**: Die Stellung ist unveränderlich ("immutable"), d.h. eine Methode zum Ausführen eines Zuges liefert die neue Stellung (Kopie der alten, anschließend Zug ausgeführt) als ebenfalls unveränderliches Objekt zurück.
 
-<pre>Stellung s = new Stellung();
+```java
+Stellung s = new Stellung();
 Stellung neueStellung = s.fuehreZugAus(e2e4) // s bleibt unveraendert
 ...
-</pre>
+```
 
 Die folgende Tabelle fasst Stärken und Schwächen der beiden Optionen zusammen, sie werden im Folgenden weiter ausgeführt.
 
@@ -923,7 +931,7 @@ Option (1): Veränderliche Stellung
 
 (+) Positiv
 
-Wir müssen die Stellung mit ihrem umfangreichen Zustand nicht bei jedem Zug kopieren. 
+Wir müssen die Stellung mit ihrem umfangreichen Zustand nicht bei jedem Zug kopieren.
 Das spart Speicher und Rechenzeit, und es schont den Garbage Collector. Für Analysealgorithmen ist allerdings Funktionalität zu implementieren, die ausgeführte Züge zurücknimmt („undo“). Dieses Zurücknehmen kostet ebenfalls Zeit, daher die neutrale Bewertung (o) beim Zeitverhalten.
 
 (-) Negativ
@@ -972,7 +980,6 @@ Die [Qualitätsziele](#12-qualitätsziele) sind in der Abbildung ebenfalls entha
 
 ![Zuordnung von Szenarien zu Qualitätsmerkmalen](images/Abb09_25_Qualitaetsbaum.png "Zuordnung von Szenarien zu Qualitätsmerkmalen")
 
-
 ### 10.2 Qualitätsszenarien
 
 Die Anfangsbuchstaben der Bezeichner (IDs) der Szenarien in der folgenden Tabelle  stehen jeweils für das übergeordnete Qualitätsmerkmal, W beispielsweise für Wartbarkeit.
@@ -1000,12 +1007,13 @@ Sie treten daher mitunter mehrmals im Qualitätsbaum auf.
 
 ## 11. Risiken und technische Schulden
 
-Die folgenden Risiken wurden zu Beginn des Vorhabens als Probleme, die auftreten können, identifiziert. 
+Die folgenden Risiken wurden zu Beginn des Vorhabens als Probleme, die auftreten können, identifiziert.
 Sie beeinflussten die Planung der ersten drei Iterationen maßgeblich.
-Seit Abschluss der dritten Iteration gelten sie als beherrscht. 
+Seit Abschluss der dritten Iteration gelten sie als beherrscht.
 Dieser Architekturüberblick zeigt die Risiken inklusive der damaligen Eventualfallplanung weiterhin, wegen ihres großen Einflusses auf die Lösung.
 
 ### 11.1 Risiko: Anbindung an das Frontend schlägt fehl
+
 Es liegt keinerlei Wissen über die Anbindung einer Engine an ein vorhandenes Schach-Frontend vor.
 Vorhandene Open Source Engines sind in C programmiert und werden als ausführbare Programme (unter Windows z.B. \*.exe) geliefert.
 Da wir DokChess in Java entwickeln, taugen sie nur bedingt zur Inspiration.
@@ -1031,12 +1039,12 @@ Bei Rochade und en passant ist die Partiehistorie, und nicht nur die aktuelle Si
 Die Programmierung der Algorithmen ist ebenfalls nicht-trivial.
 Für die Anbindung von Eröffnungsbibliotheken und Endspieldatenbanken ist eine umfangreiche Recherche erforderlich.
 
-Die Implementierung von DokChess verläuft nebenher in der freien Zeit. 
+Die Implementierung von DokChess verläuft nebenher in der freien Zeit.
 Es ist unklar, ob die Zeit reicht, um innerhalb des Zeitplans ([→ 2.2 Organisatorische Randbedingungen](#22-organisatorische-randbedingungen)) vorzeigbare Ergebnisse zu präsentieren.
 
 Eventualfallplanung
 
-Falls zu den Vorträgen in März und Mai 2011 keine lauffähige Fassung vorliegt, könnte eine Live-Demonstration entfallen. 
+Falls zu den Vorträgen in März und Mai 2011 keine lauffähige Fassung vorliegt, könnte eine Live-Demonstration entfallen.
 Den kostenlosen Abendvortrag beim Schulungsunternehmen im März könnten wir sogar komplett absagen (Schaden: Imageverlust).
 
 Risikominderung
@@ -1051,6 +1059,7 @@ Das Fehlen hat geringe Konsequenzen bezüglich der Spielstärke, und keine bezü
 Die Anbindung von Eröffnungsbibliotheken und Endspieldatenbanken priorisieren wir niedrig und stellen es hinten an.
 
 ### 11.3 Risiko: Erreichen der Spielstärke scheitert
+
 Die [Qualitätsziele](#12-qualitätsziele) fordern sowohl eine akzeptable Spielstärke wie auch eine einfache, leicht zugängliche Lösung.
 Zudem gibt es Anforderungen bezüglich Effizienz.
 Es ist unsicher, ob die anvisierte Java-Lösung mit objektorientiertem Domänenmodell und einfacher Zugauswahl diese konkurrierenden Ziele erreichen kann.
@@ -1062,7 +1071,7 @@ Unklar ist, ab wann eine Spielstärke als unangemessen schwach angesehen würde.
 
 Eventualfallplanung
 In Vorträgen könnten wir auf Teile der Live-Demonstration verzichten.
-Gegebenenfalls zeigen wir im Vorfeld gespielte Partien. 
+Gegebenenfalls zeigen wir im Vorfeld gespielte Partien.
 
 Risikominderung
 Mit Hilfe geeigneter [Szenarien](#10-qualitätsanforderungen) konkretisieren wir die Qualitätsziele.
@@ -1095,32 +1104,31 @@ Schachbrett-Geometrie
 
 ![Chessboard](images/12_02_ChessBoard.png)
 
-
 ### 12.2 Begriffe
 
 | Begriff     | Erklärung      |
 |-------------|----------------|
-|50-Züge-Regel|	Regel im Schach, die besagt, dass ein Spieler ein _Remis_ reklamieren kann, wenn 50 Züge lang kein Bauer bewegt und keine Figur geschlagen wurde.|
-|Alpha-Beta-Suche|Deutliche Verbesserung des _Minimax-Algorithmus_, in dem Teile des Suchbaumes "weggeschnitten" werden können, ohne dabei zu einem anderen Ergebnis zu kommen.|
+|50-Züge-Regel| Regel im Schach, die besagt, dass ein Spieler ein *Remis* reklamieren kann, wenn 50 Züge lang kein Bauer bewegt und keine Figur geschlagen wurde.|
+|Alpha-Beta-Suche|Deutliche Verbesserung des *Minimax-Algorithmus*, in dem Teile des Suchbaumes "weggeschnitten" werden können, ohne dabei zu einem anderen Ergebnis zu kommen.|
 |Einstellen|Anfängerfehler im Schach. Eine eigene Figur wird eingestellt, wenn sie auf ein vom Gegner angegriffenes Feld gezogen wird und von diesem gefahrlos geschlagen werden kann.|
 |Endspiel|Als Endspiel bezeichnet man im Schach die Endphase einer Partie. Sie ist dadurch gekennzeichnet, dass nur noch wenige Figurenarten auf dem Brett sind.|
 |Engine|Auch Schach-Engine. Bezeichnung für den Teil des Schachprogramms, der die Züge berechnet. Typischerweise hat eine Engine keine grafische Benutzeroberfläche.|
 |en passant|Spezieller Bauernzug im Schach. Wenn ein Bauer zwei Felder vorgeht und ein gegnerischer Bauer ihn hätte schlagen können, wäre er nur eins vorgegangen, darf dieser en passant schlagen.|
 |Eröffnung|Erste Phase einer Schachpartie. Das Erfahrungswissen hierzu füllt viele Bücher und umfangreiche Datenbanken.|
-|FEN	|Forsyth-Edwards-Notation. Kompakte Darstellung einer Schachstellung als Zeichenkette. Wird von vielen Schach-Werkzeugen unterstützt. Einsatz in DokChess in Unit- und Integrationstests. Erläuterung siehe z.B. Wikipedia|
+|FEN |Forsyth-Edwards-Notation. Kompakte Darstellung einer Schachstellung als Zeichenkette. Wird von vielen Schach-Werkzeugen unterstützt. Einsatz in DokChess in Unit- und Integrationstests. Erläuterung siehe z.B. Wikipedia|
 |FIDE|Fédération Internationale des Échecs, Internationaler Schachverband.|
 |Gabel|Taktikmotiv im Schach, bei dem eine Figur zwei (oder mehr) gegnerische Figuren gleichzeitig bedroht.|
 |Halbzug|Aktion (Spielzug) eines einzelnen Spielers. Im Gegensatz zur Folge von weißem und schwarzem Zug, die z.B. beim Nummerieren als Zug gezählt wird.|
 |Matt|Auch Schachmatt. Ende einer Schachpartie, bei dem der König des am Zug befindlichen Spielers angegriffen ist und dieser keinen gültigen Zug hat (dem Angriff also nicht ausweichen kann). Der Spieler hat verloren.|
 |Minimax-Algorithmus|Algorithmus zur Ermittlung des besten Zuges unter der Berücksichtigung aller Optionen beider Spieler.|
-|Patt|Ende einer Schachpartie, bei dem der am Zug befindliche Spieler keinen gültigen Zug hat, sein König aber nicht angegriffen ist. Das Spiel wird _Remis_ gewertet.|
+|Patt|Ende einer Schachpartie, bei dem der am Zug befindliche Spieler keinen gültigen Zug hat, sein König aber nicht angegriffen ist. Das Spiel wird *Remis* gewertet.|
 |Polyglot Opening Book|Binäres Dateiformat für Eröffnungsbibliotheken. Anders als bei vielen anderen Formaten ist eine Dokumentation des Formates frei zugänglich.|
-|Remis|Ein Unentschieden im Schach. Es gibt verschiedene Möglichkeiten dazu, eine ist das _Patt_.
+|Remis|Ein Unentschieden im Schach. Es gibt verschiedene Möglichkeiten dazu, eine ist das *Patt*.
 |Rochade|Spezieller Spielzug im Schach, bei dem der eigene König und ein eigener Turm zugleich bewegt werden. Dazu müssen verschiedene Voraussetzungen erfüllt sein.|
 |Schach960|Eine von Bobby Fischer entwickelte Schachvariante, bei die Anfangsstellung aus 960 Möglichkeiten ausgelost wird. Auch als Fischer-Random-Chess bekannt.|
 |Spieß|Taktikmotiv im Schach, bei dem eine geradlinig ziehende Figur mit zwei gegnerischen Figuren auf einer Reihe, Linie oder Diagonalen steht und die vordere der beiden zum Wegziehen zwingt.|
-|Springergabel|Besonders häufige Form der _Gabel_ mit einem Springer als angreifende Figur.|
-|Stellungswiederholung|Regel im Schach, die besagt, dass ein Spieler ein _Remis_ reklamieren kann, wenn dieselbe Stellung mindestens zum dritten Mal auftritt.|
+|Springergabel|Besonders häufige Form der *Gabel* mit einem Springer als angreifende Figur.|
+|Stellungswiederholung|Regel im Schach, die besagt, dass ein Spieler ein *Remis* reklamieren kann, wenn dieselbe Stellung mindestens zum dritten Mal auftritt.|
 |Umwandlung|Regel im Schach, nach der ein Bauer, der die gegnerische Grundlinie erreicht, sofort in Dame, Turm, Läufer oder Springer umgewandelt wird.|
-|WinBoard-Protokoll|siehe _XBoard-Protokoll_|
-|XBoard-Protokoll|Textbasiertes Protokoll zur Kommunikation zwischen Schach-Frontends und _Engines_. Auch als "Winboard" oder (seltener) als "Chess Engine Communication Protocol" bezeichnet.|
+|WinBoard-Protokoll|siehe *XBoard-Protokoll*|
+|XBoard-Protokoll|Textbasiertes Protokoll zur Kommunikation zwischen Schach-Frontends und *Engines*. Auch als "Winboard" oder (seltener) als "Chess Engine Communication Protocol" bezeichnet.|
