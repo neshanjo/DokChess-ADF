@@ -30,10 +30,12 @@ Durch eine Versionierung der Dokumentation (z.B. in einem Git-Repository) machen
 - [Inhalt](#inhalt)
 - [1. Einleitung](#1-einleitung)
   - [1.1. Geschäftskontext](#11-geschäftskontext)
+    - [__Was ist DokChess?__](#was-ist-dokchess)
   - [1.2. Systemübersicht](#12-systemübersicht)
+    - [__Wesentliche Features:__](#wesentliche-features)
   - [1.3. Randbedingungen (Constraints)](#13-randbedingungen-constraints)
-    - [Technische Randbedingungen](#technische-randbedingungen)
-    - [Organisatorische Randbedingungen](#organisatorische-randbedingungen)
+    - [__Technische Randbedingungen__](#technische-randbedingungen)
+    - [__Organisatorische Randbedingungen__](#organisatorische-randbedingungen)
   - [1.4. Stakeholder](#14-stakeholder)
   - [1.5. Ziele des Dokuments](#15-ziele-des-dokuments)
 - [2. Systemkontext und Domäne](#2-systemkontext-und-domäne)
@@ -43,24 +45,35 @@ Durch eine Versionierung der Dokumentation (z.B. in einem Git-Repository) machen
   - [3.1. Wesentliche funktionale Anforderungen](#31-wesentliche-funktionale-anforderungen)
   - [3.2. Qualitätsattribute](#32-qualitätsattribute)
     - [3.2.1. Schnelles und einfaches Verstehen von DokChess (W01Analysierbarkeit)](#321-schnelles-und-einfaches-verstehen-von-dokchess-w01analysierbarkeit)
-    - [3.2.2. Schnelle und einfache Einarbeitung in arc42 (W02Analysierbarkeit)](#322-schnelle-und-einfache-einarbeitung-in-arc42-w02analysierbarkeit)
-    - [3.2.3. Einfache und schnelle Modul-Implementierung (W03Analysierbarkeit)](#323-einfache-und-schnelle-modul-implementierung-w03analysierbarkeit)
-    - [3.2.4. Leichte Einbindung einer neuen Stellungsbewertung (W04Erweitbarkeit)](#324-leichte-einbindung-einer-neuen-stellungsbewertung-w04erweitbarkeit)
-    - [3.2.5. Implementierung der Bitboard-Repräsentation (W05Änderbarkeit)](#325-implementierung-der-bitboard-repräsentation-w05änderbarkeit)
-    - [3.2.6. Ablehnung eines unzulässigen Zugs durch die Engine  (Z01Fehlervermeidung)](#326-ablehnung-eines-unzulässigen-zugs-durch-die-engine--z01fehlervermeidung)
-    - [3.2.7. Erkennung unzulässiger Stellungen (Z02Fehlertoleranz)](#327-erkennung-unzulässiger-stellungen-z02fehlertoleranz)
-    - [3.2.8. 	Unterstützung neuer Protokolle  (P01Anpassbarkeit)](#328-unterstützung-neuer-protokolle--p01anpassbarkeit)
-    - [3.2.9. FrontEndeinbindung (K01Interoperabilität)](#329-frontendeinbindung-k01interoperabilität)
+    - [3.2.2. Einfache und schnelle Modul-Implementierung (W03Analysierbarkeit)](#322-einfache-und-schnelle-modul-implementierung-w03analysierbarkeit)
+    - [3.2.3. Leichte Einbindung einer neuen Stellungsbewertung (W04Erweitbarkeit)](#323-leichte-einbindung-einer-neuen-stellungsbewertung-w04erweitbarkeit)
+    - [3.2.4. Implementierung der Bitboard-Repräsentation (W05Änderbarkeit)](#324-implementierung-der-bitboard-repräsentation-w05änderbarkeit)
+    - [3.2.5. Ablehnung eines unzulässigen Zugs durch die Engine  (Z01Fehlervermeidung)](#325-ablehnung-eines-unzulässigen-zugs-durch-die-engine--z01fehlervermeidung)
+    - [3.2.6. Erkennung unzulässiger Stellungen (Z02Fehlertoleranz)](#326-erkennung-unzulässiger-stellungen-z02fehlertoleranz)
+    - [3.2.7. 	Unterstützung neuer Protokolle  (P01Anpassbarkeit)](#327-unterstützung-neuer-protokolle--p01anpassbarkeit)
+    - [3.2.8. FrontEndeinbindung (K01Interoperabilität)](#328-frontendeinbindung-k01interoperabilität)
 - [4. Systemdekomposition](#4-systemdekomposition)
   - [4.1. Lösungsansatz und zentrale Architekturentscheidungen](#41-lösungsansatz-und-zentrale-architekturentscheidungen)
   - [4.2. Systemdomänen](#42-systemdomänen)
   - [4.3. Systemstruktur](#43-systemstruktur)
   - [4.4. Datenmodell](#44-datenmodell)
   - [4.5. Code-Organisation (Abbildung Laufzeit auf Entwicklungszeit)](#45-code-organisation-abbildung-laufzeit-auf-entwicklungszeit)
-    - [Xboard](#xboard)
-    - [Spielregeln](#spielregeln)
-    - [Engine](#engine)
-    - [Eröffnung](#eröffnung)
+  - [Xboard](#xboard)
+    - [Zweck/Verantwortlichkeit](#zweckverantwortlichkeit)
+    - [Schnittstelle](#schnittstelle)
+    - [Ablageort / Datei](#ablageort--datei)
+  - [Spielregeln](#spielregeln)
+    - [Zweck/Verantwortlichkeit](#zweckverantwortlichkeit-1)
+    - [Schnittstelle](#schnittstelle-1)
+    - [Ablageort / Datei](#ablageort--datei-1)
+  - [Engine](#engine)
+    - [Zweck/Verantwortlichkeit](#zweckverantwortlichkeit-2)
+    - [Schnittstellen](#schnittstellen)
+    - [Ablageort / Datei](#ablageort--datei-2)
+  - [Eröffnung](#eröffnung)
+    - [Zweck/Verantwortlichkeit](#zweckverantwortlichkeit-3)
+    - [Schnittstellen](#schnittstellen-1)
+    - [Ablageort / Datei](#ablageort--datei-3)
   - [4.6. Build-Prozess und -Struktur](#46-build-prozess-und--struktur)
   - [4.7. Deployment und Betrieb](#47-deployment-und-betrieb)
   - [4.8. Technologien](#48-technologien)
@@ -85,10 +98,21 @@ Durch eine Versionierung der Dokumentation (z.B. in einem Git-Repository) machen
     - [5.4.2. Lösungsidee](#542-lösungsidee)
     - [5.4.3. Design-Entscheidungen](#543-design-entscheidungen)
     - [5.4.4. Verworfene Alternativen](#544-verworfene-alternativen)
+  - [5.5 Verwendung unveränderlicher Datenstruktur zur Stellungsspeicherung](#55-verwendung-unveränderlicher-datenstruktur-zur-stellungsspeicherung)
+    - [5.5.1. Architektur-Treiber](#551-architektur-treiber)
+    - [5.5.2. Lösungsidee](#552-lösungsidee)
+    - [5.5.3. Design-Entscheidungen](#553-design-entscheidungen)
+    - [5.5.4. Verworfene Alternativen](#554-verworfene-alternativen)
 - [6. Risiken und technische Schulden](#6-risiken-und-technische-schulden)
   - [6.1 Risiko: Anbindung an das Frontend schlägt fehl](#61-risiko-anbindung-an-das-frontend-schlägt-fehl)
+    - [Eventualfallplanung](#eventualfallplanung)
+    - [Risikominderung](#risikominderung)
   - [6.2 Risiko: Aufwand der Implementierung zu hoch](#62-risiko-aufwand-der-implementierung-zu-hoch)
+    - [Eventualfallplanung](#eventualfallplanung-1)
+    - [Risikominderung](#risikominderung-1)
   - [6.3 Risiko: Erreichen der Spielstärke scheitert](#63-risiko-erreichen-der-spielstärke-scheitert)
+    - [Eventualfallplanung](#eventualfallplanung-2)
+    - [Risikominderung](#risikominderung-2)
 - [7. Ausblick und Pläne für die Zukunft](#7-ausblick-und-pläne-für-die-zukunft)
 - [8. Glossar](#8-glossar)
   - [8.1 Glossar](#81-glossar)
@@ -118,7 +142,7 @@ Im Text dieses Abschnittes sollten die folgenden Frage beantwortet werden:
   
 <!-- vom arc42Template übernommen -->
 
-Was ist DokChess?
+#### __Was ist DokChess?__
 
 - DokChess ist eine voll funktionsfähige Schach-Engine.
 - Sie dient als einfach zugängliches und zugleich attraktives Fallbeispiel für Architekturentwurf, -bewertung und -dokumentation.
@@ -137,7 +161,7 @@ Was ist DokChess?
 
 <!-- vom arc42Template übernommen -->
 
-Wesentliche Features:
+#### __Wesentliche Features:__
 
 - Vollständige Implementierung der FIDE-Schachregeln
 - Unterstützt das Spiel gegen menschliche Gegner und andere Schachprogramme
@@ -164,26 +188,26 @@ Hinweis: Wir sollten die Randbedingungen immer wieder hinterfragen, denn
 
 Beim Lösungsentwurf waren zu Beginn verschiedene Randbedingungen zu beachten, sie wirken in der Lösung fort. Dieser Abschnitt stellt sie dar und erklärt auch – wo nötig – deren Motivation.
 
-#### Technische Randbedingungen
+#### __Technische Randbedingungen__
 
 | Randbedingung                                | Erläuterungen, Hintergrund                                                                                                                                                                                                                                                                                                                                  |
 | -------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Moderate Hardwareausstattung                 | Betrieb der Lösung auf einem marktüblichen Standard-Notebook, um sie im Rahmen von Seminaren und Konferenzen auf einem solchen zeigen zu können.                                                                                                                                                                                                            |
 | Betrieb auf Windows Desktop Betriebssystemen | Standardausstattung von Notebooks bei Mitarbeitern des Schulungsunternehmens zum Zeitpunkt der Konzeption. Hohe Verbreitung dieser Betriebssysteme bei potenziell Interessierten (Zuhörer bei Vorträgen, Teilnehmer bei Seminaren). Unterstützung anderer Betriebssysteme (allen voran Linux und Mac OS X) wünschenswert, aber nicht zwingend erforderlich. |
 | Implementierung in Java                      | Einsatz als Beispiel in Java-lastigen Seminaren und auf Java-Konferenzen.  Entwicklung unter Version Java SE 6 (DokChess 1.0), später Java SE 7 und Java SE 11. Die Engine soll auch auf neueren Java-Versionen, sobald verfügbar, laufen.                                                                                                                  |
-| Fremdsoftware frei verfügbar                 | Falls zur Lösung Fremdsoftware hinzugezogen wird (z.B. grafisches Frontend), sollte diese idealerweise frei verfügbar und kostenlos sein. Die Schwelle der Verwendung wird auf diese Weise niedrig gehalten.                                                                                                                                                |
+| Fremdsoftware frei verfügbar                 | Falls zur Lösung Fremdsoftware hinzugezogen wird (z.B. grafisches Frontend), sollte diese idealerweise frei verfügbar und kostenlos sein. Die Schwelle der Verwendung wird auf diese Weise niedrig gehalten.|
+| Entwicklungswerkzeuge                  | Entwurf mit Stift und Papier, ergänzend Enterprise Architect. Arbeitsergebnisse zur Architekturdokumentation gesammelt im Confluence Wiki. Erstellung der Java-Quelltexte in Eclipse oder IntelliJ. Die Software muss jedoch auch, allein mit Gradle, also ohne IDE baubar sein.        |
+| Konfigurations- und Versionsverwaltung | Zu Beginn (Version 1.0) Subversion bei SourceForge, später Git bei GitHub                                                                                                                                                                                                               |
+| Testwerkzeuge und -prozesse            | JUnit im Annotationsstil sowohl für inhaltliche Richtigkeit als auch für Integrationstests und die Einhaltung von Effizienzvorgaben             |
 
 
-#### Organisatorische Randbedingungen
+#### __Organisatorische Randbedingungen__
 
 | Randbedingung                          | Erläuterungen, Hintergrund                                                                                                                                                                                                                                                              |
 | -------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Team                                   | Stefan Zörner, unterstützt durch Kollegen, Bekannte und Interessierte aus Workshops und Seminaren                                                                                                                                                                                       |
 | Zeitplan                               | Beginn der Entwicklung Dezember 2010, erster lauffähiger Prototyp März 2011 (Abendvortrag beim Schulungsunternehmenin Hamburg), vorzeigbare Version Mai 2011 (Vortrag JAX-Konferenz in Mainz). Fertigstellung Version 1.0: Februar 2012 (Abgabe des Buchmanuskripts für die 1. Auflage) |
-| Vorgehensmodell                        | Entwicklung risikogetrieben, iterativ und inkrementell. Zur Dokumentation der Architektur kommt arc42 zum Einsatz. Eine Architekturdokumentation gegliedert nach dieser Vorlage ist zentrales Projektergebnis.                                                                          |
-| **Wie schon mal angemerkt, ist das eine technische Ranbedingung und gehört in die vorige Tabelle** Entwicklungswerkzeuge                  | Entwurf mit Stift und Papier, ergänzend Enterprise Architect. Arbeitsergebnisse zur Architekturdokumentation gesammelt im Confluence Wiki. Erstellung der Java-Quelltexte in Eclipse oder IntelliJ. Die Software muss jedoch auch, allein mit Gradle, also ohne IDE baubar sein.        |
-| **Wie schon mal angemerkt, ist das eine technische Ranbedingung und gehört in die vorige Tabelle** Konfigurations- und Versionsverwaltung | Zu Beginn (Version 1.0) Subversion bei SourceForge, später Git bei GitHub                                                                                                                                                                                                               |
-| **Wie schon mal angemerkt, ist das eine technische Ranbedingung und gehört in die vorige Tabelle** Testwerkzeuge und -prozesse            | JUnit im Annotationsstil sowohl für inhaltliche Richtigkeit als auch für Integrationstests und die Einhaltung von Effizienzvorgaben                                                                                                                                                     |
+| Vorgehensmodell                        | Entwicklung risikogetrieben, iterativ und inkrementell. Zur Dokumentation der Architektur kommt ADF zum Einsatz. Eine Architekturdokumentation gegliedert nach dieser Vorlage ist zentrales Projektergebnis.                                             
 | Veröffentlichung als Open Source       | Die Quelltexte der Lösung oder zumindest Teile werden als Open Source verfügbar gemacht. Lizenz: GNU General Public License version 3.0 (GPLv3). Gehostet bei GitHub: https://github.com/DokChess/                                                                                      |
 
 ### 1.4. Stakeholder
@@ -235,10 +259,11 @@ Dieser Abschnitt beschreibt das Umfeld von DokChess. Für welche Benutzer ist es
 - (Wie ist das System in seine Systemlandschaft integriert?)
 - Auf welche Weise interagiert das System mit externen Systemen und welche Daten werden ausgetauscht?
 - -->
-**mindestens ein einleitender Satz wäre hier wünschenswert. Das Bild ist etwas "krumm", also schiefe Linien möglichst vermeiden. Anordnung besser lesbar machen. Hauptleserichtung in Europa: links nach rechts, oben nach unten, also dokChess in die Mitte, links davon die Clients, rechts davon Polyglott Opening Book und dann unterhalb davon (oder rechts davon) Eröffnungen und Endspiele**
+
+In diesem Unterkapitel wird dargestellt, wie DokChess mit Fremdsystemen kommuniziert und welche Rolle jedes System spielt.
 
 ![Fachlicher Kontext von DokChess](images/system_context.png "System-Kontext-Abgrenzung")
-Bild: Funktions@Runtime, System-Kontext-Abgrenzung
+Bild: System-Kontext-Abgrenzung
 
 <!-- vom arc42Template übernommen -->
 
@@ -276,7 +301,7 @@ Diese beinhalten für jede mögliche Stellung mit dieser Figurenkonstellation di
 
 <!-- vom arc42Template übernommen -->
 
-**Hier fehlt beschreibender Text. Ein Kapitel sollte nie einfach mit einem Bild anfangen.**
+Dieses Unterkapitel beschreibt das Domänenmodell von DokChess. Welche Entitäten gibt es und wie sie miteinander zusammenhängen.
 
 ![Eine Figur hat eine Farbe und eine Art](images/Abb09_18_Figur.png "Eine Figur hat eine Farbe \(z.B. weiß\) und eine Art \(z.B. Bauer\)")
 
@@ -297,20 +322,6 @@ Diese beinhalten für jede mögliche Stellung mit dieser Figurenkonstellation di
 ## 3. Architekturtreiber (Funktion und Qualität)
 
 In den folgenden Kapiteln wird ein Überblick über die wichtigsten Anforderungen für das System gegeben, welche die Ausgestaltung der Architektur beeinflussen. Diese Anforderungen, genannt Architekturtreiber, umfassen  funktionale Anforderungen und Qualitätsanforderungen (in diesem Kapitel beschrieben) sowie Geschäftsziele und Randbedingungen (bereits in Kapitel 1 beschrieben).
-
-**Diese Tabelle sollte in das Unterkapitel 3.2**
-Die folgende Tabelle beschreibt die zentralen Qualitätsziele von DokChess, wobei die Reihenfolge eine grobe Orientierung bezüglich der Wichtigkeit vorgibt.
-
-| Qualitätsziel                                    | Motivation und Erläuterung                                                                                                                              |
-| ------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Zugängliches Beispiel (Analysierbarkeit)         | Da DokChess in erster Linie als Anschauungsmaterial für Softwarearchitektur und -entwicklung dient, erschließen sich Entwurf und Implementierung rasch. |
-| Einladende Experimentierplattform (Änderbarkeit) | Alternative Algorithmen und Strategien, etwa zur Bewertung einer Schachstellung, können leicht implementiert und in die Lösung integriert werden.       |
-| Bestehende Frontends nutzen (Interoperabilität)  | DokChess lässt sich mit angemessenem Aufwand in bestehende grafische Schach-Frontends einbinden.                                                        |
-| Akzeptable Spielstärke (Funktionale Eignung)     | DokChess spielt stark genug, um schwache Gegner sicher zu schlagen und Gelegenheitsspieler zumindest zu fordern.                                        |
-| Schnelles Antworten auf Züge (Effizienz)         | Da DokChess in Seminaren und Vorträgen live demonstriert wird, erfolgt die Berechnung der Spielzüge rasch.                                              |
-
-Die funktionalen Anforderungen und Qualitätsattribute weiter unten konkretisieren diese Qualitätsziele und dienen insbesondere auch dazu ihre Erreichung zu bewerten.
-**Funktionale Anforderungen konkretisieren keine Qualitätsziele. Dafür sind die Qualitätsattribute da.**
 
 ### 3.1. Wesentliche funktionale Anforderungen
 <!--
@@ -334,6 +345,19 @@ Die wichtigsten funktionalen Anforderungen werden in Form von Qualitätsszenarie
 - Was sind die Qualitätsanforderungen an das System, die einen treibenden Einfluss auf die Gestaltung der Architektur haben?
 - Über welche Szenarios kann man überprüfen, ob das System die Qualitätsanforderungen erfüllt?
 -->
+
+Die folgende Tabelle beschreibt die zentralen Qualitätsziele von DokChess, wobei die Reihenfolge eine grobe Orientierung bezüglich der Wichtigkeit vorgibt.
+
+| Qualitätsziel                                    | Motivation und Erläuterung                                                                                                                              |
+| ------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Zugängliches Beispiel (Analysierbarkeit)         | Da DokChess in erster Linie als Anschauungsmaterial für Softwarearchitektur und -entwicklung dient, erschließen sich Entwurf und Implementierung rasch. |
+| Einladende Experimentierplattform (Änderbarkeit) | Alternative Algorithmen und Strategien, etwa zur Bewertung einer Schachstellung, können leicht implementiert und in die Lösung integriert werden.       |
+| Bestehende Frontends nutzen (Interoperabilität)  | DokChess lässt sich mit angemessenem Aufwand in bestehende grafische Schach-Frontends einbinden.                                                        |
+| Akzeptable Spielstärke (Funktionale Eignung)     | DokChess spielt stark genug, um schwache Gegner sicher zu schlagen und Gelegenheitsspieler zumindest zu fordern.                                        |
+| Schnelles Antworten auf Züge (Effizienz)         | Da DokChess in Seminaren und Vorträgen live demonstriert wird, erfolgt die Berechnung der Spielzüge rasch.                                              |
+
+Die Qualitätsattribute weiter unten konkretisieren diese Qualitätsziele und dienen insbesondere auch dazu ihre Erreichung zu bewerten.
+
 Qualitätsattribute werden als Architekturszenarios beschrieben. Status und Priorität sind weggelassen, weil das System fertiggestellt ist.
 
  <!-- omit in toc -->
@@ -370,54 +394,44 @@ Als Tabelle:
 | Scenario ID      | W01Analysierbarkeit                                                                                        |                                |
 | **Beschreibung** |                                                                                                            | **Quantifizierung**            |
 | Umgebung         | Jemand mit Grundkenntnissen in UML und Schach möchte einen Einstieg in die Architektur von DokChess finden |                                |
-| Stimulus         | Der Leser **/die Leserin - oder Ein:e Leser:in oder eine Person (ist neutral) oder nur männliche Form, dann aber auch bei der Antwort** versucht Lösungsstrategie und Entwurf von DokChess zu verstehen                                  |                                |
-| Antwort          | Lösungsstrategie und Entwurf erschließen sich ihr oder ihm innerhalb von 15 Minuten.                       | Zeit für das Verstehen <15 min **Wie kann man das überprüfen?** |
+| Stimulus         | Ein Leser versucht Lösungsstrategie und Entwurf von DokChess zu verstehen                                  |                                |
+| Antwort          | Lösungsstrategie und Entwurf erschließen sich ihm beim ersten Durchlesen.                       |  |
 
-#### 3.2.2. Schnelle und einfache Einarbeitung in arc42 (W02Analysierbarkeit)
-**Dieser Treiber passt ja wohl kaum hierhin zu ADF!**
-| Kategorisierung  |                                                                                              |                                                    |
-| ---------------- | -------------------------------------------------------------------------------------------- | -------------------------------------------------- |
-| Szenario-Name    | Leichte Einarbeitung und Integration                                                         |                                                    |
-| Scenario ID      | W02Analysierbarkeit                                                                          |                                                    |
-| **Beschreibung** |                                                                                              | **Quantifizierung**                                |
-| Umgebung         | Architekt möchte arc42 anwenden                                                              |                                                    |
-| Stimulus         | Der Architekt sucht zu einem beliebigen Kapitel des Templates einen konkreten Beispielinhalt |                                                    |
-| Antwort          | Beispielinhalt wird unverzüglich in der Dokumentation gefunden                               | Zeit bis zum Auffinden des Beispielinhalts: <1 min |
 
-#### 3.2.3. Einfache und schnelle Modul-Implementierung (W03Analysierbarkeit)
+#### 3.2.2. Einfache und schnelle Modul-Implementierung (W03Analysierbarkeit)
 
 | Kategorisierung  |                                                                                  |                     |
 | ---------------- | -------------------------------------------------------------------------------- | ------------------- |
 | Szenario-Name    | Einfache und schnelle Modul-Implementierung                                      |                     |
 | Scenario ID      | W03Analysierbarkeit                                                              |                     |
 | **Beschreibung** |                                                                                  | **Quantifizierung** |
-| Umgebung         | Erfahrene Java-Entwicklerin möchte ein Modul implementieren                      |                     |
-| Stimulus         | Die Entwicklerin sucht die Implementierung eines im Entwurf beschriebenen Moduls |                     |
+| Umgebung         | Erfahrener Java-Entwickler möchte ein Modul implementieren                      |                     |
+| Stimulus         | Ein Entwickler sucht die Implementierung eines im Entwurf beschriebenen Moduls |                     |
 | Antwort          | Implementierung wird ohne Umwege oder fremde Hilfe im Quelltext gefunden         |                     |
 
-#### 3.2.4. Leichte Einbindung einer neuen Stellungsbewertung (W04Erweitbarkeit)
+#### 3.2.3. Leichte Einbindung einer neuen Stellungsbewertung (W04Erweitbarkeit)
 
 | Kategorisierung  |                                                                                                       |                                                  |
 | ---------------- | ----------------------------------------------------------------------------------------------------- | ------------------------------------------------ |
 | Szenario-Name    | Leichte Einbindung einer neuen Stellungsbewertung                                                     |                                                  |
 | Scenario ID      | W04Erweiterbarkeit                                                                                    |                                                  |
 | **Beschreibung** |                                                                                                       | **Quantifizierung**                              |
-| Umgebung         | Entwickler möchte eine neue Stellungsbewertung einbinden                                              |                                                  |
-| Stimulus         | Der Entwickler implementiert die neue Stellungsbewertung                                              |                                                  |
+| Umgebung         | Ein Entwickler möchte eine neue Stellungsbewertung einbinden                                              |                                                  |
+| Stimulus         | Ein Entwickler implementiert die neue Stellungsbewertung                                              |                                                  |
 | Antwort          | Neue Stellungsbewertung kann ohne Änderung und ohne Übersetzung in vorhandenen Code integriert werden | Keine Änderungen oder Übersetzungen erforderlich |
 
-#### 3.2.5. Implementierung der Bitboard-Repräsentation (W05Änderbarkeit)
-**Dieser Treiber ist hier völlig unmotiviert. Was ist BitBoard? Warum will man das benutzen?**
+#### 3.2.4. Implementierung der Bitboard-Repräsentation (W05Änderbarkeit)
+
 | Kategorisierung  |                                                                                                         |                     |
 | ---------------- | ------------------------------------------------------------------------------------------------------- | ------------------- |
-| Szenario-Name    | Implementierung der Bitboard-Repräsentation                                                             |                     |
+| Szenario-Name    | Implementierung der Bitboard-Repräsentation([siehe Glossar](#82-begriffe))                                                            |                     |
 | Scenario ID      | W05Änderbarkeit                                                                                         |                     |
 | **Beschreibung** |                                                                                                         | **Quantifizierung** |
-| Umgebung         | Entwickler möchte eine neue figurenzentrierte Bitboard-Repräsentation der Spielsituation implementieren |                     |
-| Stimulus         | Der Entwickler implementiert die neue Bitboard-Repräsentation der Spielsituation                        |                     |
+| Umgebung         | Ein Entwickler möchte eine neue figurenzentrierte Bitboard-Repräsentation der Spielsituation implementieren |                     |
+| Stimulus         | Ein Entwickler implementiert die neue Bitboard-Repräsentation der Spielsituation                        |                     |
 | Antwort          | Austausch der bestehenden feldzentrierten Darstellung durch die neue Bitboard-Repräsentation            | Aufwand ≤ 1 Woche   |
 
-#### 3.2.6. Ablehnung eines unzulässigen Zugs durch die Engine  (Z01Fehlervermeidung)
+#### 3.2.5. Ablehnung eines unzulässigen Zugs durch die Engine  (Z01Fehlervermeidung)
 
 | Kategorisierung  |                                                                                                                                                                                 |                             |
 | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------- |
@@ -428,7 +442,7 @@ Als Tabelle:
 | Stimulus         | Ein unzulässiger Zug wird von einem menschlichen Spieler gemacht und der Engine präsentiert                                                                                     |                             |
 | Antwort          | Die Engine lehnt den unzulässigen Zug ab, signalisiert dem Benutzer, dass der Zug nicht erlaubt ist, erlaubt die Eingabe eines anderen Zugs und setzt das Spiel fehlerfrei fort | Eine Meldung wird angezeigt |
 
-#### 3.2.7. Erkennung unzulässiger Stellungen (Z02Fehlertoleranz)
+#### 3.2.6. Erkennung unzulässiger Stellungen (Z02Fehlertoleranz)
 
 | Kategorisierung  |                                                                   |                        |
 | ---------------- | ----------------------------------------------------------------- | ---------------------- |
@@ -439,7 +453,7 @@ Als Tabelle:
 | Stimulus         | Der Engine erhält eine unzulässige Stellung                       | 1 unzulässige Stellung |
 | Antwort          | Die Engine erkennt die unzulässige Stellung und beendet das Spiel | Spiel wird beendet     |
 
-#### 3.2.8. 	Unterstützung neuer Protokolle  (P01Anpassbarkeit)
+#### 3.2.7. 	Unterstützung neuer Protokolle  (P01Anpassbarkeit)
 
 | Kategorisierung  |                                                                                                                                                                                |                                                                                                                                                                      |
 | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -450,7 +464,7 @@ Als Tabelle:
 | Stimulus         | Java-Programmiererin implementiert das neue Protokoll                                                                                                                          |                                                                                                                                                                      |
 | Antwort          | Sie kann das neue Protokoll ohne Änderung am bestehenden Code implementieren und die Engine anschließend wie gewohnt einbinden                                                 | Erfolgreiche Durchführung von Integrationstests mit der Engine und dem Frontend, keine Fehler beim Senden und Empfangen von Nachrichten zwischen Engine und Frontend |
 
-#### 3.2.9. FrontEndeinbindung (K01Interoperabilität)
+#### 3.2.8. FrontEndeinbindung (K01Interoperabilität)
 
 | Kategorisierung  |                                                                                                                                                     |                                                                       |
 | ---------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------- |
@@ -473,11 +487,11 @@ In den Unterabschnitten dieses Kapitels beschreiben wir, wie die grundlegende L�
 -->
 <!-- vom arc42Template übernommen -->
 
-Die folgende Tabelle stellt die Qualitätsziele von DokChess (siehe [Abschnitt 3](#3-architekturtreiber-funktion-und-qualität)) passenden Architekturansätzen gegenüber, und erleichtert so einen Einstieg in die Lösung.
+Die folgende Tabelle stellt die Qualitätsziele von DokChess passenden Architekturansätzen gegenüber, und erleichtert so einen Einstieg in die Lösung.
 
 | Qualitätsziel                                    | Dem zuträgliche Ansätze in der Architektur                                                                                                                                                                                                                                                                                                                                                        |
 | ------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Zugängliches Beispiel (Analysierbarkeit)         | <ul><li>Architekturüberblick gegliedert nach arc42 **???**<li>Explizites, objektorientiertes Domänenmodell<li>Modul-, Klassen- und Methodennamen in Deutsch, um englische Schachbegriffe zu vermeiden<li>Ausführliche Dokumentation der öffentlichen Schnittstellen in javadoc</ul>                                                                                                                       |
+| Zugängliches Beispiel (Analysierbarkeit)         | <ul><li>Architekturüberblick gegliedert nach ADF<li>Explizites, objektorientiertes Domänenmodell<li>Modul-, Klassen- und Methodennamen in Deutsch, um englische Schachbegriffe zu vermeiden<li>Ausführliche Dokumentation der öffentlichen Schnittstellen in javadoc</ul>                                                                                                                       |
 | Einladende Experimentierplattform (Änderbarkeit) | <ul><li>verbreitete Programmiersprache Java, →&nbsp;**(a)**<li>Schnittstellen für Kernabstraktionen (z.B. Stellungsbewertung, Spielregeln)<li>Unveränderliche Objekte (Stellung, Zug, ...) erleichtern Implementierung vieler Algorithmen<li>„Zusammenstecken“ der Bestandteile mit Dependency Injection führt zu Austauschbarkeit, →&nbsp;**(b)**<li>Hohe Testabdeckung als Sicherheitsnetz</ul> |
 | Bestehende Frontends nutzen (Interoperabilität)  | <ul><li>Verwendung des verbreiteten Kommunikationsprotokolls xboard, →&nbsp;**\(c\)**, <li>Einsatz des portablen Java, →&nbsp;**(a)**</ul>                                                                                                                                                                                                                                                        |
 | Attraktive Spielstärke (Attraktivität)           | <ul><li>Integration von Eröffnungsbibliotheken →&nbsp;**(d)**<li>Implementierung des Minimax-Algorithmus und einer geeigneter Stellungsbewertung, →&nbsp;**(e)**<li>Integrationstests mit Schachaufgaben für taktische Motive und Mattsituationen</ul>                                                                                                                                            |
@@ -496,14 +510,10 @@ Kleine Buchstaben in Klammern →&nbsp;**(x)** verorten einzelne Ansätze aus de
 - Welche Abhängigkeiten und Synchronisierungsbedarfe gibt es?
 -->
 
-**Domänen sind Fachlichkeiten, also fachlich zusammenhängende Teile gleicher Art. Hier werden aber ganz unterschiedliche Dinge gemischt, die nicht zusammenpassen, siehe Anmerkungen in Klammern.**
-
 DokChess lässt sich grob in folgende Domänen gliedern:
-* Schachregeln (**Daten**)
-* Schachengine (**Funktion**)
-* grafische Benutzeroberfläche (**Technischer Systemteil**)
-* Eröffnungsbibliotheksformat (**Datenformat**)
-
+* Zug
+* Stellung
+* Spielregeln
 
 Die Domänen sind über Schnittstellen abstrahiert und werden per Dependency Injection zusammengesteckt.
 Die Interaktion zwischen den Domänen erfolgt über fachlich motivierte Datenstrukturen, realisiert als Klassen.
@@ -517,20 +527,21 @@ Die Interaktion zwischen den Domänen erfolgt über fachlich motivierte Datenstr
 -->
 <!-- vom arc42Template übernommen -->
 
-**Wieder Bild ohne einleitenden Text! Achtung: ermittleGueltingenZug/ziehen/liefereZug ist doch eine Funktion und kein Datentyp. dataflow modelliert aber Datenfluss, also Datentypen, die da ausgetauscht werden. Entweder nur Funktionen ("Methodenaufrufe") modellieren mit `<<use>>` oder nur Datentypen mit `<<dataflow>>`.**
+In diesem Unterkapitel wird das Systemstruktur von DokChess dargestellt, aus welchen Komponenten es besteht und wie sie zusammen kommunizieren.
+
 
 ![DokChess](images/system_structure.png "DokChess Data + Functions@Runtime")
 *Bild: Systemstruktur von DokChess*
 
 | Subsystem                                         | Kurzbeschreibung                                                                          |
 | ------------------------------------------------- | ----------------------------------------------------------------------------------------- |
-| [XBoard-Protokoll](#52-xboard-protokoll-blackbox) | Realisiert die Kommunikation mit einem Client mit Hilfe des XBoard-Protokolls.            |
-| [Spielregeln](#53-spielregeln-blackbox)           | Beinhaltet die Schachregeln und kann z.B. zu einer Stellung alle gültigen Züge ermitteln. |
-| [Engine](#54-engine-blackbox)                     | Beinhaltet die Ermittlung eines nächsten Zuges ausgehend von einer Spielsituation.        |
-| [Eröffnung](#55-eröffnung-blackbox)               | Stellt Züge aus der Eröffnungsliteratur zu einer Spielsituation bereit.                   |
+| XBoard-Protokoll | Realisiert die Kommunikation mit einem Client mit Hilfe des XBoard-Protokolls.            |
+| Spielregeln        | Beinhaltet die Schachregeln und kann z.B. zu einer Stellung alle gültigen Züge ermitteln. |
+| Engine                  | Beinhaltet die Ermittlung eines nächsten Zuges ausgehend von einer Spielsituation.        |
+| Eröffnung             | Stellt Züge aus der Eröffnungsliteratur zu einer Spielsituation bereit.                   |
 *Tabelle: Überblick über Subsysteme von DokChess*
 
-**Das hier beschreibt jetzt schon die Entwicklungszeit-Sicht (Devtime) und gehört eigentlich nicht unbedingt hierher, sondern zu Code-Struktur. Wenn das woanders noch mal ausführlicher steht, kann man es aber ggf. auch hier lassen.**
+
 DokChess ist als Java-Programm mit main-Routine realisiert. Es zerfällt grob in folgende Teile:
 
 * eine Implementierung der Schachregeln
@@ -594,15 +605,16 @@ Zur Komplettierung der Spielsituation gehört die Information, wer am Zug ist, o
 - Welche Versionskontrolle wird eingesetzt? Welche Repositories gibt es für welchen Quellcode und welche Konfiguration?
 -->
 
+Auf dem unteren Bild wird das Systemstruktur von DokChess zur Laufzeit dargestellt.
 
 ![DokChess](/dokchess-adf/images/functions_devtime.png "DokChess Abbildung Laufzeit auf Entwicklungszeit")
 *Bild: DokChess Abbildung Laufzeit auf Entwicklungszeit*
 
 Der Quellcode von DokChess ist in verschiedene Pakete organisiert, die jeweils eine bestimmte Funktionalität abdecken.Die Paketstruktur soll eine klare Trennung der verschiedenen Funktionalitäten und eine bessere Wartbarkeit des Codes ermöglichen. 
- Das Paket "Xboard" entspricht dem Component XBoard-Protokoll. Xboard liest Befehle über die Standardeingabe ein, prüft sie gegen die Spielregeln und setzt sie für die Engine um.
+Das Paket "Xboard" entspricht der Komponente XBoard-Protokoll. Xboard liest Befehle über die Standardeingabe ein, prüft sie gegen die Spielregeln und setzt sie für die Engine um.
 Antworten der Engine (insbesondere ihre Züge) werden vom Subsystem als Ereignisse entgegengenommen, gemäß Protokoll formatiert und über die Standardausgabe zurückgesendet.
 Das Subsystem treibt somit das ganze Spielgeschehen. Es enthält auch die main-Methode, die das Programm startet.
-Das Paket Eröffnung entspricht dem Component Eröffnungen sowie das Paket Spielregeln entspricht dem Component Spielregeln uns das Paket Engine entspricht dem Component Engine. Das Paket "Allgemein" enthält die wichtigsten Entitäten(Figur, Stellung usw.) für das System, die überall im System benutzt werden.
+Das Paket Eröffnung entspricht der Komponente Eröffnungen sowie das Paket Spielregeln entspricht der Komponente Spielregeln uns das Paket Engine entspricht der Komponente Engine. Das Paket "Allgemein" enthält die wichtigsten Entitäten(Figur, Stellung usw.) für das System, die überall im System benutzt werden.
 
 DokChess soll zum Experimentieren und zum Erweitern der Engine einladen ([Anforderungen](#3-architekturtreiber-funktion-und-qualität)). Die Module sind daher über Schnittstellen lose gekoppelt.
 Module sind Implementierungen von Java-Schnittstellen. Java-Klassen, welche Teile benötigen, signalisieren dies über entsprechende Methoden _set«Module»(«Interface» ...)_.
@@ -616,81 +628,61 @@ Die Module werden im Quelltext hart verdrahtet, allerdings nur in Unit-Tests und
 
 Da die Java-Module reine POJOs (Plain old Java objects) sind, steht einer Konfiguration beispielsweise mit dem [Spring Framework](https://projects.spring.io/spring-framework/) oder CDI (Contexts and Dependency Injection for the Java EE Platform) nichts im Wege.
 
-#### Xboard
+### Xboard
 
-Zweck/Verantwortlichkeit
+#### Zweck/Verantwortlichkeit
 
 Dieses Subsystem realisiert die Kommunikation mit einem Client (z.B. einer grafischen Oberfläche) mit Hilfe des textbasierten([XBoard-Protokolls](#53-kommunikationskonzeptxboard-protokoll)).
 
-Ablageort / Datei
-Die Implementierung liegt unterhalb der Pakete   
-_de.dokchess.xboard..._
-Schnittstelle
+#### Schnittstelle
 Das Subsystem stellt seine Funktionalität über die Java-Klassen _de.dokchess.xboard.XBoard_ und _de.dokchess.xboard.Main_ bereit
 
-Offene Punkte
-Die Implementierung des Protokolls ist unvollständig.
-Sie reicht aber für die an DokChess gestellten Anforderungen aus.
-Insbesondere werden folgende Features nicht unterstützt:
+#### Ablageort / Datei
+Die Implementierung liegt unterhalb der Pakete   
+_de.dokchess.xboard..._
 
-* Zeitkontrolle
-* Permanent Brain (Denken, auch während die andere Seite denkt)
-* Remis-Angebote und Aufgabe der anderen Seite
-* Schach-Varianten (alternative Regeln, z.B. Schach960)
+### Spielregeln
 
-#### Spielregeln
+#### Zweck/Verantwortlichkeit
 
-Zweck/Verantwortlichkeit
 Dieses Subsystem beinhaltet die Spielregeln für Schach gemäß Internationalem Schachverband (FIDE). Es ermittelt zu einer Stellung alle gültigen Züge und entscheidet, ob ein Schach, ein Matt oder ein Patt vorliegt.
 
-Schnittstelle
+#### Schnittstelle
 Das Subsystem stellt seine Funktionalität über das Java-Interface _de.dokchess.regeln.Spielregeln_ bereit.
 
 Default-Implementierung der Schnittstelle ist die Klasse  
 _de.dokchess.regeln.DefaultSpielregeln_.
 
-Ablageort / Datei
+#### Ablageort / Datei
 Die Implementierung liegt unterhalb der Pakete _de.dokchess.regeln..._
 
-Offene Punkte
-Abgesehen vom Patt kann das Subsystem kein Remis erkennen. Insbesondere sind die folgenden Spielregeln bisher nicht implementiert ([→ Risiko 6.2 Aufwand der Implementierung zu hoch](#62-risiko-aufwand-der-implementierung-zu-hoch))
+### Engine
 
-* 50-Züge-Regel
-* Stellungswiederholung
+#### Zweck/Verantwortlichkeit
 
-#### Engine
+Dieses Subsystem beinhaltet die Ermittlung eines nächsten Zuges ausgehend von einer Spielsituation. Diese Situation wird von außen vorgegeben. Die Engine ist zustandsbehalten und spielt stets eine Partie zur gleichen Zeit. Die Default-Implementierung benötigt zum Arbeiten eine Implementierung der Spielregeln, die Eröffnungsbibliothek hingegen ist optional.
 
-Zweck/Verantwortlichkeit
-Dieses Subsystem beinhaltet die Ermittlung eines nächsten Zuges ausgehend von einer Spielsituation. Diese Situation wird von außen vorgegeben. Die Engine ist zustandsbehaftet und spielt stets eine Partie zur gleichen Zeit. Die Default-Implementierung benötigt zum Arbeiten eine Implementierung der Spielregeln, die Eröffnungsbibliothek hingegen ist optional.
-
-Schnittstellen
+#### Schnittstellen
 Das Subsystem stellt seine Funktionalität über das Java-Interface _de.dokchess.engine.Engine_ bereit. Default-Implementierung ist die Klasse _de.dokchess.engine.DefaultEngine_.
 
 [Zugberechnungskonzept](#54-zugberechnungskonzeptspielstrategiekonzept) beschreibt die in der Schnittstelle verwendeten Aufruf- und Rückgabeparameter (_Zug_, _Stellung_).
 
-Ablageort / Datei
+#### Ablageort / Datei
 Die Implementierung sowie Unit-Tests liegen unterhalb der Pakete _de.dokchess.engine..._
 
-#### Eröffnung
+### Eröffnung
 
-Zweck/Verantwortlichkeit
+#### Zweck/Verantwortlichkeit
+
 Dieses Subsystem stellt Eröffnungsbibliotheken bereit und implementiert das Polyglot Opening Book-Format.
 Bei diesem Format handelt es sich gegenwärtig um das einzig geläufige, das nicht proprietär ist.
 Entsprechende Buchdateien und zugehörige Werkzeuge sind im Internet frei verfügbar.
 
-Schnittstellen
+#### Schnittstellen
 Das Subsystem stellt seine Funktionalität über das Java-Interface _de.dokchess.eroeffnung.Eroeffnungsbibliothek_ bereit. Als Implementierung liegt die Klasse _de.dokchess.eroeffnung.polyglot.PolyglotOpeningBook_ vor.
 
-Ablageort / Datei
-Die Implementierung, Unit-Tests und Testdaten für das Polyglot Opening Book-Fomat liegen unterhalb der Pakete _de.dokchess.eroeffnung..._
-
-
-Offene Punkte
-
-**Das würde gut zu Ausblick und Pläne für die Zukunft passen, dass man diese offenen Punkte angeht. Oder zu Risiken, falls die fehlende Funktion ein Risiko darstellt.**
-
-* Die Möglichkeiten zur Auswahl eines Zuges aus der Eröffnungsbibliothek im Fall von mehreren Kandidaten sind beschränkt (der erste, der am häufigsten gespielte, per Zufall).
-* Die Implementierung kann nicht mit mehreren Bibliotheksdateien zur gleichen Zeit umgehen – sie also nicht mischen – um das Wissen zu vereinen.
+#### Ablageort / Datei
+Die Implementierung, Unit-Tests und Testdaten für das Polyglot Opening Book-Format liegen unterhalb der Pakete _de.dokchess.eroeffnung..._
 
 ### 4.6. Build-Prozess und -Struktur
 <!--
@@ -779,7 +771,7 @@ Wir benutzten als Überschrift den konkreten Namen des Lösungskonzepts, z.B. "M
 Es genügt, wenn wir Referenzen auf die Treiber einfügen (z.B. die Scenario-ID).
 -->
 * [Z01Fehlervermeidung](#326-ablehnung-eines-unzulässigen-zugs-durch-die-engine-z01fehlervermeidung) (Ablehnung eines unzulässigen Zugs durch die Engine)
-* [Z02Fehlertoleranz](#327-erkennung-unzulässiger-stellungen-z02fehlertoleranz) (Erkennung unzulässiger Stellungen)
+* [Z02Fehlertoleranz](#327-erkennung-unzulässiger-stellungen-z02fehlertoleranz) ( Erkennung unzulässiger Stellungen)
 * [Randbedingugnen](#13-randbedingungen-constraints) (Testwerkzeuge und -prozesse -> JUnit) 
 
 #### 5.1.2. Lösungsidee
@@ -791,16 +783,10 @@ Wir illustrieren die Idee mit Architektur-Sichten und entsprechendem Begleittext
 -->
 
 <!-- vom arc42Template übernommen -->
-**Komischer Einstiegssatz für ein Lösungskonzept. Kann einem Computer etwas peinlich sein?**
-
-Nichts ist peinlicher für eine Engine als ein unzulässiger Zug.
-
-Die Funktionalität der einzelnen Module von DokChess wird durch umfangreiche Unit-Tests sichergestellt 
-dadurch werden die Treiber
+Die Lösung von diesem Konzept wird dadurch umgesetzt, dass die Funktionalität der einzelnen Module von DokChess durch umfangreiche Unit-Tests sichergestellt wird. Dadurch werden die Treiber
 ([Z01Fehlervermeidung](#326-ablehnung-eines-unzulässigen-zugs-durch-die-engine-z01fehlervermeidung)), ([Z02Fehlertoleranz](#327-erkennung-unzulässiger-stellungen-z02fehlertoleranz)) umgesetzt.
 In der Quelltextstruktur ist neben dem Ordner src/main, wo die Java-Quelltexte der Module abgelegt sind, ein Ordner _src/test_ zu finden.
 Er enthält ein Spiegelbild der Paketstruktur, und in den entsprechenden Paketen Unit-Tests zu den Klassen, die mit [JUnit 4](https://junit.org/junit4/) realisiert sind.
-
 
 Reine Unit-Tests, die einzelne Klassen prüfen, heißen wie die Klasse selbst, nur hinten mit Test.
 Darüber hinaus gibt es Tests, die das Zusammenspiel von Modulen prüfen, und im Extremfall das ganze System. Mit Hilfe solcher Tests wird die korrekte Spielweise von DokChess überprüft, unter anderem mit Hilfe von Mattaufgaben.
@@ -839,7 +825,7 @@ Neben Tests auf korrekte Funktionalität wird auch überprüft, ob die gefordert
 - Welche alternative(n) Lösung(en) haben wir diskutiert und verworfen?
 - Warum wurden sie verworfen?
 -->
-Da die Anwendung von Junit die Anforderungen erfüllt, wurden keine Alternativen betrachtet. [Randbedingungen](#13-randbedingungen-constraints) (Testwerkzeuge und -prozesse). **Im ganzen Dokument darauf achten, dass Sätze mit . enden und es ein Leerzeichen vor sich öffnenden Klammern gibt**
+Da die Anwendung von Junit die Anforderungen erfüllt, wurden keine Alternativen betrachtet. [Randbedingungen](#13-randbedingungen-constraints) (Testwerkzeuge und -prozesse).
 
 ### 5.2. Logging, Protokollierung, Tracing
 <!--
@@ -847,8 +833,8 @@ Nach demselben Schema wie bei Konzept #1 beschreiben wir hier weitere Lösungsko
 -->
 #### 5.2.1. Architektur-Treiber
 
-* [W04Analysierbarkeit](#324-leichte-einbindung-einer-neuen-stellungsbewertung-w04erweitbarkeit)(Leichte Einbindung einer neuen Stellungsbewertung)
-* [W05Analysierbarkeit](#325-implementierung-der-bitboard-repräsentation-w05analysierbarkeit)(Implementierung der Bitboard-Repräsentation)
+* [W04Analysierbarkeit](#324-leichte-einbindung-einer-neuen-stellungsbewertung-w04erweitbarkeit) (Leichte Einbindung einer neuen Stellungsbewertung)
+* [W05Analysierbarkeit](#325-implementierung-der-bitboard-repräsentation-w05analysierbarkeit) (Implementierung der Bitboard-Repräsentation)
 
 #### 5.2.2. Lösungsidee
 <!-- vom arc42Template übernommen -->
@@ -875,14 +861,14 @@ Auf diese Weise wird eine Abhängigkeit zu einer Fremdbibliothek, die sich durch
 
 #### 5.3.1. Architektur-Treiber
 
-* [K01Interoperabilität](#329-frontendeinbindung-k01interoperabilität)(FrontEndeinbindung)
-* [P01Anpassbarkeit](#328-unterstützung-neuer-protokolle-p01anpassbarkeit)(Unterstützung neuer Protokolle)
-* [Randbedingungen](#13-randbedingungen-constraints)(Betrieb der Frontends zumindest auf Windows-Desktop-Betriebssystemen.Unterstützung frei verfügbarer Frontends)
+* [K01Interoperabilität](#329-frontendeinbindung-k01interoperabilität) (FrontEndeinbindung)
+* [P01Anpassbarkeit](#328-unterstützung-neuer-protokolle-p01anpassbarkeit) (Unterstützung neuer Protokolle)
+* [Randbedingungen](#13-randbedingungen-constraints) (Betrieb der Frontends zumindest auf Windows-Desktop-Betriebssystemen.Unterstützung frei verfügbarer Frontends)
 * Betroffene Risiken([Anbindung an das Frontend schlägt fehl](#61-risiko-anbindung-an-das-frontend-schlägt-fehl))
 
 #### 5.3.2. Lösungsidee
 
-Als zentrale Anforderung muss DokChess mit vorhandenen Schach-Frontends zusammenarbeiten. Wie erfolgt die Anbindung? **Frage an den Leser? Eher unüblich. Besser: Im Folgenden beschreiben wir die Anbindung.**
+Als zentrale Anforderung muss DokChess mit vorhandenen Schach-Frontends zusammenarbeiten. Im Folgenden beschreiben wir die Anbindung.
 
 Es sind eine ganze Reihe grafische Oberflächen speziell zum Spiel gegen Schach-Programme verfügbar. Darüber hinaus gibt es für Schachinteressierte Softwarelösungen mit größerem Leistungsumfang. Neben dem Spiel „Mensch gegen Maschine“ bieten sie weitere Funktionalität, etwa zur Analyse von Partien. Mit der Zeit werden neue Schach-Programme hinzukommen – und andere gegebenenfalls vom Markt verschwinden.
 
@@ -948,17 +934,20 @@ Die Entscheidung fiel Anfang 2011 zugunsten des XBoard-Protokolls. Indem wir uns
 * [F04Angemessenheit](#31-wesentliche-funktionale-anforderungen) (Matt in zwei Zügen)
 * [E01Bedienbarkeit](#31-wesentliche-funktionale-anforderungen) (Schnelles Antworten auf gegnerische Züge)
 * [E02Bedienbarkeit](#31-wesentliche-funktionale-anforderungen) (Schnelles Antworten gegen menschliche Spieler)
-* Betroffene Risiken ([Aufwand der Implementierung zu hoch](#62-risiko-aufwand-der-implementierung-zu-hoch),[Erreichen der Spielstärke scheitert](#63-risiko-erreichen-der-spielstärke-scheitert))
+* Betroffene Risiken ([Erreichen der Spielstärke scheitert](#63-risiko-erreichen-der-spielstärke-scheitert))
 
 #### 5.4.2. Lösungsidee
 <!-- vom arc42Template übernommen -->
+
+Eine wichtige Aufgabe von DokChess ist eine hohe Spielstärke zu erreichen, weiter unten wird es anhand einem Beispielzugermittlung beschrieben.
+
 Nach Aufbau des XBoard-Protokolls startet der Client (weiß) über die Angabe eines Zuges eine Partie.
 Das Sequenzdiagramm im Bild unten zeigt eine exemplarische Interaktion auf Subsystem-Ebene von der Eingabe "e2e4" (weißer Bauer e2-e4) bis zur Antwort von DokChess, also der Ausgabe "move b8c6" (schwarzer Springer b8-c6, [„Nimzowitsch-Verteidigung“](https://de.wikipedia.org/wiki/Nimzowitsch-Verteidigung)).
 
 ![Beispielhaftes Zusammenspiel für eine Zugermittlung](images/Abb09_16_ZugErmittlungWalkthrough.png)
 *Bild: Beispielhaftes Zusammenspiel für eine Zugermittlung Functions@Runtime*
 
-Zunächst validiert das XBoard-Protokoll-Subsystem die Eingabe unter Zuhilfenahme der Spielregeln. Eingaben, die über das XBoard-Protokoll eingehen, werden vom entsprechenden Subsystem geparst. Unbekannte oder nicht implementierte Kommandos meldet DokChess mit dem XBoard-Kommando "Error" an den Client zurück.
+Zunächst validiert das XBoard-Protokoll-Subsystem die Eingabe unter Zuhilfenahme der Spielregeln. Der Zug wird im Beispiel als zulässig erkannt und auf der (zustandsbehafteten) Engine ausgeführt (Nachricht "ziehen"). Anschließend fordert das XBoard-Protokoll-Subsystem die Engine auf, ihren Zug zu ermitteln. Da eine Zugberechnung sehr lange dauern kann, DokChess aber weiter auf Eingaben reagieren können soll, erfolgt der Aufruf asynchron. Die Engine meldet sich mit möglichen Zügen zurück.
 
 Zunächst prüft die Engine, ob die Eröffnungsbibliothek etwas hergibt.
 Im Beispiel ist das nicht der Fall.
@@ -978,12 +967,40 @@ Eine [Alpha­-Beta­-Suche](https://de.wikipedia.org/wiki/Alpha-Beta-Suche) illu
 
 
 #### 5.4.4. Verworfene Alternativen
-
-**Das hier ist doch keine verworfene Alternative, sondern die Diskussion, ob Stellungen veränderlich sein sollten oder nicht. Das hat nur indirekt etwas mit dem vorigen Konzept zu tun. Besser in eigenes Lösungskonzept "Verwendung unveränderlicher Datenstruktur zur Stellungsspeicherung" packen.**
 <!-- vom arc42Template übernommen -->
+
+Als Alternative wurde die nebenläufige Implementierung von [Minimax­-Algorithmus](https://de.wikipedia.org/wiki/Minimax-Algorithmus) untersucht. Da aber  die nicht nebenläufige Implementierungen unter den gegebenen Randbedingungen bereits die Qualitätsszenarien erfüllen, es wurde entschieden für eine einfache Implementierung. Damit konnten wir die Implementierungszeit sparren.
+
+### 5.5 Verwendung unveränderlicher Datenstruktur zur Stellungsspeicherung
+
+#### 5.5.1. Architektur-Treiber
+
+* [W04Analysierbarkeit](#324-leichte-einbindung-einer-neuen-stellungsbewertung-w04erweitbarkeit) (Leichte Einbindung einer neuen Stellungsbewertung)
+* [E01Bedienbarkeit](#31-wesentliche-funktionale-anforderungen) (Schnelles Antworten auf gegnerische Züge)
+* [E02Bedienbarkeit](#31-wesentliche-funktionale-anforderungen) (Schnelles Antworten gegen menschliche Spieler)
+* Betroffene Risiken ([Aufwand der Implementierung zu hoch](#62-risiko-aufwand-der-implementierung-zu-hoch))
+
+#### 5.5.2. Lösungsidee 
+
 Eine Stellung verändert sich im Verlauf einer Partie durch das Ausführen von Zügen. Darüber hinaus führt die Engine im Rahmen ihrer Analyse mögliche Züge aus, zieht Antworten des Gegners, bewertet das Resultat und verwirft Züge wieder. Dabei entsteht ein Baum, der je nach Tiefe viele tausend verschiedene Stellungen beinhaltet.
 
 Je nachdem, ob die Stellung als Datenstruktur unveränderlich ist oder nicht, sind Algorithmen einfacher oder schwieriger zu implementieren, und ihre Ausführung ist unterschiedlich effizient.
+
+Mit Verwendung der unveränderlichen Stellung (Unveränderlich ("immutable"), d.h. eine Methode zum Ausführen eines Zuges liefert die neue Stellung (Kopie der alten, anschließend Zug ausgeführt) als ebenfalls unveränderliches Objekt zurück.)
+
+<pre>Stellung s = new Stellung();
+Stellung neueStellung = s.fuehreZugAus(e2e4) // s bleibt unveraendert
+...
+</pre>
+
+wird die Stellung beim Ausführen eines Zuges kopiert, das Original  wird aber nicht verändert. Damit entfällt die Implementierung des Zurücknehmens von Zügen. Verwender können sich die alte Stellung als Wert merken. Das spart Aufwand in der Umsetzung.
+dadurch wird der Treiber [W04Analysierbarkeit](#324-leichte-einbindung-einer-neuen-stellungsbewertung-w04erweitbarkeit) umgesetzt. 
+
+#### 5.5.3. Design-Entscheidungen
+
+Aufgrund des Risikos, die Ziele bezüglich der Spielstärke in akzeptabler Rechenzeit (Attraktivität, Effizienz) nicht zu erreichen, wurden Prototypen beider Varianten(Veränderlich und Unveränderlich) implementiert und im Rahmen einer Mattsuche (Matt in 3 Zügen) mit Minimax-Algorithmus verglichen. Mit Option 2 dauerte die Suche 30% länger, vorausgesetzt, man implementiert das Kopieren effizient. Sie lag aber noch deutlich innerhalb des Geforderten([E01-02Bedienbarkeit](#31-wesentliche-funktionale-anforderungen)).
+
+#### 5.5.4. Verworfene Alternativen
 
 Für die Stellung betrachten wir zwei Alternativen:
 
@@ -996,12 +1013,7 @@ s.nimmLetztenZugZurueck();   // anschliessend wieder auf Anfang
 ...
 </pre>
 
-* **Option (2)**: Die Stellung ist unveränderlich ("immutable"), d.h. eine Methode zum Ausführen eines Zuges liefert die neue Stellung (Kopie der alten, anschließend Zug ausgeführt) als ebenfalls unveränderliches Objekt zurück.
-
-<pre>Stellung s = new Stellung();
-Stellung neueStellung = s.fuehreZugAus(e2e4) // s bleibt unveraendert
-...
-</pre>
+* **Option (2)**: Die Stellung ist unveränderlich ("immutable").
 
 Die folgende Tabelle fasst Stärken und Schwächen der beiden Optionen zusammen, sie werden im Folgenden weiter ausgeführt.
 
@@ -1034,8 +1046,7 @@ Option (2): Unveränderliche Stellung
 
 (+) Positiv
 
-Beim Ausführen eines Zuges wird die Stellung kopiert, das Original nicht verändert. Damit entfällt die Implementierung des Zurücknehmens von Zügen. Verwender können sich die alte Stellung als Wert merken. Das spart verglichen mit Option (1) Aufwand in der Umsetzung.
-Unveränderliche Objekte bieten signifikante Vorteile bei nebenläufigen Algorithmen. 
+Einfache Implementierung. Unveränderliche Objekte bieten signifikante Vorteile bei nebenläufigen Algorithmen ([E01-02Bedienbarkeit](#31-wesentliche-funktionale-anforderungen)). 
 
 (-) Negativ
 
@@ -1048,13 +1059,6 @@ Beide Punkte wirken sich negativ auf die Effizienz aus.
 Entscheidung
 
 Die Entscheidung fiel Anfang 2011 auf die unveränderliche Stellung (Option 2) aufgrund der Vorteile bezüglich einfacher Implementierung und Aussicht auf die leichtere Ausnutzung von Nebenläufigkeit. Die Nachteile der Option 2 beziehen sich ausschließlich auf Effizienz.
-
-Aufgrund des Risikos, die Ziele bezüglich der Spielstärke in akzeptabler Rechenzeit (Attraktivität, Effizienz) nicht zu erreichen, wurden Prototypen beider Varianten implementiert und im Rahmen einer Mattsuche (Matt in 3 Zügen) mit Minimax-Algorithmus verglichen. Mit Option 2 dauerte die Suche 30% länger, vorausgesetzt, man implementiert das Kopieren effizient. Sie lag aber noch deutlich innerhalb des Geforderten([E01-02Bedienbarkeit](#31-wesentliche-funktionale-anforderungen)). 
-
-Es gab weitere Optimierungsoptionen, die den Effizienznachteil gegenüber Option (1) bei Bedarf weiter verkürzt hätten. Sie wurden nicht umgesetzt, um die Implementierung einfach zu halten.
-
-Zu diesen Optionen zählte die Ausnutzung mehrerer Prozessoren/Kerne durch Nebenläufigkeit, mittlerweile (mit DokChess 2.0) mit einem parallelen Minimax exemplarisch umgesetzt.
-
 
 ## 6. Risiken und technische Schulden
 
@@ -1080,11 +1084,11 @@ Da wir DokChess in Java entwickeln, taugen sie nur bedingt zur Inspiration.
 Falls es uns nicht gelingt, eine funktionierende Anbindung zu realisieren, können wir die Lösung nicht mit bestehenden Frontends verwenden.
 Damit fehlt nicht nur ein wichtiges Feature ([vgl. Aufgabenstellung](#11-aufgabenstellung)), sondern die Lösung ist als Ganzes, insbesondere auch als Fallbeispiel, unglaubwürdig.
 
-Eventualfallplanung
+#### Eventualfallplanung
 Wir könnten ein einfaches textuelles User-Interface realisieren, um mit der Engine zu interagieren.
 Aufwändiger wäre die Implementierung eines eigenen grafischen Frontends.
 
-Risikominderung
+#### Risikominderung
 Durch einen Proof of concept erreichen wir hier frühestmöglich Sicherheit.
 
 ### 6.2 Risiko: Aufwand der Implementierung zu hoch
@@ -1100,12 +1104,12 @@ Für die Anbindung von Eröffnungsbibliotheken und Endspieldatenbanken ist eine 
 Die Implementierung von DokChess verläuft nebenher in der freien Zeit. 
 Es ist unklar, ob die Zeit reicht, um innerhalb des Zeitplans ([Organisatorische Randbedingungen](#13-randbedingungen-constraints)) vorzeigbare Ergebnisse zu präsentieren.
 
-Eventualfallplanung
+#### Eventualfallplanung
 
 Falls zu den Vorträgen in März und Mai 2011 keine lauffähige Fassung vorliegt, könnte eine Live-Demonstration entfallen. 
 Den kostenlosen Abendvortrag beim Schulungsunternehmen im März könnten wir sogar komplett absagen (Schaden: Imageverlust).
 
-Risikominderung
+#### Risikominderung
 
 Wir reduzieren den Aufwand dadurch, dass wir folgende Spielregeln zunächst nicht implementieren:
 
@@ -1126,11 +1130,11 @@ Insbesondere bei Live-Vorführungen in Vorträgen wäre das unschön, da die Zuh
 
 Unklar ist, ab wann eine Spielstärke als unangemessen schwach angesehen würde.
 
-Eventualfallplanung
+#### Eventualfallplanung
 In Vorträgen könnten wir auf Teile der Live-Demonstration verzichten.
 Gegebenenfalls zeigen wir im Vorfeld gespielte Partien. 
 
-Risikominderung
+#### Risikominderung
 Mit Hilfe geeigneter [Szenarien](#32-qualitätsattribute) konkretisieren wir die Qualitätsziele.
 Im Anschluss entwickeln wir mit Hilfe von Schachliteratur (konkret Schachaufgaben) Testfälle (Unit- und Integrationstests), die präzisieren, welche Spielstärke wir erwarten.
 So können wir zumindest früh ermitteln, wo die Engine steht.
@@ -1140,20 +1144,31 @@ So können wir zumindest früh ermitteln, wo die Engine steht.
 - Welche Verbesserungsmöglichkeiten gibt es?
 - Welche Weiterentwicklungen sind geplant?
 -->
+Im DokChess sind folgende Verbesserungen möglich:
+
 Im Modul Zugsuche gibt es viel Spielraum für Verbesserungen,der bewusst nicht ausgeschöpft wurde, da DokChess ja zum Experimentieren einladen soll. 
 
 Im Modul Infrastruktur Windows erlauben einige Frontends unter Windows lediglich das Einbinden einer *.exe-Datei als Engine. In diesem Fall müsste DokChess geeignet gewrappt werden.
 
-Im Modul Spielregeln sind die folgenden Spielregeln bisher nicht implementiert:
+Im Modul __Spielregeln__ sind die folgenden Spielregeln bisher nicht implementiert:
+
 * 50-Züge-Regel
 * Stellungswiederholung
 
-Im Modul XBoard-Protokoll werden folgende Features nicht unterstützt:
+Im Modul __XBoard-Protokoll__ werden folgende Features nicht unterstützt:
 
 * Zeitkontrolle
 * Permanent Brain (Denken, auch während die andere Seite denkt)
 * Remis-Angebote und Aufgabe der anderen Seite
 * Schach-Varianten (alternative Regeln, z.B. Schach960)
+
+
+Im Modul __Eröffnung__ werden folgende Features nicht unterstützt:
+
+* Die Möglichkeiten zur Auswahl eines Zuges aus der Eröffnungsbibliothek im Fall von mehreren Kandidaten sind beschränkt (der erste, der am häufigsten gespielte, per Zufall).
+* Die Implementierung kann nicht mit mehreren Bibliotheksdateien zur gleichen Zeit umgehen – sie also nicht mischen – um das Wissen zu vereinen.
+
+
 
 Weiterentwicklungen sind nicht geplannt.
 
@@ -1192,10 +1207,9 @@ _CQRS_: Command-Query-Responsibility-Segregation ist ein Vorgehensmuster, welche
 
 ### 8.2 Begriffe
 
-**Hier Bitboard definieren**
-
 | Begriff               | Erklärung                                                                                                                                                                                                                 |
 | --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|Ein Bitboard (Bitmap Board) | Ein Bitboard ist eine Datenstruktur zur Darstellung einer Spielsituation (Stellung), die häufig Verwendung in Computerprogrammen für Brettspiele findet, insbesondere bei Schachprogrammen.|
 | 50-Züge-Regel         | Regel im Schach, die besagt, dass ein Spieler ein _Remis_ reklamieren kann, wenn 50 Züge lang kein Bauer bewegt und keine Figur geschlagen wurde.                                                                         |
 | Alpha-Beta-Suche      | Deutliche Verbesserung des _Minimax-Algorithmus_, in dem Teile des Suchbaumes "weggeschnitten" werden können, ohne dabei zu einem anderen Ergebnis zu kommen.                                                             |
 | Einstellen            | Anfängerfehler im Schach. Eine eigene Figur wird eingestellt, wenn sie auf ein vom Gegner angegriffenes Feld gezogen wird und von diesem gefahrlos geschlagen werden kann.                                                |
