@@ -660,8 +660,10 @@ Die Implementierung, Unit-Tests und Testdaten für das Polyglot Opening Book-For
 - Wie werden die Deployment-Artefakte erstellt?
 - Welche Stages gibt es? Was passiert in den einzelnen Stages?
 -->
+
+<!-- von DB und JS ergänzt -->
 Der Quellcode liegt unter <https://github.com/DokChess/dokchess>.
-Um die Deployment-JAR-Datei zu erstellen, kann der Gradle-Build-Befehl verwendet werden.
+Um die Deployment-JAR-Datei zu erstellen, kann der Gradle-Build-Befehl verwendet werden. Dabei wird ein *DokChess.jar* erzeugt, was den kompilierten Java-Quelltext sämtlicher Module und alle nötigen Abhängigkeiten („Über-jar“) enthält.
 
 ### 4.6. Deployment und Betrieb
 <!--
