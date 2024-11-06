@@ -2,7 +2,7 @@
 <!-- markdownlint-disable MD024 MD033 MD036 MD055 -->
 
 <!--
-Dies ist die **Version 1.1.1** der ADF-Dokumentationsvorlage. Sie wurde von Dominik Rost und Johannes Schneider erstellt. Die Vorlage wird unter der Lizenz "[Creative Commons: Namensnennung - Weitergabe unter gleichen Bedingungen 4.0 International](https://creativecommons.org/licenses/by-sa/4.0/deed.de)" zur Verfügung gestellt.
+Dies ist die **Version 2.0** der ADF-Dokumentationsvorlage. Sie wurde von Dominik Rost und Johannes Schneider erstellt. Die Vorlage wird unter der Lizenz "[Creative Commons: Namensnennung - Weitergabe unter gleichen Bedingungen 4.0 International](https://creativecommons.org/licenses/by-sa/4.0/deed.de)" zur Verfügung gestellt.
 
 In jedem Abschnitt dieser Vorlage stehen Hinweise, was man dort üblicherweise beschreibt. Diese Hinweise entfernen wir, nachdem wir die Abschnitte ausgefüllt haben - oder wir kommentieren sie mittels HTML-Kommentaren `<!--` (Kommentar-Anfang) und  (Kommentar-Ende) aus. 
 
@@ -10,7 +10,7 @@ Das hier ist ein Beispiel-Kommentar, der in der Vorschau / auf dem Git-Server ni
 
 Dieses Dokument ist in [Markdown](https://de.wikipedia.org/wiki/Markdown) geschrieben, so dass wir es ganz einfach mit Texteditoren oder Entwicklungsumgebungen bearbeiten und in eine Versionskontrolle (z.B. Git) einpflegen können. Wenn wir ein Textverarbeitungsprogramm bevorzugen, können wir die HTML-Ansicht unter Beibehaltung der Überschriftebenen per Copy&Paste dorthin importieren.
 
-Architekturdokumentation verwendet viele **Diagramme und Abbildungen**. Diese kann man in Markdown als Bilder einbinden. Viele Informationen zum Sichtendframeword ADF und zur technischen Umsetzung mit dieser Vorlage (Einbindung über Diagrams.net mit passenden ADF-Elementen) findet man auf der [Übersichtsseite zum Architecture Decomposition Framework](https://github.com/architecture-decomposition-framework/welcome-to-adf). Dort gibt es auch eine Anleitung zum [Architektur-Design mit dem ADF (auf Englisch)](https://github.com/architecture-decomposition-framework/welcome-to-adf/blob/main/adf-design/Design.md), der in den ADF-Architekturentwurfsprozess einführt und erfahrenen und weniger erfahrenen Softwarearchitekt:innen beim **Architektur-Design** helfen kann.
+Architekturdokumentation verwendet viele **Diagramme und Abbildungen**. Diese können wir in Markdown als Bilder einbinden. Viele Informationen zum Sichtenframework ADF und zur technischen Umsetzung mit dieser Vorlage (Einbindung über Diagrams.net mit passenden ADF-Elementen) finden wir auf der [Übersichtsseite zum Architecture Decomposition Framework](https://github.com/architecture-decomposition-framework/welcome-to-adf). Dort gibt es auch eine Anleitung zum [Architektur-Design mit dem ADF (auf Englisch)](https://github.com/architecture-decomposition-framework/welcome-to-adf/blob/main/adf-design/Design.md), der in den ADF-Architekturentwurfsprozess einführt und erfahrenen und weniger erfahrenen Softwarearchitekt:innen beim **Architektur-Design** helfen kann.
 
 Zum **Umfang der Dokumentation**: Es gibt kein "one size fits it all" für Architekturdokumentationen. Deshalb können wir weitere Abschnitte hinzufügen, die uns fehlen, oder Abschnitte löschen, die für unser System nicht relevant sind. Auch eine andere Reihenfolge der Abschnitte ist möglich. Aus praktischen Aspekten ist es jedoch ratsam, die grundlegende Struktur der Architekturdokumentation einheitlich zu wählen, da man sich dann bei neuen Projekten, welche auch dieses Template benutzen, direkt zurechtfindet. Wir kennen dieses Prinzip einer einheitlichen Gliederung von Beipackzetteln bei Medikamenten oder von Spielanleitungen bei Gesellschaftsspielen.
 
@@ -33,10 +33,10 @@ Durch eine Versionierung der Dokumentation (z.B. in einem Git-Repository) machen
 - [1. Einleitung](#1-einleitung)
   - [1.1. Geschäftskontext](#11-geschäftskontext)
   - [1.2. Systemübersicht](#12-systemübersicht)
-  - [1.3. Randbedingungen (Constraints)](#13-randbedingungen-constraints)
-    - [Technische Randbedingungen](#technische-randbedingungen)
-    - [Organisatorische Randbedingungen](#organisatorische-randbedingungen)
-  - [1.4. Stakeholder](#14-stakeholder)
+  - [1.3. Stakeholder](#13-stakeholder)
+  - [1.4. Randbedingungen (Constraints)](#14-randbedingungen-constraints)
+    - [1.4.1. Technische Randbedingungen](#141-technische-randbedingungen)
+    - [1.4.2. Organisatorische Randbedingungen](#142-organisatorische-randbedingungen)
   - [1.5. Ziele des Dokuments](#15-ziele-des-dokuments)
 - [2. Systemkontext und Domäne](#2-systemkontext-und-domäne)
   - [2.1. System-Kontext-Abgrenzung](#21-system-kontext-abgrenzung)
@@ -54,17 +54,16 @@ Durch eine Versionierung der Dokumentation (z.B. in einem Git-Repository) machen
     - [3.2.8. FrontEndeinbindung (K01Interoperabilität)](#328-frontendeinbindung-k01interoperabilität)
 - [4. Systemdekomposition](#4-systemdekomposition)
   - [4.1. Lösungsansatz und zentrale Architekturentscheidungen](#41-lösungsansatz-und-zentrale-architekturentscheidungen)
-  - [4.2. Systemdomänen](#42-systemdomänen)
-  - [4.3. Systemstruktur](#43-systemstruktur)
-  - [4.4. Datenmodell](#44-datenmodell)
-  - [4.5. Code-Organisation (Abbildung Laufzeit auf Entwicklungszeit)](#45-code-organisation-abbildung-laufzeit-auf-entwicklungszeit)
-  - [Xboard](#xboard)
-  - [Spielregeln](#spielregeln)
-  - [Engine](#engine)
-  - [Eröffnung](#eröffnung)
-  - [4.6. Build-Prozess und -Struktur](#46-build-prozess-und--struktur)
-  - [4.7. Deployment und Betrieb](#47-deployment-und-betrieb)
-  - [4.8. Technologien](#48-technologien)
+  - [4.2. Systemstruktur](#42-systemstruktur)
+  - [4.3. Datenmodell](#43-datenmodell)
+  - [4.4. Code-Organisation (Abbildung Laufzeit auf Entwicklungszeit)](#44-code-organisation-abbildung-laufzeit-auf-entwicklungszeit)
+    - [4.4.1. Xboard](#441-xboard)
+    - [4.4.2. Spielregeln](#442-spielregeln)
+    - [4.4.3. Engine](#443-engine)
+    - [4.4.4. Eröffnung](#444-eröffnung)
+  - [4.5. Build-Prozess und -Struktur](#45-build-prozess-und--struktur)
+  - [4.6. Deployment und Betrieb](#46-deployment-und-betrieb)
+  - [4.7. Technologien](#47-technologien)
 - [5. Architekturkonzepte](#5-architekturkonzepte)
   - [5.1. Testbarkeit](#51-testbarkeit)
     - [5.1.1. Architektur-Treiber](#511-architektur-treiber)
@@ -86,15 +85,15 @@ Durch eine Versionierung der Dokumentation (z.B. in einem Git-Repository) machen
     - [5.4.2. Lösungsidee](#542-lösungsidee)
     - [5.4.3. Design-Entscheidungen](#543-design-entscheidungen)
     - [5.4.4. Verworfene Alternativen](#544-verworfene-alternativen)
-  - [5.5 Verwendung unveränderlicher Datenstruktur zur Stellungsspeicherung](#55-verwendung-unveränderlicher-datenstruktur-zur-stellungsspeicherung)
+  - [5.5. Verwendung unveränderlicher Datenstruktur zur Stellungsspeicherung](#55-verwendung-unveränderlicher-datenstruktur-zur-stellungsspeicherung)
     - [5.5.1. Architektur-Treiber](#551-architektur-treiber)
     - [5.5.2. Lösungsidee](#552-lösungsidee)
     - [5.5.3. Design-Entscheidungen](#553-design-entscheidungen)
     - [5.5.4. Verworfene Alternativen](#554-verworfene-alternativen)
 - [6. Risiken und technische Schulden](#6-risiken-und-technische-schulden)
-  - [6.1 Risiko: Anbindung an das Frontend schlägt fehl](#61-risiko-anbindung-an-das-frontend-schlägt-fehl)
-  - [6.2 Risiko: Aufwand der Implementierung zu hoch](#62-risiko-aufwand-der-implementierung-zu-hoch)
-  - [6.3 Risiko: Erreichen der Spielstärke scheitert](#63-risiko-erreichen-der-spielstärke-scheitert)
+  - [6.1. Risiko: Anbindung an das Frontend schlägt fehl](#61-risiko-anbindung-an-das-frontend-schlägt-fehl)
+  - [6.2. Risiko: Aufwand der Implementierung zu hoch](#62-risiko-aufwand-der-implementierung-zu-hoch)
+  - [6.3. Risiko: Erreichen der Spielstärke scheitert](#63-risiko-erreichen-der-spielstärke-scheitert)
 - [7. Ausblick und Pläne für die Zukunft](#7-ausblick-und-pläne-für-die-zukunft)
 - [8. Glossar](#8-glossar)
   - [8.1 Das Schachspiel](#81-das-schachspiel)
@@ -109,9 +108,9 @@ Er zeigt die Struktur der Lösung und das Zusammenspiel zentraler Elemente.
 Die Gliederung der Inhalte erfolgt nach der ADF-Vorlage.
 
 ### 1.1. Geschäftskontext
-<!--Jedes System ist in einen geschäftlichen Kontext eingebettet. Es ist wichtig diesen Kontext zu kennen, um ein vollständiges Bild über das System zu erhalten und Entscheidungen verstehen zu können.
+<!--Jedes System ist in einen geschäftlichen Kontext eingebettet. Es ist wichtig, dass wir diesen Kontext kennen, um ein vollständiges Bild über das System zu erhalten und Entscheidungen verstehen zu können.
 
-Im Text dieses Abschnittes sollten die folgenden Frage beantwortet werden:
+Im Text dieses Abschnittes sollten wir die folgenden Frage beantworten:
 
 - Was sind Motivation und Kerntreiber für die Entwicklung des Systems?
 - Was sind besondere Herausforderungen?
@@ -146,48 +145,7 @@ Wesentliche Features:
 - Beherrscht zentrale taktische Ideen, beispielsweise Gabel und Spieß
 - Integration mit modernen grafischen Schach-Frontends
 
-### 1.3. Randbedingungen (Constraints)
-<!--- Was sind wichtige Randbedingungen und Vorgaben, die nicht verändert, aber bei der Entwicklung berücksichtigt werden müssen? Zum Beispiel:
-  - Randbedingungen aus der Domäne ("Um als Medizinprodukt zu gelten, muss das System X, Y, Z erfüllen")
-  - Organisatorische Randbedingungen wie Prozesse, Teamstruktur/-größe, Sicherheitsrichtlinien, Open- oder Closed-Source-Strategien
-  - Technische Randbedingungen ("Das System muss die vorhandene Oracle-Datenbank benutzen")
-  - Rechtliche Randbedingungen ("Das System muss DSGVO-konform sein")
-  - Kosten und Zeit ("Das System muss bis zum 2.2.2022 mit einem Budget von 222.222 € durchgeführt werden")
-- Welche Auswirkungen auf Entwicklung, Qualitätssicherung und Betrieb kann man aus den Randbedingungen direkt ableiten?
-- Gelten die Einschränkungen für das System, eine Produktfamilie, oder die ganze Firma?
-
-Hinweis: Wir sollten die Randbedingungen immer wieder hinterfragen, denn
-
-- sie sind oft nicht so fest, wie sie scheinen,
-- sie schränken den Lösungsraum ein und
-- sie können veraltet sein, wenn das Projekt schließlich beginnt.-->
-  
-<!-- EDIT: inhaltlich vom arc42Template übernommen, teilweise umsortiert (s. Kommentar weiter unten) -->
-
-Beim Lösungsentwurf waren zu Beginn verschiedene Randbedingungen zu beachten, sie wirken in der Lösung fort. Dieser Abschnitt stellt sie dar und erklärt auch – wo nötig – deren Motivation.
-
-#### Technische Randbedingungen
-
-| Randbedingung                                | Erläuterungen, Hintergrund                                                                                                                                                                                                                                                                                                                                  |
-| -------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Moderate Hardwareausstattung                 | Betrieb der Lösung auf einem marktüblichen Standard-Notebook, um sie im Rahmen von Seminaren und Konferenzen auf einem solchen zeigen zu können.                                                                                                                                                                                                            |
-| Betrieb auf Windows Desktop Betriebssystemen | Standardausstattung von Notebooks bei Mitarbeitern des Schulungsunternehmens zum Zeitpunkt der Konzeption. Hohe Verbreitung dieser Betriebssysteme bei potenziell Interessierten (Zuhörer bei Vorträgen, Teilnehmer bei Seminaren). Unterstützung anderer Betriebssysteme (allen voran Linux und Mac OS X) wünschenswert, aber nicht zwingend erforderlich. |
-| Implementierung in Java                      | Einsatz als Beispiel in Java-lastigen Seminaren und auf Java-Konferenzen.  Entwicklung unter Version Java SE 6 (DokChess 1.0), später Java SE 7 und Java SE 11. Die Engine soll auch auf neueren Java-Versionen, sobald verfügbar, laufen.                                                                                                                  |
-| Fremdsoftware frei verfügbar                 | Falls zur Lösung Fremdsoftware hinzugezogen wird (z.B. grafisches Frontend), sollte diese idealerweise frei verfügbar und kostenlos sein. Die Schwelle der Verwendung wird auf diese Weise niedrig gehalten.|
-| Entwicklungswerkzeuge <!-- EDIT: Dieser und die nächsten beiden Punkte von organisatorische RB hierher verschoben -->                 | Entwurf mit Stift und Papier, ergänzend Enterprise Architect. Arbeitsergebnisse zur Architekturdokumentation gesammelt im Confluence Wiki. Erstellung der Java-Quelltexte in Eclipse oder IntelliJ. Die Software muss jedoch auch, allein mit Gradle, also ohne IDE baubar sein.        |
-| Konfigurations- und Versionsverwaltung | Zu Beginn (Version 1.0) Subversion bei SourceForge, später Git bei GitHub                                                                                                                                                                                                               |
-| Testwerkzeuge und -prozesse            | JUnit im Annotationsstil sowohl für inhaltliche Richtigkeit als auch für Integrationstests und die Einhaltung von Effizienzvorgaben             |
-
-#### Organisatorische Randbedingungen
-
-| Randbedingung                          | Erläuterungen, Hintergrund                                                                                                                                                                                                                                                              |
-| -------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Team                                   | Stefan Zörner, unterstützt durch Kollegen, Bekannte und Interessierte aus Workshops und Seminaren                                                                                                                                                                                       |
-| Zeitplan                               | Beginn der Entwicklung Dezember 2010, erster lauffähiger Prototyp März 2011 (Abendvortrag beim Schulungsunternehmenin Hamburg), vorzeigbare Version Mai 2011 (Vortrag JAX-Konferenz in Mainz). Fertigstellung Version 1.0: Februar 2012 (Abgabe des Buchmanuskripts für die 1. Auflage) |
-| Vorgehensmodell                        | Entwicklung risikogetrieben, iterativ und inkrementell. Zur Dokumentation der Architektur kommt ADF zum Einsatz. Eine Architekturdokumentation gegliedert nach dieser Vorlage ist zentrales Projektergebnis.
-| Veröffentlichung als Open Source       | Die Quelltexte der Lösung oder zumindest Teile werden als Open Source verfügbar gemacht. Lizenz: GNU General Public License version 3.0 (GPLv3). Gehostet bei GitHub: <https://github.com/DokChess/>                                                                                      |
-
-### 1.4. Stakeholder
+### 1.3. Stakeholder
 
 <!--Ein Stakeholder ist eine Person oder Organisation, die (direkt oder indirekt) Einfluss auf die Anforderungen eines Systems hat oder die von dem System betroffen ist.
 
@@ -208,6 +166,47 @@ Die folgende Tabelle stellt die Stakeholder von DokChess und ihre jeweilige Inte
 | Entwicklerinnen und Entwickler          | <ul> <li>nehmen auch Architekturaufgaben im Team wahr <li>bekommen beim Studium von DokChess Lust, selbst eine Schach-Engine zu implementieren <li>sind neugierig auf konkrete Anregungen, wie man das macht</ul>                                                                                                 |
 | Stefan Zörner                           | <ul><li>benötigt attraktive Beispiele für sein Buch <li> will DokChess in Workshops und Vorträgen zu Softwareentwurf und -architektur als Anschauungsmaterial verwenden                                                                                                                                           |
 | oose Innovative Informatik              | <ul><li>Schulungsunternehmen, Arbeitgeber von Stefan Zörner zum Zeitpunkt der Konzeption von DokChess<li>bietet Seminare, Workshops und Coaching zu Themen rund um Softwareentwicklung an</ul>                                                                                                                    |
+
+### 1.4. Randbedingungen (Constraints)
+<!--- Was sind wichtige Randbedingungen und Vorgaben, die nicht verändert, aber bei der Entwicklung berücksichtigt werden müssen? Zum Beispiel:
+  - Randbedingungen aus der Domäne ("Um als Medizinprodukt zu gelten, muss das System X, Y, Z erfüllen")
+  - Organisatorische Randbedingungen wie Prozesse, Teamstruktur/-größe, Sicherheitsrichtlinien, Open- oder Closed-Source-Strategien
+  - Technische Randbedingungen ("Das System muss die vorhandene Oracle-Datenbank benutzen")
+  - Rechtliche Randbedingungen ("Das System muss DSGVO-konform sein")
+  - Kosten und Zeit ("Das System muss bis zum 2.2.2022 mit einem Budget von 222.222 € durchgeführt werden")
+- Welche Auswirkungen auf Entwicklung, Qualitätssicherung und Betrieb kann man aus den Randbedingungen direkt ableiten?
+- Gelten die Einschränkungen für das System, eine Produktfamilie, oder die ganze Firma?
+
+Hinweis: Wir sollten die Randbedingungen immer wieder hinterfragen, denn
+
+- sie sind oft nicht so fest, wie sie scheinen,
+- sie schränken den Lösungsraum ein und
+- sie können veraltet sein, wenn das Projekt schließlich beginnt.-->
+  
+<!-- EDIT: inhaltlich vom arc42Template übernommen, teilweise umsortiert (s. Kommentar weiter unten) -->
+
+Beim Lösungsentwurf waren zu Beginn verschiedene Randbedingungen zu beachten, sie wirken in der Lösung fort. Dieser Abschnitt stellt sie dar und erklärt auch – wo nötig – deren Motivation.
+
+#### 1.4.1. Technische Randbedingungen
+
+| Randbedingung                                | Erläuterungen, Hintergrund                                                                                                                                                                                                                                                                                                                                  |
+| -------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Moderate Hardwareausstattung                 | Betrieb der Lösung auf einem marktüblichen Standard-Notebook, um sie im Rahmen von Seminaren und Konferenzen auf einem solchen zeigen zu können.                                                                                                                                                                                                            |
+| Betrieb auf Windows Desktop Betriebssystemen | Standardausstattung von Notebooks bei Mitarbeitern des Schulungsunternehmens zum Zeitpunkt der Konzeption. Hohe Verbreitung dieser Betriebssysteme bei potenziell Interessierten (Zuhörer bei Vorträgen, Teilnehmer bei Seminaren). Unterstützung anderer Betriebssysteme (allen voran Linux und Mac OS X) wünschenswert, aber nicht zwingend erforderlich. |
+| Implementierung in Java                      | Einsatz als Beispiel in Java-lastigen Seminaren und auf Java-Konferenzen.  Entwicklung unter Version Java SE 6 (DokChess 1.0), später Java SE 7 und Java SE 11. Die Engine soll auch auf neueren Java-Versionen, sobald verfügbar, laufen.                                                                                                                  |
+| Fremdsoftware frei verfügbar                 | Falls zur Lösung Fremdsoftware hinzugezogen wird (z.B. grafisches Frontend), sollte diese idealerweise frei verfügbar und kostenlos sein. Die Schwelle der Verwendung wird auf diese Weise niedrig gehalten.|
+| Entwicklungswerkzeuge <!-- EDIT: Dieser und die nächsten beiden Punkte von organisatorische RB hierher verschoben -->                 | Entwurf mit Stift und Papier, ergänzend Enterprise Architect. Arbeitsergebnisse zur Architekturdokumentation gesammelt im Confluence Wiki. Erstellung der Java-Quelltexte in Eclipse oder IntelliJ. Die Software muss jedoch auch, allein mit Gradle, also ohne IDE baubar sein.        |
+| Konfigurations- und Versionsverwaltung | Zu Beginn (Version 1.0) Subversion bei SourceForge, später Git bei GitHub                                                                                                                                                                                                               |
+| Testwerkzeuge und -prozesse            | JUnit im Annotationsstil sowohl für inhaltliche Richtigkeit als auch für Integrationstests und die Einhaltung von Effizienzvorgaben             |
+
+#### 1.4.2. Organisatorische Randbedingungen
+
+| Randbedingung                          | Erläuterungen, Hintergrund                                                                                                                                                                                                                                                              |
+| -------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Team                                   | Stefan Zörner, unterstützt durch Kollegen, Bekannte und Interessierte aus Workshops und Seminaren                                                                                                                                                                                       |
+| Zeitplan                               | Beginn der Entwicklung Dezember 2010, erster lauffähiger Prototyp März 2011 (Abendvortrag beim Schulungsunternehmenin Hamburg), vorzeigbare Version Mai 2011 (Vortrag JAX-Konferenz in Mainz). Fertigstellung Version 1.0: Februar 2012 (Abgabe des Buchmanuskripts für die 1. Auflage) |
+| Vorgehensmodell                        | Entwicklung risikogetrieben, iterativ und inkrementell. Zur Dokumentation der Architektur kommt ADF zum Einsatz. Eine Architekturdokumentation gegliedert nach dieser Vorlage ist zentrales Projektergebnis.
+| Veröffentlichung als Open Source       | Die Quelltexte der Lösung oder zumindest Teile werden als Open Source verfügbar gemacht. Lizenz: GNU General Public License version 3.0 (GPLv3). Gehostet bei GitHub: <https://github.com/DokChess/>                                                                                      |
 
 ### 1.5. Ziele des Dokuments
 <!--
@@ -273,31 +272,29 @@ Diese beinhalten für jede mögliche Stellung mit dieser Figurenkonstellation di
 
 ### 2.2. Domänenmodell
 <!--
-- Welche Entitäten (Kernelemente aus der geschäftlichen Domäne) gibt es, die im System eine Bedeutung haben und davon verarbeitet werden müssen?
-- Wie ist die jeweilige Bedeutung der unterschiedlichen Entitäten?
+Hinweis: Die Dokumentationsvorlage ist allgemein gehalten und geht nicht davon aus, dass man die Systemarchitektur anhand der Domänen partitioniert (wie z.B. bei Domain-Driven-Design üblich). Dennoch ist es sinnvoll, dass wir in diesem Kapitel verschiedene Geschäftsbereiche aufführen, welche vom System betroffen sind (und dies mit Kapitel [1.3. Stakeholder](#13-stakeholder) abzugleichen).
+
+- Welche unterschiedlichen Domänen/Geschäftsbereiche werden im System behandelt?
+- Welche Entitäten, also Kernelemente aus den geschäftlichen Domäne, gibt es, die im System eine Bedeutung haben und davon verarbeitet werden müssen?
 - Wie hängen die Entitäten miteinander zusammen?
-- (Lassen sich Unterdomänen bilden, in denen die Entitäten jeweils eine unterschiedliche Bedeutung haben?)
+- Haben gewisse Entitäten in unterschiedlichen Domänen jeweils eine unterschiedliche Bedeutung?
+
+Beispielsweise könnte ein E-Commerce-System die Geschäftsbereiche Beschaffung, Bestellung, Bezahlung abdecken, mit den Entitäten Beschaffer und Artikel im Bereich Beschaffung sowie Besteller und Artikel im Bereich Bestellung. Die Entität Artikel beschreibt prinzipiell dasselbe, hat aber in den Bereichen Beschaffung und Bestellung vielleicht unterschiedliche Eigenschaften (z.B. Einkaufspreis versus Verkaufspreis).
 -->
 
 <!-- EDIT: von der ursprünglichen arc42-Doku übernommen -->
 
-Dieses Unterkapitel beschreibt das Domänenmodell von DokChess. Welche Entitäten gibt es und wie sie miteinander zusammenhängen.
+DokChess lässt sich grob in folgende Domänen gliedern:
 
-![Eine Figur hat eine Farbe und eine Art](images/Abb09_18_Figur.png "Eine Figur hat eine Farbe \(z.B. weiß\) und eine Art \(z.B. Bauer\)")
+- Zug
+- Stellung
+- Spielregeln
 
-*Bild: Eine Figur hat eine Farbe (z.B. weiß) und eine Art (z.B. Bauer)*
-
-![Ein Zug geht von einem Feld zu einem Feld](images/Abb09_19_Zug.png "Ein Zug geht von einem Feld zu einem Feld")
-
-*Bild: Ein Zug geht von einem Feld zu einem Feld*
-
-![Die Klasse Stellung](images/Abb09_20_Stellung.png "Die Klasse Stellung \(Ausschnitt, Details wie Rochade fehlen\)")
-
-*Bild: Die Klasse Stellung (Ausschnitt, Details wie Rochade fehlen)*
+Die Domänen sind über Schnittstellen abstrahiert und werden per Dependency Injection zusammengesteckt. Mehr über die Datenmodellierung findet man im Kapitel [4.3. Datenmodell](#43-datenmodell).
 
 ## 3. Architekturtreiber (Funktion und Qualität)
 
-In den folgenden Kapiteln wird ein Überblick über die wichtigsten Anforderungen für das System gegeben, welche die Ausgestaltung der Architektur beeinflussen. Diese Anforderungen, genannt Architekturtreiber, umfassen  funktionale Anforderungen und Qualitätsanforderungen (in diesem Kapitel beschrieben) sowie Geschäftsziele und Randbedingungen (bereits in Kapitel 1 beschrieben).
+In den folgenden Kapiteln wird ein Überblick über die wichtigsten Anforderungen für das System gegeben, welche die Ausgestaltung der Architektur beeinflussen. Diese Anforderungen, genannt Architekturtreiber, umfassen funktionale Anforderungen und Qualitätsanforderungen (in diesem Kapitel beschrieben) sowie Geschäftsziele und Randbedingungen (bereits in Kapitel 1 beschrieben).
 
 ### 3.1. Wesentliche funktionale Anforderungen
 <!--
@@ -456,7 +453,9 @@ In den Unterabschnitten dieses Kapitels beschreiben wir, wie die grundlegende L�
 
 ### 4.1. Lösungsansatz und zentrale Architekturentscheidungen
 <!--
-- Was ist der grundsätzliche Lösungsansatz für das System?
+- Was ist der grundsätzliche Lösungsansatz für das System? Und welche grundlegenden Architekturentscheidungen wurden getroffen? Z.B. lokale Desktop-Anwendung versus verteiltes Client-Server-System, monolithisches Deployment versus (Micro-)Service-Deployment
+- Welche Architektur-Treiber wurden bei diesem Ansatz besonders priorisiert?
+- Bei welchen Treibern wurden Kompromisse eingegangen? Welche Kompromisse?
 -->
 <!-- EDIT: von der ursprünglichen arc42-Doku übernommen -->
 
@@ -475,28 +474,14 @@ Kleine Buchstaben in Klammern →&nbsp;**(x)** verorten einzelne Ansätze aus de
 ![Informelles Überblickbild für DokChess](images/Abb09_06_Ueberblick.png "Informelles Überblickbild für DokChess")
 *Bild: Informelles Überblickbild für DokChess*
 
-### 4.2. Systemdomänen
-<!--
-- Wie lässt sich das System nach unterschiedlichen Domänen zergliedern (im Sinne von Domain-Driven Design)
-- Wie hängen die Domänen miteinander zusammen?
-- Welche Abhängigkeiten und Synchronisierungsbedarfe gibt es?
--->
-
-DokChess lässt sich grob in folgende Domänen gliedern:
-
-- Zug
-- Stellung
-- Spielregeln
-
-Die Domänen sind über Schnittstellen abstrahiert und werden per Dependency Injection zusammengesteckt.
-Die Interaktion zwischen den Domänen erfolgt über fachlich motivierte Datenstrukturen, realisiert als Klassen.
-
-### 4.3. Systemstruktur
+### 4.2. Systemstruktur
 <!--
 - Wie sieht die funktionale Dekomposition des Systems zur Laufzeit im Sinne von Komponenten aus?
 - Welche Aufgaben haben die einzelnen Komponenten?
 - Wie interagieren diese miteinander?
 - Welche Daten werden zwischen den Komponenten ausgetauscht?
+
+Die Autoren dieser Vorlage empfehlen, für die Zerlegung auf oberster Ebene und pro genauere Beschreibung eines System-Einzelteils Unterkapitel anzulegen.
 -->
 <!-- EDIT: von der ursprünglichen arc42-Doku übernommen -->
 
@@ -533,10 +518,12 @@ Zentrales Element beim Entwurf der Datenstrukturen ist die Spielsituation: Welch
 Auch hier ging bei der Implementierung der fachlich motivierten Klasse dazu Lesbarkeit vor Effizienz.
 Ein wichtiger Aspekt dabei: Wie alle anderen fachlichen Klassen ist auch sie unveränderlich.
 
-### 4.4. Datenmodell
+### 4.3. Datenmodell
 <!--
-- Wie sieht das grundlegende Datenmodell für das System aus?
-- Was sind die fachlichen Entitäten und welche Beziehungen existieren zwischen diesen?
+- Wie sieht das grundlegende Datenmodell für das System (zur Laufzeit) aus?
+- Welche Entitäten gibt es? Wie stehen diese in Bezug zu dem in [Kapitel 2.2](#22-domänenmodell) beschriebenen Domänenmodell?
+- Welche Beziehungen gibt es zwischen den Entitäten?
+- Welche Entitäten werden global im gesamten System verwendet? Welche sind speziell in einzelnen Systemteilen?
 -->
 
 Die verschiedenen Systemteile tauschen schachspezifische Daten aus.
@@ -570,7 +557,7 @@ Zur Komplettierung der Spielsituation gehört die Information, wer am Zug ist, o
 
 *Bild: Die Klasse Stellung (Ausschnitt, Details wie Rochade fehlen)*
 
-### 4.5. Code-Organisation (Abbildung Laufzeit auf Entwicklungszeit)
+### 4.4. Code-Organisation (Abbildung Laufzeit auf Entwicklungszeit)
 <!--
 - Wie werden Komponenten (Laufzeit) auf Module (Entwicklungszeit) abgebildet (Runtime-to-devtime mapping)?
 - Durch welche Code-Strukturen (z.B. Java-Klassen) werden die Module realisiert?
@@ -602,9 +589,9 @@ Die Module werden im Quelltext hart verdrahtet, allerdings nur in Unit-Tests und
 
 Da die Java-Module reine POJOs (Plain old Java objects) sind, steht einer Konfiguration beispielsweise mit dem [Spring Framework](https://projects.spring.io/spring-framework/) oder CDI (Contexts and Dependency Injection for the Java EE Platform) nichts im Wege.
 
-### Xboard
+#### 4.4.1. Xboard
 
-#### Zweck/Verantwortlichkeit <!-- omit in toc -->
+##### Zweck/Verantwortlichkeit <!-- omit in toc -->
 
 Dieses Subsystem realisiert die Kommunikation mit einem Client (z.B. einer grafischen Oberfläche) mit Hilfe des textbasierten([XBoard-Protokolls](#53-kommunikationskonzept-xboard-protokoll)).
 
@@ -617,56 +604,56 @@ Das Subsystem stellt seine Funktionalität über die Java-Klassen *de.dokchess.x
 Die Implementierung liegt unterhalb der Pakete
 *de.dokchess.xboard...*
 
-### Spielregeln
+#### 4.4.2. Spielregeln
 
-#### Zweck/Verantwortlichkeit <!-- omit in toc -->
+##### Zweck/Verantwortlichkeit <!-- omit in toc -->
 
 Dieses Subsystem beinhaltet die Spielregeln für Schach gemäß Internationalem Schachverband (FIDE). Es ermittelt zu einer Stellung alle gültigen Züge und entscheidet, ob ein Schach, ein Matt oder ein Patt vorliegt.
 
-#### Schnittstelle <!-- omit in toc -->
+##### Schnittstelle <!-- omit in toc -->
 
 Das Subsystem stellt seine Funktionalität über das Java-Interface *de.dokchess.regeln.Spielregeln* bereit.
 
 Default-Implementierung der Schnittstelle ist die Klasse  
 *de.dokchess.regeln.DefaultSpielregeln*.
 
-#### Ablageort / Datei <!-- omit in toc -->
+##### Ablageort / Datei <!-- omit in toc -->
 
 Die Implementierung liegt unterhalb der Pakete *de.dokchess.regeln...*
 
-### Engine
+#### 4.4.3. Engine
 
-#### Zweck/Verantwortlichkeit <!-- omit in toc -->
+##### Zweck/Verantwortlichkeit <!-- omit in toc -->
 
 Dieses Subsystem beinhaltet die Ermittlung eines nächsten Zuges ausgehend von einer Spielsituation. Diese Situation wird von außen vorgegeben. Die Engine ist zustandsbehalten und spielt stets eine Partie zur gleichen Zeit. Die Default-Implementierung benötigt zum Arbeiten eine Implementierung der Spielregeln, die Eröffnungsbibliothek hingegen ist optional.
 
-#### Schnittstellen <!-- omit in toc -->
+##### Schnittstellen <!-- omit in toc -->
 
 Das Subsystem stellt seine Funktionalität über das Java-Interface *de.dokchess.engine.Engine* bereit. Default-Implementierung ist die Klasse *de.dokchess.engine.DefaultEngine*.
 
 [Zugberechnungskonzept](#54-zugberechnungskonzeptspielstrategiekonzept) beschreibt die in der Schnittstelle verwendeten Aufruf- und Rückgabeparameter (*Zug*, *Stellung*).
 
-#### Ablageort / Datei <!-- omit in toc -->
+##### Ablageort / Datei <!-- omit in toc -->
 
 Die Implementierung sowie Unit-Tests liegen unterhalb der Pakete *de.dokchess.engine...*
 
-### Eröffnung
+#### 4.4.4. Eröffnung
 
-#### Zweck/Verantwortlichkeit <!-- omit in toc -->
+##### Zweck/Verantwortlichkeit <!-- omit in toc -->
 
 Dieses Subsystem stellt Eröffnungsbibliotheken bereit und implementiert das Polyglot Opening Book-Format.
 Bei diesem Format handelt es sich gegenwärtig um das einzig geläufige, das nicht proprietär ist.
 Entsprechende Buchdateien und zugehörige Werkzeuge sind im Internet frei verfügbar.
 
-#### Schnittstellen <!-- omit in toc -->
+##### Schnittstellen <!-- omit in toc -->
 
 Das Subsystem stellt seine Funktionalität über das Java-Interface *de.dokchess.eroeffnung.Eroeffnungsbibliothek* bereit. Als Implementierung liegt die Klasse *de.dokchess.eroeffnung.polyglot.PolyglotOpeningBook* vor.
 
-#### Ablageort / Datei <!-- omit in toc -->
+##### Ablageort / Datei <!-- omit in toc -->
 
 Die Implementierung, Unit-Tests und Testdaten für das Polyglot Opening Book-Format liegen unterhalb der Pakete *de.dokchess.eroeffnung...*
 
-### 4.6. Build-Prozess und -Struktur
+### 4.5. Build-Prozess und -Struktur
 <!--
 - Welche Deployment-Artefakte gibt es?
 - Wie werden Module in Deployment-Artefakte verpackt?
@@ -676,7 +663,7 @@ Die Implementierung, Unit-Tests und Testdaten für das Polyglot Opening Book-For
 Der Quellcode liegt unter <https://github.com/DokChess/dokchess>.
 Um die Deployment-JAR-Datei zu erstellen, kann der Gradle-Build-Befehl verwendet werden.
 
-### 4.7. Deployment und Betrieb
+### 4.6. Deployment und Betrieb
 <!--
 - Wie sieht die Ausführungsumgebung des Systems aus?
 - Wie wird das System zwischen Client und Backend aufgeteilt? Welche unterschiedlichen Nodes oder Ausführungsumgebungen gibt es für Client und Backend?
@@ -706,7 +693,7 @@ Offene Punkte
 Einige Frontends unter Windows erlauben lediglich das Einbinden einer \*.exe-Datei als Engine.
 In diesem Fall müsste DokChess geeignet gewrappt werden.
 
-### 4.8. Technologien
+### 4.7. Technologien
 <!--
 - Was sind die wichtigsten verwendeten Technologien für die Ausführung und Entwicklung des Systems?
 - Welche Entscheidungen haben dazu geführt, das sie verwendet werden?
@@ -754,7 +741,7 @@ Es genügt, wenn wir Referenzen auf die Treiber einfügen (z.B. die Scenario-ID)
 -->
 - [Z01Fehlervermeidung](#325-ablehnung-eines-unzulässigen-zugs-durch-die-engine--z01fehlervermeidung) (Ablehnung eines unzulässigen Zugs durch die Engine)
 - [Z02Fehlertoleranz](#326-erkennung-unzulässiger-stellungen-z02fehlertoleranz) ( Erkennung unzulässiger Stellungen)
-- [Randbedingugnen](#13-randbedingungen-constraints) (Testwerkzeuge und -prozesse -> JUnit)
+- [Randbedingugnen](#14-randbedingungen-constraints) (Testwerkzeuge und -prozesse -> JUnit)
 
 #### 5.1.2. Lösungsidee
 
@@ -811,7 +798,7 @@ Neben Tests auf korrekte Funktionalität wird auch überprüft, ob die gefordert
 - Welche alternative(n) Lösung(en) haben wir diskutiert und verworfen?
 - Warum wurden sie verworfen?
 -->
-Da die Anwendung von Junit die Anforderungen erfüllt, wurden keine Alternativen betrachtet. [Randbedingungen](#13-randbedingungen-constraints) (Testwerkzeuge und -prozesse).
+Da die Anwendung von Junit die Anforderungen erfüllt, wurden keine Alternativen betrachtet. [Randbedingungen](#14-randbedingungen-constraints) (Testwerkzeuge und -prozesse).
 
 ### 5.2. Logging, Protokollierung, Tracing
 <!--
@@ -849,7 +836,7 @@ Auf diese Weise wird eine Abhängigkeit zu einer Fremdbibliothek, die sich durch
 
 - [K01Interoperabilität](#328-frontendeinbindung-k01interoperabilität) (FrontEndeinbindung)
 - [P01Anpassbarkeit](#327-unterstützung-neuer-protokolle-p01anpassbarkeit) (Unterstützung neuer Protokolle)
-- [Randbedingungen](#13-randbedingungen-constraints) (Betrieb der Frontends zumindest auf Windows-Desktop-Betriebssystemen.Unterstützung frei verfügbarer Frontends)
+- [Randbedingungen](#14-randbedingungen-constraints) (Betrieb der Frontends zumindest auf Windows-Desktop-Betriebssystemen.Unterstützung frei verfügbarer Frontends)
 - Betroffene Risiken([Anbindung an das Frontend schlägt fehl](#61-risiko-anbindung-an-das-frontend-schlägt-fehl))
 
 #### 5.3.2. Lösungsidee
@@ -858,7 +845,7 @@ Als zentrale Anforderung muss DokChess mit vorhandenen Schach-Frontends zusammen
 
 Es sind eine ganze Reihe grafische Oberflächen speziell zum Spiel gegen Schach-Programme verfügbar. Darüber hinaus gibt es für Schachinteressierte Softwarelösungen mit größerem Leistungsumfang. Neben dem Spiel „Mensch gegen Maschine“ bieten sie weitere Funktionalität, etwa zur Analyse von Partien. Mit der Zeit werden neue Schach-Programme hinzukommen – und andere gegebenenfalls vom Markt verschwinden.
 
-Um die gestellte Anforderungen zu erfüllen wurde das Kommunikationsprotokoll Xboard eingesetzt. Mit dem Ansatz von Xboard entsteht die Möglichkeit frei verfügbares FrontEndprogramm benutzten, die unter Windows läuft. Damit wird der Treiber  [Randbedingungen](#13-randbedingungen-constraints)(Betrieb der Frontends zumindest auf Windows-Desktop-Betriebssystemen.Unterstützung frei verfügbarer Frontends) umgesetzt.
+Um die gestellte Anforderungen zu erfüllen wurde das Kommunikationsprotokoll Xboard eingesetzt. Mit dem Ansatz von Xboard entsteht die Möglichkeit frei verfügbares FrontEndprogramm benutzten, die unter Windows läuft. Damit wird der Treiber  [Randbedingungen](#14-randbedingungen-constraints)(Betrieb der Frontends zumindest auf Windows-Desktop-Betriebssystemen.Unterstützung frei verfügbarer Frontends) umgesetzt.
 
 Die Struktur von DokChess erlaubt es, alternative Kommunikationsprotokolle (UCI oder andere) hinzuzufügen, ohne die Engine selbst dafür verändern zu müssen.
 Dafür wird die Methode setEngine(Engine) benutzt
@@ -873,7 +860,7 @@ Ausserdem müssen keine Konfigurationen seitens Protokoll stattfinden, um das un
 <!-- EDIT: von der ursprünglichen arc42-Doku übernommen -->
 
 Das präferierte Frontend unter Windows ist Arena.
-Es ist frei verfügbar und vom Leistungsumfang WinBoard überlegen ([Randbedingungen](#13-randbedingungen-constraints)). Es besitzt gute Debug-Möglichkeiten, kann zum Beispiel die Kommunikation zwischen Frontend und Engine live in einem Fenster darstellen. Das kann bei der Weiterentwicklung sehr hilfsreich sein ([P01Anpassbarkeit](#327-unterstützung-neuer-protokolle-p01anpassbarkeit)).
+Es ist frei verfügbar und vom Leistungsumfang WinBoard überlegen ([Randbedingungen](#14-randbedingungen-constraints)). Es besitzt gute Debug-Möglichkeiten, kann zum Beispiel die Kommunikation zwischen Frontend und Engine live in einem Fenster darstellen. Das kann bei der Weiterentwicklung sehr hilfsreich sein ([P01Anpassbarkeit](#327-unterstützung-neuer-protokolle-p01anpassbarkeit)).
 Arena unterstützt beide Protokolle.
 
 #### 5.3.4. Verworfene Alternativen
@@ -956,7 +943,7 @@ Eine [Alpha­-Beta­-Suche](https://de.wikipedia.org/wiki/Alpha-Beta-Suche) illu
 
 Als Alternative wurde die nebenläufige Implementierung von [Minimax­-Algorithmus](https://de.wikipedia.org/wiki/Minimax-Algorithmus) untersucht. Da aber  die nicht nebenläufige Implementierungen unter den gegebenen Randbedingungen bereits die Qualitätsszenarien erfüllen, es wurde entschieden für eine einfache Implementierung. Damit konnten wir die Implementierungszeit sparren.
 
-### 5.5 Verwendung unveränderlicher Datenstruktur zur Stellungsspeicherung
+### 5.5. Verwendung unveränderlicher Datenstruktur zur Stellungsspeicherung
 
 #### 5.5.1. Architektur-Treiber
 
@@ -1062,7 +1049,7 @@ Sie beeinflussten die Planung der ersten drei Iterationen maßgeblich.
 Seit Abschluss der dritten Iteration gelten sie als beherrscht.
 Dieser Architekturüberblick zeigt die Risiken inklusive der damaligen Eventualfallplanung weiterhin, wegen ihres großen Einflusses auf die Lösung.
 
-### 6.1 Risiko: Anbindung an das Frontend schlägt fehl
+### 6.1. Risiko: Anbindung an das Frontend schlägt fehl
 
 Es liegt keinerlei Wissen über die Anbindung einer Engine an ein vorhandenes Schach-Frontend vor.
 Vorhandene Open Source Engines sind in C programmiert und werden als ausführbare Programme (unter Windows z.B. \*.exe) geliefert.
@@ -1081,7 +1068,7 @@ Aufwändiger wäre die Implementierung eines eigenen grafischen Frontends.
 
 Durch einen Proof of concept erreichen wir hier frühestmöglich Sicherheit.
 
-### 6.2 Risiko: Aufwand der Implementierung zu hoch
+### 6.2. Risiko: Aufwand der Implementierung zu hoch
 
 Es liegt keinerlei Erfahrung mit der Schachprogrammierung vor.
 Gleichzeitig wirken die Spielregeln, die wir komplett realisieren sollen ([vgl. Geschäftskontext](#11-geschäftskontext)), umfangreich und kompliziert.
@@ -1092,7 +1079,7 @@ Die Programmierung der Algorithmen ist ebenfalls nicht-trivial.
 Für die Anbindung von Eröffnungsbibliotheken und Endspieldatenbanken ist eine umfangreiche Recherche erforderlich.
 
 Die Implementierung von DokChess verläuft nebenher in der freien Zeit.
-Es ist unklar, ob die Zeit reicht, um innerhalb des Zeitplans ([Organisatorische Randbedingungen](#13-randbedingungen-constraints)) vorzeigbare Ergebnisse zu präsentieren.
+Es ist unklar, ob die Zeit reicht, um innerhalb des Zeitplans ([Organisatorische Randbedingungen](#14-randbedingungen-constraints)) vorzeigbare Ergebnisse zu präsentieren.
 
 #### Eventualfallplanung <!-- omit in toc -->
 
@@ -1110,7 +1097,7 @@ Das Fehlen hat geringe Konsequenzen bezüglich der Spielstärke, und keine bezü
 
 Die Anbindung von Eröffnungsbibliotheken und Endspieldatenbanken priorisieren wir niedrig und stellen es hinten an.
 
-### 6.3 Risiko: Erreichen der Spielstärke scheitert
+### 6.3. Risiko: Erreichen der Spielstärke scheitert
 
 Die [Qualitätsziele](#3-architekturtreiber-funktion-und-qualität) fordern sowohl eine akzeptable Spielstärke wie auch eine einfache, leicht zugängliche Lösung.
 Zudem gibt es Anforderungen bezüglich Effizienz.
