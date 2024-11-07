@@ -37,6 +37,7 @@ Durch eine Versionierung der Dokumentation (z.B. in einem Git-Repository) machen
   - [1.4. Randbedingungen (Constraints)](#14-randbedingungen-constraints)
     - [1.4.1. Technische Randbedingungen](#141-technische-randbedingungen)
     - [1.4.2. Organisatorische Randbedingungen](#142-organisatorische-randbedingungen)
+    - [1.4.3. Konventionen](#143-konventionen)
   - [1.5. Ziele des Dokuments](#15-ziele-des-dokuments)
 - [2. Systemkontext und Domäne](#2-systemkontext-und-domäne)
   - [2.1. System-Kontext-Abgrenzung](#21-system-kontext-abgrenzung)
@@ -207,6 +208,15 @@ Beim Lösungsentwurf waren zu Beginn verschiedene Randbedingungen zu beachten, s
 | Zeitplan                               | Beginn der Entwicklung Dezember 2010, erster lauffähiger Prototyp März 2011 (Abendvortrag beim Schulungsunternehmenin Hamburg), vorzeigbare Version Mai 2011 (Vortrag JAX-Konferenz in Mainz). Fertigstellung Version 1.0: Februar 2012 (Abgabe des Buchmanuskripts für die 1. Auflage) |
 | Vorgehensmodell                        | Entwicklung risikogetrieben, iterativ und inkrementell. Zur Dokumentation der Architektur kommt ADF zum Einsatz. Eine Architekturdokumentation gegliedert nach dieser Vorlage ist zentrales Projektergebnis.
 | Veröffentlichung als Open Source       | Die Quelltexte der Lösung oder zumindest Teile werden als Open Source verfügbar gemacht. Lizenz: GNU General Public License version 3.0 (GPLv3). Gehostet bei GitHub: <https://github.com/DokChess/>                                                                                      |
+
+#### 1.4.3. Konventionen
+
+| Konvention    | Erläuterungen, Hintergrund |
+|---------------|----------------------------|
+| Architekturdokumentation | Terminologie und Gliederung nach dem deutschen ADF-Template in der Version 2.0 |
+| Kodierrichtlinien für Java | Java Coding Conventions von Sun/Oracle, geprüft mit Hilfe von CheckStyle |
+| Sprache (Deutsch vs. Englisch) | Benennung von Dingen (Komponenten, Schnittstellen) in Diagrammen und Texten innerhalb dieser (deutschen) ADF-Architekturdokumentation in Deutsch. Verwendung deutscher Bezeichner für Klassen, Methoden etc. im Java-Quelltext (es sei denn, die Java-Kodierrichtlinien stehen dem im Wege). Hintergrund: Die Zielgruppe sind keine Schach-Experten, es soll keine zusätzliche Barriere durch englische (Schach-)begriffe erzeugt werden. |
+| Schach-Spezifische Datenformate | Verwendung etablierter Standards für Schach-spezifische Notationen und Austauschformate innerhalb der Lösung. Themen: Züge, Stellungen, Partien, Eröffnungen, ... Keinesfalls sind eigene Formate zu entwickeln.  Prinzip: Offene Standards sind proprietären Formaten (wie sie ggf. kommerzielle Programme verwenden) vorzuziehen.
 
 ### 1.5. Ziele des Dokuments
 <!--
