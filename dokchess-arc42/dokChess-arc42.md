@@ -294,7 +294,7 @@ DokChess zerfällt wie in Bild unten dargestellt in vier Subsysteme. Die gestric
 |-----------|------------------|
 | [XBoard-Protokoll](#52-xboard-protokoll-blackbox) | Realisiert die Kommunikation mit einem Client mit Hilfe des XBoard-Protokolls. |
 | [Spielregeln](#53-spielregeln-blackbox) | Beinhaltet die Schachregeln und kann z.B. zu einer Stellung alle gültigen Züge ermitteln. |
-| [Engine](#54-engine-blackbox)) | Beinhaltet die Ermittlung eines nächsten Zuges ausgehend von einer Spielsituation. |
+| [Engine](#54-engine-blackbox) | Beinhaltet die Ermittlung eines nächsten Zuges ausgehend von einer Spielsituation. |
 | [Eröffnung](#55-eröffnung-blackbox) | Stellt Züge aus der Eröffnungsliteratur zu einer Spielsituation bereit.|
 
 *Tabelle: Überblick über Subsysteme von DokChess*
