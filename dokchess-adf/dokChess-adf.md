@@ -45,14 +45,15 @@ Durch eine Versionierung der Dokumentation (z.B. in einem Git-Repository) machen
 - [3. Architekturtreiber (Funktion und Qualität)](#3-architekturtreiber-funktion-und-qualität)
   - [3.1. Wesentliche funktionale Anforderungen](#31-wesentliche-funktionale-anforderungen)
   - [3.2. Qualitätsattribute](#32-qualitätsattribute)
-    - [3.2.1. Schnelles und einfaches Verstehen von DokChess (W01Analysierbarkeit)](#321-schnelles-und-einfaches-verstehen-von-dokchess-w01analysierbarkeit)
-    - [3.2.2. Einfache und schnelle Modul-Implementierung (W03Analysierbarkeit)](#322-einfache-und-schnelle-modul-implementierung-w03analysierbarkeit)
-    - [3.2.3. Leichte Einbindung einer neuen Stellungsbewertung (W04Erweitbarkeit)](#323-leichte-einbindung-einer-neuen-stellungsbewertung-w04erweitbarkeit)
-    - [3.2.4. Implementierung der Bitboard-Repräsentation (W05Änderbarkeit)](#324-implementierung-der-bitboard-repräsentation-w05änderbarkeit)
-    - [3.2.5. Ablehnung eines unzulässigen Zugs durch die Engine  (Z01Fehlervermeidung)](#325-ablehnung-eines-unzulässigen-zugs-durch-die-engine--z01fehlervermeidung)
-    - [3.2.6. Erkennung unzulässiger Stellungen (Z02Fehlertoleranz)](#326-erkennung-unzulässiger-stellungen-z02fehlertoleranz)
-    - [3.2.7. Unterstützung neuer Protokolle (P01Anpassbarkeit)](#327-unterstützung-neuer-protokolle-p01anpassbarkeit)
-    - [3.2.8. FrontEndeinbindung (K01Interoperabilität)](#328-frontendeinbindung-k01interoperabilität)
+    - [3.2.1. Schneller Einstieg in das System (W01)](#321-schneller-einstieg-in-das-system-w01)
+    - [3.2.2. Schnelles Zurechtfinden in der Dokumentation (W02)](#322-schnelles-zurechtfinden-in-der-dokumentation-w02)
+    - [3.2.3. Einfaches Auffinden einer Modul-Implementierung (W03)](#323-einfaches-auffinden-einer-modul-implementierung-w03)
+    - [3.2.4. Leichte Einbindung einer neuen Stellungsbewertung (W04)](#324-leichte-einbindung-einer-neuen-stellungsbewertung-w04)
+    - [3.2.5. Implementierung der Bitboard-Repräsentation (W05)](#325-implementierung-der-bitboard-repräsentation-w05)
+    - [3.2.6. Verwendung alternativer Frontends (K01)](#326-verwendung-alternativer-frontends-k01)
+    - [3.2.7. Zeitverhalten der Engine im Spiel (E01)](#327-zeitverhalten-der-engine-im-spiel-e01)
+    - [3.2.8. Zeitverhalten der Engine bei der Eröffnung (E02)](#328-zeitverhalten-der-engine-bei-der-eröffnung-e02)
+    - [3.2.9. Unterstützung neuer Protokolle (P01)](#329-unterstützung-neuer-protokolle-p01)
 - [4. Systemdekomposition](#4-systemdekomposition)
   - [4.1. Lösungsansatz und zentrale Architekturentscheidungen](#41-lösungsansatz-und-zentrale-architekturentscheidungen)
   - [4.2. Systemstruktur](#42-systemstruktur)
@@ -97,8 +98,8 @@ Durch eine Versionierung der Dokumentation (z.B. in einem Git-Repository) machen
   - [6.3. Risiko: Erreichen der Spielstärke scheitert](#63-risiko-erreichen-der-spielstärke-scheitert)
 - [7. Ausblick und Pläne für die Zukunft](#7-ausblick-und-pläne-für-die-zukunft)
 - [8. Glossar](#8-glossar)
-  - [8.1 Das Schachspiel](#81-das-schachspiel)
-  - [8.2 Begriffe](#82-begriffe)
+  - [8.1. Das Schachspiel](#81-das-schachspiel)
+  - [8.2. Begriffe](#82-begriffe)
 
 ## 1. Einleitung
 
@@ -315,12 +316,14 @@ In den folgenden Kapiteln wird ein Überblick über die wichtigsten Anforderunge
 
 Die wichtigsten funktionalen Anforderungen sind die folgenden:
 
-- F01Korrektheit. In einer Spielsituation hat die Engine einen oder mehrere regelkonforme Züge zur Auswahl. Sie antwortet mit einem dieser Züge.
-- F02Angemessenheit. Ein schwacher Spieler zieht in einer Partie gegen die Engine eine Figur ungedeckt und frei von Sinn auf ein von der Engine angegriffenes Feld. Die Engine im Anschluss am Zug nimmt die „eingestellte“ Figur.
-- F03Angemessenheit. Der Engine eröffnet sich eine Springergabel, um Dame oder Turm zu gewinnen. Die Engine gewinnt Dame (bzw. Turm) gegen Springer.
-- F04Angemessenheit. In einer Partie ergibt sich für die Engine ein Matt in zwei Zügen. Die Engine zieht sicher zum Sieg.
-- E01Bedienbarkeit. Während einer Partie antwortet die Engine auf gegnerische Züge innerhalb von fünf Sekunden mit einem Zug.
-- E02Bedienbarkeit. Eine in ein grafisches Frontend integrierte Engine spielt schwarz, der menschliche Spieler zieht an. Die Engine antwortet innerhalb von maximal zehn Sekunden mit ihrem ersten Zug, der Benutzer erhält spätestens nach fünf Sekunden eine Rückmeldung, dass die Engine „denkt“.
+| ID | Bereich | Beschreibung |
+|----- | ----- | -----|
+| F01 | Funktionale Eignung→Korrektheit | In einer Spielsituation hat die Engine einen oder mehrere regelkonforme Züge zur Auswahl. Sie antwortet mit einem dieser Züge. |
+| F02 | Funktionale Eignung → Angemessenheit und Benutzbarkeit → Attraktivität | Ein schwacher Spieler zieht in einer Partie gegen die Engine eine Figur ungedeckt und frei von Sinn auf ein von der Engine angegriffenes Feld. Die Engine im Anschluss am Zug nimmt die „eingestellte“ Figur. |
+| F03 | Funktionale Eignung → Angemessenheit und Benutzbarkeit → Attraktivität | Der Engine eröffnet sich eine Springergabel, um Dame oder Turm zu gewinnen. Die Engine gewinnt Dame (bzw. Turm) gegen Springer. |
+| F04 | Funktionale Eignung → Angemessenheit | In einer Partie ergibt sich für die Engine ein Matt in zwei Zügen. Die Engine zieht sicher zum Sieg. |
+| Z01 | Zuverlässigkeit → Fehlertoleranz und Benutzbarkeit → Fehlervermeidung | Der Engine wird im Spielverlauf ein unzulässiger Gegenzug präsentiert. Die Engine lehnt den Zug ab, erlaubt im Anschluss die Eingabe eines anderen Zugs und spielt fehlerfrei weiter. |
+| Z02 | Zuverlässigkeit → Fehlertoleranz | Der Engine wird zum Spielbeginn eine unzulässige Stellung präsentiert. Die Engine erkennt die Situation und beendet das Spiel. |
 
 ### 3.2. Qualitätsattribute
 <!--
@@ -330,13 +333,13 @@ Die wichtigsten funktionalen Anforderungen sind die folgenden:
 
 Die folgende Tabelle beschreibt die zentralen Qualitätsziele von DokChess, wobei die Reihenfolge eine grobe Orientierung bezüglich der Wichtigkeit vorgibt.
 
-| Qualitätsziel | Motivation und Erläuterung |
-| ----- | ----- |
-| Zugängliches Beispiel (Analysierbarkeit) | Da DokChess in erster Linie als Anschauungsmaterial für Softwarearchitektur und -entwicklung dient, erschließen sich Entwurf und Implementierung rasch. |
-| Einladende Experimentierplattform (Änderbarkeit) | Alternative Algorithmen und Strategien, etwa zur Bewertung einer Schachstellung, können leicht implementiert und in die Lösung integriert werden. |
-| Bestehende Frontends nutzen (Interoperabilität)  | DokChess lässt sich mit angemessenem Aufwand in bestehende grafische Schach-Frontends einbinden. |
-| Akzeptable Spielstärke (Funktionale Eignung)     | DokChess spielt stark genug, um schwache Gegner sicher zu schlagen und Gelegenheitsspieler zumindest zu fordern. |
-| Schnelles Antworten auf Züge (Effizienz) | Da DokChess in Seminaren und Vorträgen live demonstriert wird, erfolgt die Berechnung der Spielzüge rasch. |
+| Qualitätsziel | Motivation und Erläuterung | Zugehörige Treiber |
+| ----- | ----- | ----- |
+| Zugängliches Beispiel (Analysierbarkeit) | Da DokChess in erster Linie als Anschauungsmaterial für Softwarearchitektur und -entwicklung dient, erschließen sich Entwurf und Implementierung rasch. | W01, W02, W03, W05 |
+| Einladende Experimentierplattform (Änderbarkeit) | Alternative Algorithmen und Strategien, etwa zur Bewertung einer Schachstellung, können leicht implementiert und in die Lösung integriert werden. | W04, W05, P01 |
+| Bestehende Frontends nutzen (Interoperabilität) | DokChess lässt sich mit angemessenem Aufwand in bestehende grafische Schach-Frontends einbinden. | K01 |
+| Akzeptable Spielstärke (Funktionale Eignung) | DokChess spielt stark genug, um schwache Gegner sicher zu schlagen und Gelegenheitsspieler zumindest zu fordern. | F02, F03, F04 |
+| Schnelles Antworten auf Züge (Effizienz) | Da DokChess in Seminaren und Vorträgen live demonstriert wird, erfolgt die Berechnung der Spielzüge rasch. | E01, E02 |
 
 Die Qualitätsattribute weiter unten konkretisieren diese Qualitätsziele und dienen insbesondere auch dazu ihre Erreichung zu bewerten.
 
@@ -367,93 +370,122 @@ Als Tabelle:
 | Antwort          | _Beschreibung_             | _Beschreibung_      |
  -->
 
-#### 3.2.1. Schnelles und einfaches Verstehen von DokChess (W01Analysierbarkeit)
+#### 3.2.1. Schneller Einstieg in das System (W01)
 
 | Kategorisierung  | | |
 | ----- | ----- | ----- |
+| Szenario-ID | W01 | |
+| Qualitätsmerkmal | Wartbarkeit → Analysierbarkeit | |
+| Priorität  | sehr hoch | |
+| Status | umgesetzt | |
+| **Beschreibung** | | **Quantifizierung** |
+| Umgebung | Jemand mit Grundkenntnissen in UML und Schach möchte einen Einstieg in die Architektur von DokChess finden. | |
+| Stimulus | Diese Person bekommt diese Dokumentation von DokChess zum Lesen. | |
+| Antwort | Lösungsstrategie und Entwurf erschließen sich ihm beim ersten Durchlesen. | benötigte Zeit ≤ 15min |
+
+#### 3.2.2. Schnelles Zurechtfinden in der Dokumentation (W02)
+
+| Kategorisierung  | | |
+| ----- | ----- | ----- |
+| Szenario-ID | W02 | |
+| Qualitätsmerkmal | Wartbarkeit → Analysierbarkeit | |
+| Priorität  | sehr hoch | |
+| Status | umgesetzt | |
+| **Beschreibung** | | **Quantifizierung** |
+| Umgebung | Ein Software-Architekt möchte ADF-Dokumentation anwenden. | |
+| Stimulus | Diese Person sucht Beispielinhalt zu einem Kapitel. | |
+| Antwort | Die Person findet ihn unverzüglich in der Dokumentation. | Suchdauer: wenige Sekunden |
+
+#### 3.2.3. Einfaches Auffinden einer Modul-Implementierung (W03)
+
+| Kategorisierung  | | |
+| ----- | ----- | ----- |
+| Szenario-ID | W03 | |
+| Qualitätsmerkmal | Wartbarkeit → Analysierbarkeit | |
+| Priorität  | sehr hoch | |
+| Status | umgesetzt | |
+| **Beschreibung** | | **Quantifizierung** |
+| Umgebung | Eine erfahrene Java-Entwicklerin hat den Quelltext von DokChess auf ihrem Rechner ausgecheckt und in einer Entwicklungsumgebung geöffnet. | |
+| Stimulus | Sie sucht die Implementierung eines im Entwurf beschriebenen Moduls. | |
+| Antwort | Sie findet sie ohne Umwege oder fremde Hilfe im Quelltext. | Anzahl der konsultierten externen Dokumente: 0 |
+
+#### 3.2.4. Leichte Einbindung einer neuen Stellungsbewertung (W04)
+
+| Kategorisierung  | | |
+| ----- | ----- | ----- |
+| Szenario-ID | W04 | |
+| Qualitätsmerkmal | Wartbarkeit → Erweiterbarkeit | |
+| Priorität  | sehr hoch | |
+| Status | umgesetzt | |
+| **Beschreibung** | | **Quantifizierung** |
+| Umgebung | Ein Entwickler implementiert eine neue Stellungsbewertung. | |
+| Stimulus | Er bindet diese in den vorhandenen Code ein. | |
+| Antwort | Die Einbindung ist erfolgreich ohne Änderung und ohne Übersetzung des vorhandenen Codes. | Anzahl geänderter oder neu compilierter Java-Klassen: 0 |
+
+#### 3.2.5. Implementierung der Bitboard-Repräsentation (W05)
+
+| Kategorisierung  | | |
+| ----- | ----- | ----- |
+| Szenario-ID | W05 | |
+| Qualitätsmerkmal | Wartbarkeit → Analysierbarkeit | |
 | Priorität  | hoch | |
 | Status | umgesetzt | |
 | **Beschreibung** | | **Quantifizierung** |
-| Umgebung | Jemand mit Grundkenntnissen in UML und Schach möchte einen Einstieg in die Architektur von DokChess finden | |
-| Stimulus | Ein Leser versucht Lösungsstrategie und Entwurf von DokChess zu verstehen | |
-| Antwort | Lösungsstrategie und Entwurf erschließen sich ihm beim ersten Durchlesen. | |
+| Umgebung | Eine Entwicklerin hat sich mit der Architekturdokumentation und dem Code von DokChess vertraut gemacht und weiß, was eine Bitboard-Repräsentation eines Schachfelds ist. | Beschäftigung mit der Materie ≥ 2 Stunden |
+| Stimulus | Die Entwicklerin möchte die bestehende, feldzentrierte Darstellung durch eine figurenzentrierte Bitboard-Repräsentation der Spielsituation austauschen. | |
+| Antwort | Dies gelingt mit überschaubarem Aufwand. | Aufwand der Implementierung und Dokumentation ≤ 1 Woche   |
 
-#### 3.2.2. Einfache und schnelle Modul-Implementierung (W03Analysierbarkeit)
-
-| Kategorisierung  | | |
-| ----- | ----- | ----- |
-| Szenario-Name    | Einfache und schnelle Modul-Implementierung | |
-| Scenario ID | W03Analysierbarkeit | |
-| **Beschreibung** | | **Quantifizierung** |
-| Umgebung | Erfahrener Java-Entwickler möchte ein Modul implementieren | |
-| Stimulus | Ein Entwickler sucht die Implementierung eines im Entwurf beschriebenen Moduls | |
-| Antwort | Implementierung wird ohne Umwege oder fremde Hilfe im Quelltext gefunden | |
-
-#### 3.2.3. Leichte Einbindung einer neuen Stellungsbewertung (W04Erweitbarkeit)
+#### 3.2.6. Verwendung alternativer Frontends (K01)
 
 | Kategorisierung  | | |
 | ----- | ----- | ----- |
-| Szenario-Name    | Leichte Einbindung einer neuen Stellungsbewertung | |
-| Scenario ID | W04Erweiterbarkeit | |
-| **Beschreibung** | | **Quantifizierung** |
-| Umgebung | Ein Entwickler möchte eine neue Stellungsbewertung einbinden | |
-| Stimulus | Ein Entwickler implementiert die neue Stellungsbewertung | |
-| Antwort | Neue Stellungsbewertung kann ohne Änderung und ohne Übersetzung in vorhandenen Code integriert werden | Keine Änderungen oder Übersetzungen erforderlich |
-
-#### 3.2.4. Implementierung der Bitboard-Repräsentation (W05Änderbarkeit)
-
-| Kategorisierung  | | |
-| ----- | ----- | ----- |
-| Szenario-Name    | Implementierung der Bitboard-Repräsentation([siehe Glossar](#82-begriffe)) | |
-| Scenario ID | W05Änderbarkeit | |
-| **Beschreibung** | | **Quantifizierung** |
-| Umgebung | Ein Entwickler möchte eine neue figurenzentrierte Bitboard-Repräsentation der Spielsituation implementieren | |
-| Stimulus | Ein Entwickler implementiert die neue Bitboard-Repräsentation der Spielsituation | |
-| Antwort | Austausch der bestehenden feldzentrierten Darstellung durch die neue Bitboard-Repräsentation | Aufwand ≤ 1 Woche   |
-
-#### 3.2.5. Ablehnung eines unzulässigen Zugs durch die Engine  (Z01Fehlervermeidung)
-
-| Kategorisierung  | | |
-| ----- | ----- | ----- |
-| Szenario-Name    | Ablehnung eines unzulässigen Zugs durch die Engine | |
-| Scenario ID | Z01Fehlervermeidung | |
-| **Beschreibung** | | **Quantifizierung** |
-| Umgebung | Ein Spiel ist im Gange und die Engine hat Zugriff auf die Spielregeln und die aktuelle Spielsituation | |
-| Stimulus | Ein unzulässiger Zug wird von einem menschlichen Spieler gemacht und der Engine präsentiert | |
-| Antwort | Die Engine lehnt den unzulässigen Zug ab, signalisiert dem Benutzer, dass der Zug nicht erlaubt ist, erlaubt die Eingabe eines anderen Zugs und setzt das Spiel fehlerfrei fort | Eine Meldung wird angezeigt |
-
-#### 3.2.6. Erkennung unzulässiger Stellungen (Z02Fehlertoleranz)
-
-| Kategorisierung  | | |
-| ----- | ----- | ----- |
-| Szenario-Name    | Erkennung unzulässiger Stellungen | |
-| Scenario ID | Z02Fehlertoleranz | |
-| **Beschreibung** | | **Quantifizierung**    |
-| Umgebung | Ein neues Schachspiel wird gestartet | |
-| Stimulus | Der Engine erhält eine unzulässige Stellung | 1 unzulässige Stellung |
-| Antwort | Die Engine erkennt die unzulässige Stellung und beendet das Spiel | Spiel wird beendet     |
-
-#### 3.2.7. Unterstützung neuer Protokolle (P01Anpassbarkeit)
-
-| Kategorisierung  | | |
-| ----- | ----- | ----- |
-| Szenario-Name    | Implementierung der Bitboard-Repräsentation | |
-| Scenario ID | P01Anpassbarkeit | |
-| **Beschreibung** | | **Quantifizierung** |
-| Umgebung | Eine Java-Programmiererin will DokChess mit einem Schach-Frontend verwenden, welches das Einbinden von Engines erlaubt, aber keines der implementierten Protokolle unterstützt | |
-| Stimulus | Java-Programmiererin implementiert das neue Protokoll | |
-| Antwort | Sie kann das neue Protokoll ohne Änderung am bestehenden Code implementieren und die Engine anschließend wie gewohnt einbinden | Erfolgreiche Durchführung von Integrationstests mit der Engine und dem Frontend, keine Fehler beim Senden und Empfangen von Nachrichten zwischen Engine und Frontend |
-
-#### 3.2.8. FrontEndeinbindung (K01Interoperabilität)
-
-| Kategorisierung  | | |
-| ----- | ----- | ----- |
-| Szenario-Name    | Leichte Einarbeitung und Integration | |
-| Scenario ID | K01Interoperabilität | |
+| Szenario-ID | K01 | |
+| Qualitätsmerkmal | Kompatibilität → Interoperabilität | |
+| Priorität  | hoch | |
+| Status | umgesetzt | |
 | **Beschreibung** | | **Quantifizierung** |
 | Umgebung | Ein Benutzer will DokChess mit einem Schach-Frontend verwenden, das ein von der Lösung implementiertes Kommunikationsprotokoll unterstützt. | |
 | Stimulus | Der Benutzer bindet DokChess mit einem Schach-Frontend ein. | |
-| Antwort | Das Einbinden erfordert keinerlei Programmieraufwand, Konfiguration innerhalb des Frontend ist innerhalb von zehn Minuten durchgeführt und getestet | Programmieraufwand: 0, Konfigurationszeit: <10 min, Testzeit: <10 min |
+| Antwort | Das Einbinden erfordert keinerlei Programmieraufwand, Konfiguration innerhalb des Frontend ist innerhalb von zehn Minuten durchgeführt und getestet | Programmieraufwand 0 min, Konfigurationszeit ≤ 10 min, Testzeit ≤ 10 min |
+
+#### 3.2.7. Zeitverhalten der Engine im Spiel (E01)
+
+| Kategorisierung  | | |
+| ----- | ----- | ----- |
+| Szenario-ID | E01 | |
+| Qualitätsmerkmal | Effizienz → Zeitverhalten und Benutzbarkeit → Bedienbarkeit | |
+| Priorität  | mittel | |
+| Status | umgesetzt | |
+| **Beschreibung** | | **Quantifizierung** |
+| Umgebung | DokChess läuft auf einem Rechner. Keine anderen Anwendungen verursachen Prozessorlast und es ist genug freier Arbeitsspeicher vorhanden. | verfügbarer RAM ≥ 512MB |
+| Stimulus | Ein Zug wird durchgeführt. | |
+| Antwort | Die Engine antwortet in für den Spieler vertretbarer Zeit. | Antwortzeit der Engine ≤ 5 s |
+
+#### 3.2.8. Zeitverhalten der Engine bei der Eröffnung (E02)
+
+ Kategorisierung  | | |
+| ----- | ----- | ----- |
+| Szenario-ID | E02 | |
+| Qualitätsmerkmal | Effizienz → Zeitverhalten und Benutzbarkeit → Bedienbarkeit | |
+| Priorität  | mittel | |
+| Status | umgesetzt | |
+| **Beschreibung** | | **Quantifizierung** |
+| Umgebung | DokChess läuft auf einem Rechner. Keine anderen Anwendungen verursachen Prozessorlast und es ist genug freier Arbeitsspeicher vorhanden. | verfügbarer RAM ≥ 512MB |
+| Stimulus | Eine in ein grafisches Frontend integrierte Engine spielt schwarz, der menschliche Spieler zieht an. | |
+| Antwort | Die Engine gibt dem Benutzer eine Rückmeldung, dass sie „denkt“ und antwortet innerhalb von vertretbarer Zeit. | Zeit für Fortschrittsindikator ≤ 5 s, Zeit bis Antwort ≤ 10 s |
+
+#### 3.2.9. Unterstützung neuer Protokolle (P01)
+
+| Kategorisierung  | | |
+| ----- | ----- | ----- |
+| Szenario-ID | P01 | |
+| Qualitätsmerkmal | Übertragbarkeit → Anpassbarkeit | |
+| Priorität  | sehr hoch | |
+| Status | umgesetzt | |
+| **Beschreibung** | | **Quantifizierung** |
+| Umgebung | Eine Java-Programmiererin will DokChess mit einem Schach-Frontend verwenden, welches das Einbinden von Engines erlaubt, aber keines der implementierten Protokolle unterstützt. | |
+| Stimulus | Die Java-Programmiererin implementiert das neue Protokoll. | |
+| Antwort | Bei der Implementierung muss der bestehende Code nicht geändert werden. Die neue Engine kann, wie in der Dokumentation beschrieben, angebunden werden. | Aktivierung der Engine/des Protokolls auf Konfiguration oder wenige Code-Zeilen beschränkt. |
 
 ## 4. Systemdekomposition
 <!--
@@ -751,8 +783,8 @@ Wir benutzten als Überschrift den konkreten Namen des Lösungskonzepts, z.B. "M
 
 Es genügt, wenn wir Referenzen auf die Treiber einfügen (z.B. die Scenario-ID).
 -->
-- [Z01Fehlervermeidung](#325-ablehnung-eines-unzulässigen-zugs-durch-die-engine--z01fehlervermeidung) (Ablehnung eines unzulässigen Zugs durch die Engine)
-- [Z02Fehlertoleranz](#326-erkennung-unzulässiger-stellungen-z02fehlertoleranz) ( Erkennung unzulässiger Stellungen)
+- [Z01](#31-wesentliche-funktionale-anforderungen) (Ablehnung eines unzulässigen Zugs durch die Engine)
+- [Z02](#31-wesentliche-funktionale-anforderungen) (Erkennung unzulässiger Stellungen)
 - [Randbedingugnen](#14-randbedingungen-constraints) (Testwerkzeuge und -prozesse -> JUnit)
 
 #### 5.1.2. Lösungsidee
@@ -765,13 +797,13 @@ Wir illustrieren die Idee mit Architektur-Sichten und entsprechendem Begleittext
 
 <!-- EDIT: von der ursprünglichen arc42-Doku übernommen -->
 Die Lösung von diesem Konzept wird dadurch umgesetzt, dass die Funktionalität der einzelnen Module von DokChess durch umfangreiche Unit-Tests sichergestellt wird. Dadurch werden die Treiber
-([Z01Fehlervermeidung](#325-ablehnung-eines-unzulässigen-zugs-durch-die-engine--z01fehlervermeidung)), ([Z02Fehlertoleranz](#326-erkennung-unzulässiger-stellungen-z02fehlertoleranz)) umgesetzt.
+[Z01](#31-wesentliche-funktionale-anforderungen) und [Z02](#31-wesentliche-funktionale-anforderungen) umgesetzt.
 In der Quelltextstruktur ist neben dem Ordner src/main, wo die Java-Quelltexte der Module abgelegt sind, ein Ordner *src/test* zu finden.
 Er enthält ein Spiegelbild der Paketstruktur, und in den entsprechenden Paketen Unit-Tests zu den Klassen, die mit [JUnit 4](https://junit.org/junit4/) realisiert sind.
 
 Reine Unit-Tests, die einzelne Klassen prüfen, heißen wie die Klasse selbst, nur hinten mit Test.
 Darüber hinaus gibt es Tests, die das Zusammenspiel von Modulen prüfen, und im Extremfall das ganze System. Mit Hilfe solcher Tests wird die korrekte Spielweise von DokChess überprüft, unter anderem mit Hilfe von Mattaufgaben.
-Unterhalb von *src/integTest* liegen aufwändigere, länger laufende Integrationstests. Hierzu zählt etwa das Durchspielen ganzer Partien, was noch Mal die Umsetzung von den Treibern([Z01Fehlervermeidung](#325-ablehnung-eines-unzulässigen-zugs-durch-die-engine--z01fehlervermeidung)), ([Z02Fehlertoleranz](#326-erkennung-unzulässiger-stellungen-z02fehlertoleranz)) sicherstellt.
+Unterhalb von *src/integTest* liegen aufwändigere, länger laufende Integrationstests. Hierzu zählt etwa das Durchspielen ganzer Partien, was noch Mal die Umsetzung von den Treibern [Z01](#31-wesentliche-funktionale-anforderungen) und [Z02](#31-wesentliche-funktionale-anforderungen) sicherstellt.
 
 #### 5.1.3. Design-Entscheidungen
 <!--
@@ -803,7 +835,7 @@ und liest sich "6 Felder frei, schwarzer Turm, Feld frei, neue Reihe ...".
 
 Details zur Notation sind beispielsweise bei Wikipedia nachzulesen. Die Klasse Stellung verfügt über einen Konstruktor, der eine Zeichenkette in FEN akzeptiert. Die *toString*-Methode der Klasse liefert ebenfalls FEN.
 
-Neben Tests auf korrekte Funktionalität wird auch überprüft, ob die geforderten Antwortzeiten für exemplarische Spielsituationen eingehalten werden können  ([Z01Fehlervermeidung](#325-ablehnung-eines-unzulässigen-zugs-durch-die-engine--z01fehlervermeidung)), ([Z02Fehlertoleranz](#326-erkennung-unzulässiger-stellungen-z02fehlertoleranz)). Dies erfolgt mit der *@Test*-Annotation und deren Timeout-Parameter. Der Erfolg dieser Tests hängt von der eingesetzten Hardware ab.
+Neben Tests auf korrekte Funktionalität wird auch überprüft, ob die geforderten Antwortzeiten für exemplarische Spielsituationen eingehalten werden können ([Z01](#31-wesentliche-funktionale-anforderungen) und [Z02](#31-wesentliche-funktionale-anforderungen)). Dies erfolgt mit der *@Test*-Annotation und deren Timeout-Parameter. Der Erfolg dieser Tests hängt von der eingesetzten Hardware ab.
 
 #### 5.1.4. Verworfene Alternativen
 <!--
@@ -818,8 +850,8 @@ Nach demselben Schema wie bei Konzept #1 beschreiben wir hier weitere Lösungsko
 -->
 #### 5.2.1. Architektur-Treiber
 
-- [W03Analysierbarkeit](#322-einfache-und-schnelle-modul-implementierung-w03analysierbarkeit) (Implementierung der Bitboard-Repräsentation)
-- [W04Analysierbarkeit](#323-leichte-einbindung-einer-neuen-stellungsbewertung-w04erweitbarkeit) (Leichte Einbindung einer neuen Stellungsbewertung)
+- [W03](#323-einfaches-auffinden-einer-modul-implementierung-w03) (Implementierung der Bitboard-Repräsentation)
+- [W04](#324-leichte-einbindung-einer-neuen-stellungsbewertung-w04) (Leichte Einbindung einer neuen Stellungsbewertung)
 
 #### 5.2.2. Lösungsidee
 <!-- EDIT: von der ursprünglichen arc42-Doku übernommen -->
@@ -830,8 +862,8 @@ Für die Kommunikation zwischen Client und DokChess über das XBoard-Protokoll b
 
 *Bild: Protokollfenster zum XBoard-Protokoll in Arena*
 
-Dadurch können Entwickler und Benutzer die Aktionen des Systems besser verstehen und bei Fehlern oder Problemen schneller eingreifen. Das Protokollfenster erleichtert die Implementierung von Modulen und Erweiterungen, da es eine schnelle Feedback-Schleife ermöglicht und es einfacher macht, die Auswirkungen von Änderungen zu überwachen und zu verstehen. Insgesamt verbessert das Schreiben von Log-Dateien die Analysefähigkeit von DokChess und erleichtert die Umsetzung der oben genannten Treiber.
-([W03Analysierbarkeit](#322-einfache-und-schnelle-modul-implementierung-w03analysierbarkeit) (Implementierung der Bitboard-Repräsentation), [W04Analysierbarkeit](#323-leichte-einbindung-einer-neuen-stellungsbewertung-w04erweitbarkeit))
+Dadurch können Entwickler und Benutzer die Aktionen des Systems besser verstehen und bei Fehlern oder Problemen schneller eingreifen. Das Protokollfenster erleichtert die Implementierung von Modulen und Erweiterungen, da es eine schnelle Feedback-Schleife ermöglicht und es einfacher macht, die Auswirkungen von Änderungen zu überwachen und zu verstehen. Insgesamt verbessert das Schreiben von Log-Dateien die Analysefähigkeit von DokChess und erleichtert die Umsetzung der oben genannten Treiber
+([W03](#323-einfaches-auffinden-einer-modul-implementierung-w03) (Implementierung der Bitboard-Repräsentation, [W04](#324-leichte-einbindung-einer-neuen-stellungsbewertung-w04) (Leichte Einbindung einer neuen Stellungsbewertung)).
 
 #### 5.2.3. Design-Entscheidungen
 
@@ -846,8 +878,8 @@ Auf diese Weise wird eine Abhängigkeit zu einer Fremdbibliothek, die sich durch
 
 #### 5.3.1. Architektur-Treiber
 
-- [K01Interoperabilität](#328-frontendeinbindung-k01interoperabilität) (FrontEndeinbindung)
-- [P01Anpassbarkeit](#327-unterstützung-neuer-protokolle-p01anpassbarkeit) (Unterstützung neuer Protokolle)
+- [K01](#326-verwendung-alternativer-frontends-k01) (Verwendung alternativer Frontends)
+- [P01](#329-unterstützung-neuer-protokolle-p01) (Unterstützung neuer Protokolle)
 - [Randbedingungen](#14-randbedingungen-constraints) (Betrieb der Frontends zumindest auf Windows-Desktop-Betriebssystemen.Unterstützung frei verfügbarer Frontends)
 - Betroffene Risiken([Anbindung an das Frontend schlägt fehl](#61-risiko-anbindung-an-das-frontend-schlägt-fehl))
 
@@ -861,8 +893,8 @@ Um die gestellte Anforderungen zu erfüllen wurde das Kommunikationsprotokoll Xb
 
 Die Struktur von DokChess erlaubt es, alternative Kommunikationsprotokolle (UCI oder andere) hinzuzufügen, ohne die Engine selbst dafür verändern zu müssen.
 Dafür wird die Methode setEngine(Engine) benutzt
-([P01Anpassbarkeit](#327-unterstützung-neuer-protokolle-p01anpassbarkeit)).
-Ausserdem müssen keine Konfigurationen seitens Protokoll stattfinden, um das unterstütze Frontend einzubinden. Frontendeinbindung erfolgt letztendlich über die grafische Oberfläche, was keinen Programmieraufwand erfordert und deutlich unter der angeforderten Zeit liegt([K01Interoperabilität](#328-frontendeinbindung-k01interoperabilität)).
+([P01](#329-unterstützung-neuer-protokolle-p01)).
+Ausserdem müssen keine Konfigurationen seitens Protokoll stattfinden, um das unterstütze Frontend einzubinden. Frontendeinbindung erfolgt letztendlich über die grafische Oberfläche, was keinen Programmieraufwand erfordert und deutlich unter der angeforderten Zeit liegt([K01](#326-verwendung-alternativer-frontends-k01)).
 
 ![Xboard](/dokchess-adf/images/Abb09_09_Schnittstellen_Xboard.png)
 
@@ -872,7 +904,7 @@ Ausserdem müssen keine Konfigurationen seitens Protokoll stattfinden, um das un
 <!-- EDIT: von der ursprünglichen arc42-Doku übernommen -->
 
 Das präferierte Frontend unter Windows ist Arena.
-Es ist frei verfügbar und vom Leistungsumfang WinBoard überlegen ([Randbedingungen](#14-randbedingungen-constraints)). Es besitzt gute Debug-Möglichkeiten, kann zum Beispiel die Kommunikation zwischen Frontend und Engine live in einem Fenster darstellen. Das kann bei der Weiterentwicklung sehr hilfsreich sein ([P01Anpassbarkeit](#327-unterstützung-neuer-protokolle-p01anpassbarkeit)).
+Es ist frei verfügbar und vom Leistungsumfang WinBoard überlegen ([Randbedingungen](#14-randbedingungen-constraints)). Es besitzt gute Debug-Möglichkeiten, kann zum Beispiel die Kommunikation zwischen Frontend und Engine live in einem Fenster darstellen. Das kann bei der Weiterentwicklung sehr hilfsreich sein ([P01](#329-unterstützung-neuer-protokolle-p01)).
 Arena unterstützt beide Protokolle.
 
 #### 5.3.4. Verworfene Alternativen
@@ -913,12 +945,12 @@ Die Entscheidung fiel Anfang 2011 zugunsten des XBoard-Protokolls. Indem wir uns
 
 #### 5.4.1. Architektur-Treiber
 
-- [F01Korrektheit](#31-wesentliche-funktionale-anforderungen) (Mehrere regelkonforme Züge zur Auswahl)
-- [F02Angemessenheit](#31-wesentliche-funktionale-anforderungen) (Spielstärke)
-- [F03Angemessenheit](#31-wesentliche-funktionale-anforderungen) (Springergabel)
-- [F04Angemessenheit](#31-wesentliche-funktionale-anforderungen) (Matt in zwei Zügen)
-- [E01Bedienbarkeit](#31-wesentliche-funktionale-anforderungen) (Schnelles Antworten auf gegnerische Züge)
-- [E02Bedienbarkeit](#31-wesentliche-funktionale-anforderungen) (Schnelles Antworten gegen menschliche Spieler)
+- [F01](#31-wesentliche-funktionale-anforderungen) (Mehrere regelkonforme Züge zur Auswahl)
+- [F02](#31-wesentliche-funktionale-anforderungen) (Spielstärke)
+- [F03](#31-wesentliche-funktionale-anforderungen) (Springergabel)
+- [F04](#31-wesentliche-funktionale-anforderungen) (Matt in zwei Zügen)
+- [E01](#327-zeitverhalten-der-engine-im-spiel-e01) (Zeitverhalten der Engine im Spiel)
+- [E02](#328-zeitverhalten-der-engine-bei-der-eröffnung-e02) (Zeitverhalten der Engine im Spiel)
 - Betroffene Risiken ([Erreichen der Spielstärke scheitert](#63-risiko-erreichen-der-spielstärke-scheitert))
 
 #### 5.4.2. Lösungsidee
@@ -959,9 +991,9 @@ Als Alternative wurde die nebenläufige Implementierung von [Minimax­-Algorithm
 
 #### 5.5.1. Architektur-Treiber
 
-- [W03Analysierbarkeit](#322-einfache-und-schnelle-modul-implementierung-w03analysierbarkeit) (Leichte Einbindung einer neuen Stellungsbewertung)
-- [E01Bedienbarkeit](#31-wesentliche-funktionale-anforderungen) (Schnelles Antworten auf gegnerische Züge)
-- [E02Bedienbarkeit](#31-wesentliche-funktionale-anforderungen) (Schnelles Antworten gegen menschliche Spieler)
+- [W03](#323-einfaches-auffinden-einer-modul-implementierung-w03) (Leichte Einbindung einer neuen Stellungsbewertung)
+- [E01](#327-zeitverhalten-der-engine-im-spiel-e01) (Zeitverhalten der Engine im Spiel)
+- [E02](#328-zeitverhalten-der-engine-bei-der-eröffnung-e02) (Zeitverhalten der Engine bei der Eröffnung)
 - Betroffene Risiken ([Aufwand der Implementierung zu hoch](#62-risiko-aufwand-der-implementierung-zu-hoch))
 
 #### 5.5.2. Lösungsidee
@@ -979,7 +1011,7 @@ Stellung neueStellung = s.fuehreZugAus(e2e4) // s bleibt unveraendert
 ```
 
 wird die Stellung beim Ausführen eines Zuges kopiert, das Original  wird aber nicht verändert. Damit entfällt die Implementierung des Zurücknehmens von Zügen. Verwender können sich die alte Stellung als Wert merken. Das spart Aufwand in der Umsetzung.
-dadurch wird der Treiber [W03Analysierbarkeit](#322-einfache-und-schnelle-modul-implementierung-w03analysierbarkeit) umgesetzt.
+dadurch wird der Treiber [W03](#323-einfaches-auffinden-einer-modul-implementierung-w03) umgesetzt.
 
 #### 5.5.3. Design-Entscheidungen
 
@@ -1069,7 +1101,7 @@ Da wir DokChess in Java entwickeln, taugen sie nur bedingt zur Inspiration.
 Über Kommunikationsprotokolle ist überhaupt nichts bekannt.
 
 Falls es uns nicht gelingt, eine funktionierende Anbindung zu realisieren, können wir die Lösung nicht mit bestehenden Frontends verwenden.
-Damit fehlt nicht nur ein wichtiges Feature ([vgl. Frontendeinbindung](#328-frontendeinbindung-k01interoperabilität)), sondern die Lösung ist als Ganzes, insbesondere auch als Fallbeispiel, unglaubwürdig.
+Damit fehlt nicht nur ein wichtiges Feature ([vgl. Verwendung alternativer Frontends](#326-verwendung-alternativer-frontends-k01)), sondern die Lösung ist als Ganzes, insbesondere auch als Fallbeispiel, unglaubwürdig.
 
 #### Eventualfallplanung <!-- omit in toc -->
 
@@ -1165,7 +1197,7 @@ Weiterentwicklungen sind nicht geplannt.
 <!-- EDIT: von der ursprünglichen arc42-Doku übernommen -->
 Das folgende Glossar erklärt Begriffe aus der Schachwelt, die über den Wortschatz von Wenig- oder Gelegenheitsspielern hinausgehen, sowie Begriffe aus dem Computerschach.
 
-### 8.1 Das Schachspiel
+### 8.1. Das Schachspiel
 
 > "Das Schachspiel wird zwischen zwei Gegnern gespielt, die ihre Figuren auf einem quadratischen Spielbrett, 'Schachbrett' genannt, ziehen."
 >
@@ -1194,7 +1226,7 @@ _Begriff_: Definition, zum Beispiel:
 _CQRS_: Command-Query-Responsibility-Segregation ist ein Vorgehensmuster, welches unterschiedliche Datenmodelle und Schnittstellen für schreibende und lesenden Datenzugriffe verwendet. Weitere Informationen findet man in [Martin Fowlers Blogeintrag zu dem Thema (englisch)](https://martinfowler.com/bliki/CQRS.html).
 -->
 
-### 8.2 Begriffe
+### 8.2. Begriffe
 
 | Begriff               | Erklärung                                                                                                                                                                                                                 |
 | --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
