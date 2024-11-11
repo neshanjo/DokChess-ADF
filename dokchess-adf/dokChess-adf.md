@@ -252,7 +252,7 @@ Dieser Abschnitt beschreibt das Umfeld von DokChess. Für welche Benutzer ist es
 
 In diesem Unterkapitel wird dargestellt, wie DokChess mit Fremdsystemen kommuniziert und welche Rolle jedes System spielt.
 
-![Fachlicher Kontext von DokChess](images/system_context.png "System-Kontext-Abgrenzung")
+![Fachlicher Kontext von DokChess](images/system_context.drawio.png)
 Bild: System-Kontext-Abgrenzung
 
 <!-- EDIT: von der ursprünglichen arc42-Doku übernommen -->
@@ -269,12 +269,12 @@ Die Anforderungen bezüglich des Informationsaustausches sind die selben.
 - XBoard Client (Fremdsystem):
 Die "Anbindung" menschlicher Spieler erfolgt über ein grafisches Frontend, dessen Entwicklung nicht Teil von DokChess ist. Stattdessen kann jedes grafische Frontend verwendet werden, welches das sogenannte XBoard-Protokoll unterstützt. Hierzu zählen Xboard (bzw. Winboard unter Windows), Arena und Aquarium.
 
-- Polyglot Opening Book (Fremdsystem):
-Polyglot Opening Book ist ein binäres Dateiformat für Eröffnungsbibliotheken. DokChess erlaubt die optionale Anbindung solcher Bücher. Der Zugriff erfolgt ausschließlich lesend.
-
 - Eröffnungen (Fremdsystem):
 Zur Eröffnung, d.h. zur frühen Phase des Spiels, existiert umfangreiches Wissen in der Schachliteratur.
 Dieses Wissen ist in Form von Bibliotheken und Datenbanken teils frei und teils auch kommerziell verfügbar.
+
+- Polyglot Opening Book (Dateiformat):
+Polyglot Opening Book ist ein binäres Dateiformat für Eröffnungsbibliotheken. DokChess erlaubt die optionale Anbindung solcher Bücher. Der Zugriff erfolgt ausschließlich lesend.
 
 - Endspiele (Fremdsystem):
 Wenn nur noch sehr wenige Figuren auf dem Brett stehen (z.B. nur die beiden Könige und eine Dame), kann analog zu Eröffnungsbibliotheken auf Endspielbibliotheken zurückgegriffen werden.
@@ -520,9 +520,9 @@ DokChess ist als Java-Programm mit main-Routine realisiert. Es zerfällt grob in
 Diese Zerlegung ermöglicht es, Dinge wie das Kommunikationsprotokoll oder das Eröffnungsbibliotheksformat bei Bedarf auszutauschen. Alle Teile sind durch Schnittstellen abstrahiert, die Implementierungen werden per Dependency Injection zusammengesteckt.
 Die Zerlegung erlaubt es weiterhin die Software, allen voran die Schachalgorithmen, leicht automatisiert zu testen ([→ „Testbarkeit“](#51-testbarkeit)).
 
-Die Interaktion zwischen Algorithmen­Teilen erfolgt über den Austausch fachlich motivierter Datenstrukturen, realisiert als Klassen (*Figur*, *Zug*, ... [„Schach­Domänenmodell“](#22-domänenmodell)).
+Die Interaktion zwischen Algorithmen­Teilen erfolgt über den Austausch fachlich motivierter Datenstrukturen, realisiert als Klassen (*Figur*, *Zug*, ... [4.3. Datenmodell](#43-datenmodell)).
 Hier wurde bewusst eine bessere Verständlichkeit angestrebt, auf Kosten von Effizienz.
-Gleichwohl erreicht DokChess eine akzeptable Spielstärke, wie ein Durchspielen der entsprechenden Szenarien zeigt ([Qualitätsszenarien](#32-qualitätsattribute)).
+Gleichwohl erreicht DokChess eine akzeptable Spielstärke, wie ein Durchspielen der entsprechenden Szenarien zeigt ([Qualitätsattribute](#32-qualitätsattribute)).
 
 Zentrales Element beim Entwurf der Datenstrukturen ist die Spielsituation: Welche Figuren gerade wo stehen und was sonst noch zur Stellung dazu gehört (z. B. wer am Zug ist).
 Auch hier ging bei der Implementierung der fachlich motivierten Klasse dazu Lesbarkeit vor Effizienz.
@@ -581,7 +581,7 @@ Auf dem unteren Bild wird das Systemstruktur von DokChess zur Laufzeit dargestel
 
 *Bild: DokChess Abbildung Laufzeit auf Entwicklungszeit*
 
-Der Quellcode von DokChess ist in verschiedene Pakete organisiert, die jeweils eine bestimmte Funktionalität abdecken.Die Paketstruktur soll eine klare Trennung der verschiedenen Funktionalitäten und eine bessere Wartbarkeit des Codes ermöglichen.
+Der Quellcode von DokChess ist in verschiedene Pakete organisiert, die jeweils eine bestimmte Funktionalität abdecken. Die Paketstruktur soll eine klare Trennung der verschiedenen Funktionalitäten und eine bessere Wartbarkeit des Codes ermöglichen.
 Das Paket "Xboard" entspricht der Komponente XBoard-Protokoll. Xboard liest Befehle über die Standardeingabe ein, prüft sie gegen die Spielregeln und setzt sie für die Engine um.
 Antworten der Engine (insbesondere ihre Züge) werden vom Subsystem als Ereignisse entgegengenommen, gemäß Protokoll formatiert und über die Standardausgabe zurückgesendet.
 Das Subsystem treibt somit das ganze Spielgeschehen. Es enthält auch die main-Methode, die das Programm startet.
