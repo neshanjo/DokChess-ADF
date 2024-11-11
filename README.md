@@ -6,5 +6,5 @@ Mit der [ADF-Architekturdokumentationsvorlage](https://github.com/architecture-d
 
 ## Inhalt
 
-- TODO - die DokChess-Dokumentation im Format der ADF-Architektur-Dokumentationsvorlage
-- TODO - eine inhaltlich unveränderte Version des Originaldokumentation, zum besseren Vergleich umformatiert, so dass alles auf einer Seite ist.
+- [dokchess-adk/dokChess-adf.md](./dokchess-adk/dokChess-adf.md) - die DokChess-Dokumentation im Format der ADF-Architektur-Dokumentationsvorlage
+- [dokchess-arc42/dokChess-arc42.md](./dokchess-arc42/dokChess-arc42.md) - eine inhaltlich unveränderte Version des Originaldokumentation, zum besseren Vergleich umformatiert, so dass alles auf einer Seite ist.
