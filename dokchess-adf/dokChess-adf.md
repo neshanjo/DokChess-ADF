@@ -59,10 +59,6 @@ Durch eine Versionierung der Dokumentation (z.B. in einem Git-Repository) machen
   - [4.2. Systemstruktur](#42-systemstruktur)
   - [4.3. Datenmodell](#43-datenmodell)
   - [4.4. Code-Organisation (Abbildung Laufzeit auf Entwicklungszeit)](#44-code-organisation-abbildung-laufzeit-auf-entwicklungszeit)
-    - [4.4.1. Xboard](#441-xboard)
-    - [4.4.2. Spielregeln](#442-spielregeln)
-    - [4.4.3. Engine](#443-engine)
-    - [4.4.4. Eröffnung](#444-eröffnung)
   - [4.5. Build-Prozess und -Struktur](#45-build-prozess-und--struktur)
   - [4.6. Deployment und Betrieb](#46-deployment-und-betrieb)
   - [4.7. Technologien](#47-technologien)
@@ -92,6 +88,11 @@ Durch eine Versionierung der Dokumentation (z.B. in einem Git-Repository) machen
     - [5.5.2. Lösungsidee](#552-lösungsidee)
     - [5.5.3. Design-Entscheidungen](#553-design-entscheidungen)
     - [5.5.4. Verworfene Alternativen](#554-verworfene-alternativen)
+  - [5.6. Erweiterbarkeitskonzept (Dependency Injection)](#56-erweiterbarkeitskonzept-dependency-injection)
+    - [5.6.1. Architekturtreiber](#561-architekturtreiber)
+    - [5.6.2. Lösungsidee](#562-lösungsidee)
+    - [5.6.3 Design-Entscheidungen](#563-design-entscheidungen)
+    - [5.6.4 Verworfene Alternativen](#564-verworfene-alternativen)
 - [6. Risiken und technische Schulden](#6-risiken-und-technische-schulden)
   - [6.1. Risiko: Anbindung an das Frontend schlägt fehl](#61-risiko-anbindung-an-das-frontend-schlägt-fehl)
   - [6.2. Risiko: Aufwand der Implementierung zu hoch](#62-risiko-aufwand-der-implementierung-zu-hoch)
@@ -253,8 +254,9 @@ Dieser Abschnitt beschreibt das Umfeld von DokChess. Für welche Benutzer ist es
 
 In diesem Unterkapitel wird dargestellt, wie DokChess mit Fremdsystemen kommuniziert und welche Rolle jedes System spielt.
 
-![Fachlicher Kontext von DokChess](images/system_context.drawio.png)
-Bild: System-Kontext-Abgrenzung
+![System-Kontext-Abgrenzung](images/system_context.drawio.png)
+
+*Bild: System-Kontext-Abgrenzung (Functions@Runtime)*
 
 <!-- EDIT: von der ursprünglichen arc42-Doku übernommen -->
 
@@ -525,14 +527,15 @@ Kleine Buchstaben in Klammern →&nbsp;**(x)** verorten einzelne Ansätze aus de
 
 Die Autoren dieser Vorlage empfehlen, für die Zerlegung auf oberster Ebene und pro genauere Beschreibung eines System-Einzelteils Unterkapitel anzulegen.
 -->
+
+<!-- EDIT: eigener Text -->
+DokChess ist funktional in einzelne Komponenten zerlegt, die im Zusammenspiel die benötigte Funktionalität umsetzen:
+
+![DokChess](images/system_structure.drawio.png)
+
+*Bild: Systemstruktur von DokChess (Functions@Runtime)*
+
 <!-- EDIT: von der ursprünglichen arc42-Doku übernommen -->
-
-In diesem Unterkapitel wird das Systemstruktur von DokChess dargestellt, aus welchen Komponenten es besteht und wie sie zusammen kommunizieren.
-
-![DokChess](images/system_structure.png "DokChess Data + Functions@Runtime")
-
-*Bild: Systemstruktur von DokChess*
-
 | Subsystem | Kurzbeschreibung |
 | ----- | ----- |
 | XBoard-Protokoll | Realisiert die Kommunikation mit einem Client mit Hilfe des XBoard-Protokolls. |
@@ -542,23 +545,17 @@ In diesem Unterkapitel wird das Systemstruktur von DokChess dargestellt, aus wel
 
 *Tabelle: Überblick über Subsysteme von DokChess*
 
-DokChess ist als Java-Programm mit main-Routine realisiert. Es zerfällt grob in folgende Teile:
+<!-- EDIT: leicht überarbeitet, größtenteils von der ursprünglichen arc42-Doku übernommen -->
+Die Komponente Xboard-Protokoll liest Befehle über die Standardeingabe ein, prüft sie gegen die Spielregeln und setzt sie für die Engine um.
+Antworten der Engine (insbesondere ihre Züge) werden von dieser Komponente als Ereignisse entgegengenommen, gemäß Protokoll formatiert und über die Standardausgabe zurückgesendet.
+Die Komponente XBoard-Protokoll treibt somit das ganze Spielgeschehen.
 
-- eine Implementierung der Schachregeln
-- die eigentliche Engine, welche die Züge ermittelt
-- die Anbindung an eine grafische Benutzeroberfläche über das XBoard-Protokoll
-- einen Adapter für ein konkretes Eröffnungsbibliotheksformat (Polyglot Opening Book)
+<!-- EDIT: eigener Text -->
+Das folgende Sequenzdiagramm illustriert das Zusammenspiel der Komponenten am Beispiel der Zugermittlung:
 
-Diese Zerlegung ermöglicht es, Dinge wie das Kommunikationsprotokoll oder das Eröffnungsbibliotheksformat bei Bedarf auszutauschen. Alle Teile sind durch Schnittstellen abstrahiert, die Implementierungen werden per Dependency Injection zusammengesteckt.
-Die Zerlegung erlaubt es weiterhin die Software, allen voran die Schachalgorithmen, leicht automatisiert zu testen ([→ „Testbarkeit“](#51-testbarkeit)).
+![Zusammenspiel der Komponenten für eine Zugermittlung](images/zugermitttlung.drawio.png)
 
-Die Interaktion zwischen Algorithmen­Teilen erfolgt über den Austausch fachlich motivierter Datenstrukturen, realisiert als Klassen (*Figur*, *Zug*, ... [4.3. Datenmodell](#43-datenmodell)).
-Hier wurde bewusst eine bessere Verständlichkeit angestrebt, auf Kosten von Effizienz.
-Gleichwohl erreicht DokChess eine akzeptable Spielstärke, wie ein Durchspielen der entsprechenden Szenarien zeigt ([Qualitätsattribute](#32-qualitätsattribute)).
-
-Zentrales Element beim Entwurf der Datenstrukturen ist die Spielsituation: Welche Figuren gerade wo stehen und was sonst noch zur Stellung dazu gehört (z. B. wer am Zug ist).
-Auch hier ging bei der Implementierung der fachlich motivierten Klasse dazu Lesbarkeit vor Effizienz.
-Ein wichtiger Aspekt dabei: Wie alle anderen fachlichen Klassen ist auch sie unveränderlich.
+*Bild: Beispielhaftes Zusammenspiel für eine Zugermittlung (Functions@Runtime)*
 
 ### 4.3. Datenmodell
 <!--
@@ -568,36 +565,41 @@ Ein wichtiger Aspekt dabei: Wie alle anderen fachlichen Klassen ist auch sie unv
 - Welche Entitäten werden global im gesamten System verwendet? Welche sind speziell in einzelnen Systemteilen?
 -->
 
-Die verschiedenen Systemteile tauschen schachspezifische Daten aus.
-Hierzu zählen vor allem die Situation auf dem Brett (Stellung), sowie gegnerische und eigene Züge.
+<!-- EDIT: leicht überarbeitet, viele Teile von der ursprünglichen arc42-Doku übernommen -->
+
+Die Interaktion zwischen den Komponenten (s. [4.2. Systemstruktur](#42-systemstruktur)) erfolgt über den Austausch von Instanzen fachlich motivierter Datenstrukturen. Die Datenstrukturen wurden als Java-Klassen modelliert (*Figur*, *Zug*, ...). Hier wurde bewusst eine bessere Verständlichkeit angestrebt, auf Kosten von Effizienz.
+Gleichwohl erreicht DokChess eine akzeptable Spielstärke, wie ein Durchspielen der entsprechenden Szenarien zeigt ([Qualitätsattribute](#32-qualitätsattribute)).
+
+Zentrales Element beim Entwurf der Datenstrukturen ist die Spielsituation: Welche Figuren gerade wo stehen und was sonst noch zur Stellung dazu gehört (z. B. wer am Zug ist).
+Auch hier ging bei der Implementierung der fachlich motivierten Klasse dazu Lesbarkeit vor Effizienz.
+Ein wichtiger Aspekt dabei: Wie alle anderen fachlichen Klassen ist auch sie unveränderlich (s. [5.5. Verwendung unveränderlicher Datenstruktur zur Stellungsspeicherung](#55-verwendung-unveränderlicher-datenstruktur-zur-stellungsspeicherung).
+
 Als Aufruf- und Rückgabeparameter finden in allen Modulen dieselben Klassen Verwendung.
 
-An dieser Stelle finden Sie einen groben Überblick über diese Datenstrukturen und deren Abhängigkeiten untereinander.
-Details sind in der Quelltextdokumentation (javadoc) enthalten.
-Die Klassen und Aufzählungstypen (enums) befinden sich im Paket *de.dokchess.allgemein*.
+An dieser Stelle finden Sie einen groben Überblick über diese Datenstrukturen und deren Abhängigkeiten untereinander. Wir verzichten aus Gründen der Einfachheit dieser Dokumentation auf eine spezielle Laufzeitsicht (Data@Runtime) und geben direkt die Modellierung als UML-Klassendiagramme (Data@Devtime) an. Details sind in der Quelltextdokumentation (javadoc) enthalten. Die Klassen und Aufzählungstypen (enums) befinden sich im Paket *de.dokchess.allgemein*.
 
 Eine Schachfigur ist gekennzeichnet durch Farbe (schwarz oder weiß) und Art (König, Dame, ...).
 Im Domänenmodell von DokChess weiß eine Figur nicht, wo sie steht.
 Die Klasse ist unveränderlich (immutable) wie alle anderen im Domänenmodell auch.
 
-![Eine Figur hat eine Farbe und eine Art](images/Abb09_18_Figur.png "Eine Figur hat eine Farbe \(z.B. weiß\) und eine Art \(z.B. Bauer\)")
+![Eine Figur hat eine Farbe und eine Art](images/Abb09_18_Figur.png)
 
-*Bild: Eine Figur hat eine Farbe (z.B. weiß) und eine Art (z.B. Bauer)*
+*Bild: Datenmodellierung einer Figur (Data@Devtime)*
 
 Das Schachbrett besteht aus 8 x 8 Feldern die in 8 Reihen (1-8) und 8 Linien (a-h) angeordnet sind. Die Klasse *Feld* beschreibt ein ebensolches. Da ein Feld maximal von einer Figur besetzt sein kann, reicht für die Angabe eines Zuges, von wo nach wo gezogen wird. Einzige Ausnahme bildet die Umwandlung eines Bauern auf der gegnerischen Grundlinie, da der Spieler selbst entscheidet, in welche Figur er umwandelt (in der Regel, aber nicht zwingend, eine Dame). Rochadezüge werden als Königszüge über zwei Felder in die entsprechende Richtung repräsentiert.
 
-![Ein Zug geht von einem Feld zu einem Feld](images/Abb09_19_Zug.png "Ein Zug geht von einem Feld zu einem Feld")
+![Ein Zug geht von einem Feld zu einem Feld](images/Abb09_19_Zug.png)
 
-*Bild: Ein Zug geht von einem Feld zu einem Feld*
+*Bild: Datenmodellierung eines Zugs (Data@Devtime)*
 
 Die Klasse *Stellung* stellt die aktuelle Situation auf dem Brett dar.
 Vor allem sind das die Figuren auf dem Brett, das intern als zweidimensionales Array (8 x 8) implementiert ist.
 Falls ein Feld unbesetzt ist, steht null im Array.
 Zur Komplettierung der Spielsituation gehört die Information, wer am Zug ist, ob noch Rochaden möglich sind und ob en passant geschlagen werden kann.
 
-![Die Klasse Stellung](images/Abb09_20_Stellung.png "Die Klasse Stellung \(Ausschnitt, Details wie Rochade fehlen\)")
+![Die Klasse Stellung](images/Abb09_20_Stellung.png)
 
-*Bild: Die Klasse Stellung (Ausschnitt, Details wie Rochade fehlen)*
+*Bild: Die Klasse Stellung (Data@Devtime; Ausschnitt, Details wie Rochade fehlen)*
 
 ### 4.4. Code-Organisation (Abbildung Laufzeit auf Entwicklungszeit)
 <!--
@@ -607,93 +609,37 @@ Zur Komplettierung der Spielsituation gehört die Information, wer am Zug ist, o
 - Welche Versionskontrolle wird eingesetzt? Welche Repositories gibt es für welchen Quellcode und welche Konfiguration?
 -->
 
-Auf dem unteren Bild wird das Systemstruktur von DokChess zur Laufzeit dargestellt.
+<!-- EDIT: überarbeitet, viele Teile von der ursprünglichen arc42-Doku übernommen -->
 
-![DokChess](images/functions_devtime.png)
+DokChess ist als Java-Programm mit main-Routine realisiert (Modul `Main`). Es zerfällt grob in folgende Teile:
 
-*Bild: DokChess Abbildung Laufzeit auf Entwicklungszeit*
+- die in [4.3. Datenmodell](#43-datenmodell) beschriebenen Datenstrukturen (Paket "Allgemein")
+- eine Implementierung der Schachregeln (Paket "Regeln")
+- die eigentliche Engine, welche die Züge ermittelt (Paket "Engine")
+- die Anbindung an eine grafische Benutzeroberfläche über das XBoard-Protokoll (Paket "XBoard")
+- einen Adapter für ein konkretes Eröffnungsbibliotheksformat, nämlich Polyglot Opening Book (Paket "Eröffnung")
 
-Der Quellcode von DokChess ist in verschiedene Pakete organisiert, die jeweils eine bestimmte Funktionalität abdecken. Die Paketstruktur soll eine klare Trennung der verschiedenen Funktionalitäten und eine bessere Wartbarkeit des Codes ermöglichen.
-Das Paket "Xboard" entspricht der Komponente XBoard-Protokoll. Xboard liest Befehle über die Standardeingabe ein, prüft sie gegen die Spielregeln und setzt sie für die Engine um.
-Antworten der Engine (insbesondere ihre Züge) werden vom Subsystem als Ereignisse entgegengenommen, gemäß Protokoll formatiert und über die Standardausgabe zurückgesendet.
-Das Subsystem treibt somit das ganze Spielgeschehen. Es enthält auch die main-Methode, die das Programm startet.
-Das Paket Eröffnung entspricht der Komponente Eröffnungen sowie das Paket Spielregeln entspricht der Komponente Spielregeln uns das Paket Engine entspricht der Komponente Engine. Das Paket "Allgemein" enthält die wichtigsten Entitäten(Figur, Stellung usw.) für das System, die überall im System benutzt werden.
+Diese Zerlegung ermöglicht es, Dinge wie das Kommunikationsprotokoll oder das Eröffnungsbibliotheksformat bei Bedarf auszutauschen. Alle Teile sind durch Schnittstellen abstrahiert, die Implementierungen werden per Dependency Injection zusammengesteckt, siehe [5.6. Erweiterbarkeitskonzept](#56-erweiterbarkeitskonzept-dependency-injection).
+Die Zerlegung erlaubt es weiterhin die Software, allen voran die Schachalgorithmen, leicht automatisiert zu testen ([→ „Testbarkeit“](#51-testbarkeit)).
 
-DokChess soll zum Experimentieren und zum Erweitern der Engine einladen ([Anforderungen](#3-architekturtreiber-funktion-und-qualität)). Die Module sind daher über Schnittstellen lose gekoppelt.
-Module sind Implementierungen von Java-Schnittstellen. Java-Klassen, welche Teile benötigen, signalisieren dies über entsprechende Methoden *set«Module»(«Interface» ...)*.
-Sie kümmern sich nicht selbst um das Auflösen einer Abhängigkeit, indem sie beispielsweise Exemplare mit new bauen, oder eine Factory bemühen.
-Stattdessen löst der Verwender die Abhängigkeiten auf, indem er passende Implementierungen erzeugt und über die Setter-Methoden zusammensteckt ([Dependency Injection](https://martinfowler.com/articles/injection.html), kurz DI).
+Auf dem folgenden Bild werden Inhalte und Zusammenspiel der Pakete dargestellt:
 
-Dies ermöglicht die Verwendung alternativer Implementierungen innerhalb des Rahmens DokChess und das Hinzufügen von Funktionalität über das Decorator-Pattern [Gamma+94]. Auch Lösungsansätze aspektorientierter Programmierung (AOP), die auf Dynamic Proxies basieren, sind auf Java Interfaces leicht anwendbar. Nicht zuletzt wirkt sich dieser Umgang mit Abhängigkeiten positiv auf die Testbarkeit ([→ Konzept 5.1](#51-testbarkeit)) aus.
+![DokChess](images/functions_devtime.drawio.png)
 
-DokChess verzichtet auf die Verwendung eines speziellen DI Frameworks.
-Die Module werden im Quelltext hart verdrahtet, allerdings nur in Unit-Tests und Glue-Code (z.B. der Main-Klasse). Um experimentierfreudigen Anwendern bezüglich einer konkreten DI-Implementierung freie Wahl zu lassen, findet insbesondere keine annotationsgetriebene Konfiguration statt.
+*Bild: DokChess Paketstruktur, Abbildung Komponenten auf Module (Functions@Devtime)*
 
-Da die Java-Module reine POJOs (Plain old Java objects) sind, steht einer Konfiguration beispielsweise mit dem [Spring Framework](https://projects.spring.io/spring-framework/) oder CDI (Contexts and Dependency Injection for the Java EE Platform) nichts im Wege.
+Die Module im Paket `xboard` implementieren die Komponente XBoard-Protokoll (vgl. [4.2. Systemstruktur](#42-systemstruktur)). Diese Komponente treibt das ganze Spielgeschehen. Es enthält innerhalb der Main-Klasse auch die main-Methode, die das Programm startet.
 
-#### 4.4.1. Xboard
+Die folgende Tabelle liefert eine Übersicht über den Inhalt und Zweck der einzelnen Pakete.
 
-##### Zweck/Verantwortlichkeit <!-- omit in toc -->
+| Paket | Ablageort | Zweck/Verantwortlichkeit | Schnittstelle |
+| ----- | ----- | ----- | ----- |
+| XBoard | `de.dokchess.xboard` | Dieses Paket realisiert die Kommunikation mit einem Client (z.B. einer grafischen Oberfläche) mit Hilfe des textbasierten [XBoard-Protokolls](#53-kommunikationskonzept-xboard-protokoll). | Java-Klassen: *XBoard*, *Main* |
+| Regeln | `de.dokchess.regeln` | Dieses Paket beinhaltet die Spielregeln für Schach gemäß Internationalem Schachverband (FIDE). Es ermittelt zu einer Stellung alle gültigen Züge und entscheidet, ob ein Schach, ein Matt oder ein Patt vorliegt. | Java-Interface: *Spielregeln*, Default-Implementierung: *DefaultSpielregeln* |
+| Engine | `de.dokchess.engine` | Dieses Paket beinhaltet die Ermittlung eines nächsten Zuges ausgehend von einer Spielsituation. Diese Situation wird von außen vorgegeben. Die Engine ist zustandsbehalten und spielt stets eine Partie zur gleichen Zeit. Die Default-Implementierung benötigt zum Arbeiten eine Implementierung der Spielregeln, die Eröffnungsbibliothek hingegen ist optional. | Java-Interface: *Engine*, Default-Implementierung: *DefaultEngine* |
+| Eröffnung | `de.dokchess.eroeffnung` | Dieses Subsystem stellt Eröffnungsbibliotheken bereit und implementiert das Polyglot Opening Book-Format. Bei diesem Format handelt es sich gegenwärtig um das einzig geläufige, das nicht proprietär ist. Entsprechende Buchdateien und zugehörige Werkzeuge sind im Internet frei verfügbar. | Java-Interface: *Eroeffnungsbibliothek*, Implementierung: *polyglot.PolyglotOpeningBook* |
 
-Dieses Subsystem realisiert die Kommunikation mit einem Client (z.B. einer grafischen Oberfläche) mit Hilfe des textbasierten([XBoard-Protokolls](#53-kommunikationskonzept-xboard-protokoll)).
-
-#### Schnittstelle <!-- omit in toc -->
-
-Das Subsystem stellt seine Funktionalität über die Java-Klassen *de.dokchess.xboard.XBoard* und *de.dokchess.xboard.Main* bereit
-
-#### Ablageort / Datei <!-- omit in toc -->
-
-Die Implementierung liegt unterhalb der Pakete
-*de.dokchess.xboard...*
-
-#### 4.4.2. Spielregeln
-
-##### Zweck/Verantwortlichkeit <!-- omit in toc -->
-
-Dieses Subsystem beinhaltet die Spielregeln für Schach gemäß Internationalem Schachverband (FIDE). Es ermittelt zu einer Stellung alle gültigen Züge und entscheidet, ob ein Schach, ein Matt oder ein Patt vorliegt.
-
-##### Schnittstelle <!-- omit in toc -->
-
-Das Subsystem stellt seine Funktionalität über das Java-Interface *de.dokchess.regeln.Spielregeln* bereit.
-
-Default-Implementierung der Schnittstelle ist die Klasse  
-*de.dokchess.regeln.DefaultSpielregeln*.
-
-##### Ablageort / Datei <!-- omit in toc -->
-
-Die Implementierung liegt unterhalb der Pakete *de.dokchess.regeln...*
-
-#### 4.4.3. Engine
-
-##### Zweck/Verantwortlichkeit <!-- omit in toc -->
-
-Dieses Subsystem beinhaltet die Ermittlung eines nächsten Zuges ausgehend von einer Spielsituation. Diese Situation wird von außen vorgegeben. Die Engine ist zustandsbehalten und spielt stets eine Partie zur gleichen Zeit. Die Default-Implementierung benötigt zum Arbeiten eine Implementierung der Spielregeln, die Eröffnungsbibliothek hingegen ist optional.
-
-##### Schnittstellen <!-- omit in toc -->
-
-Das Subsystem stellt seine Funktionalität über das Java-Interface *de.dokchess.engine.Engine* bereit. Default-Implementierung ist die Klasse *de.dokchess.engine.DefaultEngine*.
-
-[Zugberechnungskonzept](#54-zugberechnungskonzeptspielstrategiekonzept) beschreibt die in der Schnittstelle verwendeten Aufruf- und Rückgabeparameter (*Zug*, *Stellung*).
-
-##### Ablageort / Datei <!-- omit in toc -->
-
-Die Implementierung sowie Unit-Tests liegen unterhalb der Pakete *de.dokchess.engine...*
-
-#### 4.4.4. Eröffnung
-
-##### Zweck/Verantwortlichkeit <!-- omit in toc -->
-
-Dieses Subsystem stellt Eröffnungsbibliotheken bereit und implementiert das Polyglot Opening Book-Format.
-Bei diesem Format handelt es sich gegenwärtig um das einzig geläufige, das nicht proprietär ist.
-Entsprechende Buchdateien und zugehörige Werkzeuge sind im Internet frei verfügbar.
-
-##### Schnittstellen <!-- omit in toc -->
-
-Das Subsystem stellt seine Funktionalität über das Java-Interface *de.dokchess.eroeffnung.Eroeffnungsbibliothek* bereit. Als Implementierung liegt die Klasse *de.dokchess.eroeffnung.polyglot.PolyglotOpeningBook* vor.
-
-##### Ablageort / Datei <!-- omit in toc -->
-
-Die Implementierung, Unit-Tests und Testdaten für das Polyglot Opening Book-Format liegen unterhalb der Pakete *de.dokchess.eroeffnung...*
+Die Dateien findet man (Java-typisch) in den Unterverzeichnissen von `src/main/java/` gefolgt vom Ablageort, wobei der Punkt durch einen Verzeichnistrenner ersetzt wird.
 
 ### 4.5. Build-Prozess und -Struktur
 <!--
@@ -717,23 +663,25 @@ Um die Deployment-JAR-Datei zu erstellen, kann der Gradle-Build-Befehl verwendet
 - Wird eine Platform as a Service verwendet?
 -->
 
-<!-- EDIT: von der ursprünglichen arc42-Doku übernommen -->
+<!-- EDIT: Kleine Anpassungen. Diagramm selbst erstellt. Ansonsten von der ursprünglichen arc42-Doku übernommen. -->
 
 Das Diagramm im Bild unten zeigt den Einsatz von DokChess unter Windows ohne Eröffnungsbibliothek.
 Als Frontend wird exemplarisch Arena verwendet.
 
-![Deployment von DokChess auf einem Windows-PC](images/Abb09_17_DeploymentDokChess.png "Deployment von DokChess auf einem Windows-PC")
-*Bild: Deployment von DokChess auf einem Windows-PC*
+![Deployment von DokChess auf einem Windows-PC](images/deployment.drawio.png)
+
+*Bild: Deployment von DokChess auf einem Windows-PC (Deployment@Runtime)*
 
 *DokChess.jar* enthält den kompilierten Java-Quelltext sämtlicher Module und alle nötigen Abhängigkeiten („Über-jar“).
-Die Script-Datei dokchess.bat startet die Java Virtual Machine mit DokChess.
-Beides liegt auf dem Rechner in einem gemeinsamen Verzeichnis, da *dokchess.bat* die jar-Datei relativ anspricht.
+Die Script-Datei dokchess.bat startet die Java Virtual Machine mit DokChess. Dort kann man optional als Parameter die zu verwendende Eröffnungsbibliothek-Datei im "Polyglot Opening Book"-Format angeben.
+Alles liegt auf dem Rechner in einem gemeinsamen Verzeichnis, da *dokchess.bat* die jar-Datei relativ anspricht.
 
 Innerhalb von Arena wird die Skript-Datei im (deutschen) Menü unter "Motoren|Neuen Motor installieren..." bekannt gemacht.
 Es erscheint eine Dateiauswahl, deren Dateityp sich auf \*.bat-Dateien einschränken lässt. Anschließend ist als Motoren-Typ "Winboard" auszuwählen.
 Bei anderen Schach-Frontends erfolgt das Bekanntmachen einer Engine ähnlich, vgl. deren Dokumentation.
 
 Offene Punkte
+
 Einige Frontends unter Windows erlauben lediglich das Einbinden einer \*.exe-Datei als Engine.
 In diesem Fall müsste DokChess geeignet gewrappt werden.
 
@@ -752,7 +700,7 @@ Bei den Eröffnungsbibliotheken prüft DokChess lediglich, ob es die Datei öffn
 DokChess besitzt keine grafische Benutzeroberfläche; die Kommunikation erfolgt stattdessen über die Standardein­- und -­Ausgabe.
 Als Kommunikationsprotokoll kommt das textbasierte XBoard-­Protokoll zum Einsatz ([→ Xboard “](#53-kommunikationskonzept-xboard-protokoll)).
 
-Das Protokoll selbst ist in [Mann+2009] detailliert beschrieben, für die Implementierung in DokChess ist das Subsystem XBoard-Protokoll zuständig
+Das Protokoll selbst ist in [Mann+2009] detailliert beschrieben, für die Implementierung in DokChess sind die Module im Paket XBoard zuständig.
 
 DokChess lässt sich interaktiv per Kommandozeile bedienen, wenn man die XBoard­-Kommandos kennt und die Engine-Antworten zu deuten weiß, siehe folgendes Bild.
 
@@ -961,8 +909,9 @@ Eine wichtige Aufgabe von DokChess ist eine hohe Spielstärke zu erreichen, weit
 Nach Aufbau des XBoard-Protokolls startet der Client (weiß) über die Angabe eines Zuges eine Partie.
 Das Sequenzdiagramm im Bild unten zeigt eine exemplarische Interaktion auf Subsystem-Ebene von der Eingabe "e2e4" (weißer Bauer e2-e4) bis zur Antwort von DokChess, also der Ausgabe "move b8c6" (schwarzer Springer b8-c6, [„Nimzowitsch-Verteidigung“](https://de.wikipedia.org/wiki/Nimzowitsch-Verteidigung)).
 
-![Beispielhaftes Zusammenspiel für eine Zugermittlung](images/Abb09_16_ZugErmittlungWalkthrough.png)
-*Bild: Beispielhaftes Zusammenspiel für eine Zugermittlung Functions@Runtime*
+![Zusammenspiel der Komponenten für eine Zugermittlung](images/zugermitttlung.drawio.png)
+
+*Bild: Beispielhaftes Zusammenspiel für eine Zugermittlung (Functions@Runtime)*
 
 Zunächst validiert das XBoard-Protokoll-Subsystem die Eingabe unter Zuhilfenahme der Spielregeln. Der Zug wird im Beispiel als zulässig erkannt und auf der (zustandsbehafteten) Engine ausgeführt (Nachricht "ziehen"). Anschließend fordert das XBoard-Protokoll-Subsystem die Engine auf, ihren Zug zu ermitteln. Da eine Zugberechnung sehr lange dauern kann, DokChess aber weiter auf Eingaben reagieren können soll, erfolgt der Aufruf asynchron. Die Engine meldet sich mit möglichen Zügen zurück.
 
@@ -1077,6 +1026,31 @@ Beide Punkte wirken sich negativ auf die Effizienz aus.
 Entscheidung
 
 Die Entscheidung fiel Anfang 2011 auf die unveränderliche Stellung (Option 2) aufgrund der Vorteile bezüglich einfacher Implementierung und Aussicht auf die leichtere Ausnutzung von Nebenläufigkeit. Die Nachteile der Option 2 beziehen sich ausschließlich auf Effizienz.
+
+### 5.6. Erweiterbarkeitskonzept (Dependency Injection)
+
+#### 5.6.1. Architekturtreiber
+
+DokChess soll zum Experimentieren und zum Erweitern der Engine einladen ([Anforderungen](#3-architekturtreiber-funktion-und-qualität)).
+
+TODO
+
+#### 5.6.2. Lösungsidee
+
+Wir koppeln die Module über Schnittstellen nur lose aneinander.
+Module sind Implementierungen von Java-Schnittstellen. Java-Klassen, welche Teile benötigen, signalisieren dies über entsprechende Methoden *set«Module»(«Interface» ...)*.
+Sie kümmern sich nicht selbst um das Auflösen einer Abhängigkeit, indem sie beispielsweise Exemplare mit new bauen, oder eine Factory bemühen.
+Stattdessen löst der Verwender die Abhängigkeiten auf, indem er passende Implementierungen erzeugt und über die Setter-Methoden zusammensteckt ([Dependency Injection](https://martinfowler.com/articles/injection.html), kurz DI).
+
+Dies ermöglicht die Verwendung alternativer Implementierungen innerhalb des Rahmens DokChess und das Hinzufügen von Funktionalität über das Decorator-Pattern [Gamma+94]. Auch Lösungsansätze aspektorientierter Programmierung (AOP), die auf Dynamic Proxies basieren, sind auf Java Interfaces leicht anwendbar. Nicht zuletzt wirkt sich dieser Umgang mit Abhängigkeiten positiv auf die Testbarkeit ([→ Konzept 5.1](#51-testbarkeit)) aus.
+
+#### 5.6.3 Design-Entscheidungen
+
+Die Module werden im Quelltext hart verdrahtet, allerdings nur in Unit-Tests und Glue-Code (z.B. der Main-Klasse). Um experimentierfreudigen Anwendern bezüglich einer konkreten DI-Implementierung freie Wahl zu lassen, findet insbesondere keine annotationsgetriebene Konfiguration statt.
+
+#### 5.6.4 Verworfene Alternativen
+
+DokChess verzichtet auf die Verwendung eines speziellen DI Frameworks. Da die Java-Module reine POJOs (Plain old Java objects) sind, steht einer Konfiguration beispielsweise mit dem [Spring Framework](https://projects.spring.io/spring-framework/) oder CDI (Contexts and Dependency Injection for the Java EE Platform) nichts im Wege.
 
 ## 6. Risiken und technische Schulden
 
