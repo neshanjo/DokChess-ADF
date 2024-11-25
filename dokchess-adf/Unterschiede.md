@@ -7,7 +7,10 @@
   - Qualitätstreiber als Szenario im ADF-Template aufgeschrieben (teilweise etwas dazuformuliert bzw. Quantifizierungen ergänzt)
 - Funktionale Zerlegung direkt mit Sequenzdiagramm
 - Runtime first (so gut es geht) und dann erst Abbildung auf Code
+  - Die Zerlegung schon auf Runtime-Ebene illustriert
+  - Implementierung liefert dann noch Interfaces und Klassen (ist eigentlich schon zu detailliert für eine Architekturdoku)
 
 ## TODO
 
-- Offene Punkte zentral sammeln
+- 5.3.1. Treiber noch mal umschreiben
+- Generell alle Konzepte überprüfen, ob die richtigen Treiber genannt sind
