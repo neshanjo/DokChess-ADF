@@ -1003,7 +1003,7 @@ Sie ermöglichen es, Entscheidungsoptionen zu bewerten.
 
 ### 10.1 Qualitätsbaum
 
-Das folgende Bild gibt in Form eines sogenannten Qualitätsbaumes (englisch: Utitlty Tree) einen Überblick über die relevanten Qualitätsmerkmale und ordnet ihnen [Szenarien](#102-qualitätsszenarien) als Beispiele zu.
+Das folgende Bild gibt in Form eines sogenannten Qualitätsbaumes (englisch: Utility Tree) einen Überblick über die relevanten Qualitätsmerkmale und ordnet ihnen [Szenarien](#102-qualitätsszenarien) als Beispiele zu.
 Die [Qualitätsziele](#12-qualitätsziele) sind in der Abbildung ebenfalls enthalten und verweisen jeweils auf die Szenerien, welche sie illustrieren.
 
 ![Zuordnung von Szenarien zu Qualitätsmerkmalen](images/Abb09_25_Qualitaetsbaum.png "Zuordnung von Szenarien zu Qualitätsmerkmalen")
