@@ -9,8 +9,3 @@
 - Runtime first (so gut es geht) und dann erst Abbildung auf Code
   - Die Zerlegung schon auf Runtime-Ebene illustriert
   - Implementierung liefert dann noch Interfaces und Klassen (ist eigentlich schon zu detailliert für eine Architekturdoku)
-
-## TODO
-
-- 5.3.1. Treiber noch mal umschreiben
-- Generell alle Konzepte überprüfen, ob die richtigen Treiber genannt sind

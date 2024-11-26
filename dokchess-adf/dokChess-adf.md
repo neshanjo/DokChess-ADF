@@ -102,7 +102,7 @@ Durch eine Versionierung der Dokumentation (z.B. in einem Git-Repository) machen
     - [5.6.2. Lösungsidee](#562-lösungsidee)
     - [5.6.3. Design-Entscheidungen](#563-design-entscheidungen)
     - [5.6.4. Verworfene Alternativen](#564-verworfene-alternativen)
-  - [5.7. Testbarkeit](#57-testbarkeit)
+  - [5.7. Testkonzept](#57-testkonzept)
     - [5.7.1. Architektur-Treiber](#571-architektur-treiber)
     - [5.7.2. Lösungsidee](#572-lösungsidee)
     - [5.7.3. Design-Entscheidungen](#573-design-entscheidungen)
@@ -692,7 +692,7 @@ DokChess ist als Java-Programm mit main-Routine realisiert (Modul `Main`). Es ze
 - einen Adapter für ein konkretes Eröffnungsbibliotheksformat, nämlich Polyglot Opening Book (Paket "Eröffnung")
 
 Diese Zerlegung ermöglicht es, Dinge wie das Kommunikationsprotokoll oder das Eröffnungsbibliotheksformat bei Bedarf auszutauschen. Alle Teile sind durch Schnittstellen abstrahiert, die Implementierungen werden per Dependency Injection zusammengesteckt, siehe [5.1. Abhängigkeiten zwischen Modulen](#51-abhängigkeiten-zwischen-modulen).
-Die Zerlegung erlaubt es weiterhin die Software, allen voran die Schachalgorithmen, leicht automatisiert zu testen (siehe [5.7.](#57-testbarkeit)).
+Die Zerlegung erlaubt es weiterhin die Software, allen voran die Schachalgorithmen, leicht automatisiert zu testen (siehe [5.7. Testkonzept](#57-testkonzept)).
 
 Auf dem folgenden Bild werden Inhalte und Zusammenspiel der Pakete dargestellt:
 
@@ -924,7 +924,11 @@ In diesem Kapitel beschreiben wir, wie Sie die von den Architekturtreibern gefor
 
 #### 5.1.1. Architekturtreiber
 
-DokChess soll zum Experimentieren und zum Erweitern der Engine einladen ([Anforderungen](#3-architekturtreiber-funktion-und-qualität)).
+DokChess soll zum Experimentieren und zum Erweitern der Engine einladen (Änderbarkeit, s. [3.2. Qualitätsattribute](#32-qualitätsattribute)), insbesondere
+
+- [Leichte Einbindung einer neuen Stellungsbewertung (W04)](#324-leichte-einbindung-einer-neuen-stellungsbewertung-w04)
+- [Implementierung der Bitboard-Repräsentation (W05)](#325-implementierung-der-bitboard-repräsentation-w05)
+- [Unterstützung neuer Protokolle (P01)](#329-unterstützung-neuer-protokolle-p01)
 
 #### 5.1.2. Lösungsidee
 
@@ -933,7 +937,7 @@ Module sind Implementierungen von Java-Schnittstellen. Java-Klassen, welche Teil
 Sie kümmern sich nicht selbst um das Auflösen einer Abhängigkeit, indem sie beispielsweise Exemplare mit new bauen, oder eine Factory bemühen.
 Stattdessen löst der Verwender die Abhängigkeiten auf, indem er passende Implementierungen erzeugt und über die Setter-Methoden zusammensteckt ([Dependency Injection](https://martinfowler.com/articles/injection.html), kurz DI).
 
-Dies ermöglicht die Verwendung alternativer Implementierungen innerhalb des Rahmens DokChess und das Hinzufügen von Funktionalität über das Decorator-Pattern (s. [Gamma+95](https://dl.acm.org/doi/10.5555/186897)). Auch Lösungsansätze aspektorientierter Programmierung (AOP), die auf Dynamic Proxies basieren, sind auf Java Interfaces leicht anwendbar. Nicht zuletzt wirkt sich dieser Umgang mit Abhängigkeiten positiv auf die Testbarkeit ([5.7. Testbarkeit](#57-testbarkeit)) aus.
+Dies ermöglicht die Verwendung alternativer Implementierungen innerhalb des Rahmens DokChess und das Hinzufügen von Funktionalität über das Decorator-Pattern (s. [Gamma+95](https://dl.acm.org/doi/10.5555/186897)). Auch Lösungsansätze aspektorientierter Programmierung (AOP), die auf Dynamic Proxies basieren, sind auf Java Interfaces leicht anwendbar. Nicht zuletzt wirkt sich dieser Umgang mit Abhängigkeiten positiv auf die Testbarkeit ([5.7. Testkonzept](#57-testkonzept)) aus.
 
 #### 5.1.3. Design-Entscheidungen
 
@@ -950,7 +954,7 @@ DokChess verzichtet auf die Verwendung eines speziellen DI Frameworks. Da die Ja
 - [W03](#323-einfaches-auffinden-einer-modul-implementierung-w03) (Leichte Einbindung einer neuen Stellungsbewertung)
 - [E01](#327-zeitverhalten-der-engine-im-spiel-e01) (Zeitverhalten der Engine im Spiel)
 - [E02](#328-zeitverhalten-der-engine-bei-der-eröffnung-e02) (Zeitverhalten der Engine bei der Eröffnung)
-- Betroffene Risiken ([Aufwand der Implementierung zu hoch](#62-risiko-aufwand-der-implementierung-zu-hoch))
+- Betroffenes Risiko: ([Aufwand der Implementierung zu hoch](#62-risiko-aufwand-der-implementierung-zu-hoch))
 
 #### 5.2.2. Lösungsidee
 
@@ -1016,33 +1020,22 @@ Das spart Speicher und Rechenzeit, und es schont den Garbage Collector.
 
 ### 5.3. Benutzungsoberfläche und Kommunikationsprotokoll
 
-#### 5.3.1. Architektur-Treiber
-
 Als zentrale Anforderung muss DokChess mit vorhandenen Schach-Frontends zusammenarbeiten. Wie erfolgt die Anbindung?
 
 Es sind eine ganze Reihe grafische Oberflächen speziell zum Spiel gegen Schach-Programme verfügbar. Darüber hinaus gibt es für Schachinteressierte Softwarelösungen mit größerem Leistungsumfang. Neben dem Spiel „Mensch gegen Maschine“ bieten sie weitere Funktionalität, etwa zur Analyse von Partien. Mit der Zeit werden neue Schach-Programme hinzukommen – und andere gegebenenfalls vom Markt verschwinden.
 
 Je nachdem, wie die Anbindung an solche Programme realisiert wird, kann DokChess mit bestimmten Oberflächen kommunizieren oder auch nicht. Die Frage hat Einfluss auf die Interoperabilität von DokChess mit bestehender und auf die Anpassbarkeit an zukünftige Schach-Software.
 
-Relevante Anforderungen:
+#### 5.3.1. Architektur-Treiber
 
-- [K01](#326-verwendung-alternativer-frontends-k01) (Verwendung alternativer Frontends)
-- [P01](#329-unterstützung-neuer-protokolle-p01) (Unterstützung neuer Protokolle)
-- [Randbedingungen](#14-randbedingungen-constraints) (Betrieb der Frontends zumindest auf Windows-Desktop-Betriebssystemen.Unterstützung frei verfügbarer Frontends)
-- Betroffene Risiken([Anbindung an das Frontend schlägt fehl](#61-risiko-anbindung-an-das-frontend-schlägt-fehl))
-
-bzw.
-
-- Randbedingungen
-- Betrieb der Frontends zumindest auf Windows-Desktop-Betriebssystemen
-- Unterstützung frei verfügbarer Frontends
-- Bevorzugung etablierter (Schach-)Standards ([→ 1.4.3. Konventionen](#143-konventionen))
-- Maßgeblich betroffene Qualitätsmerkmale ([→ 3.2. Qualitätsziele](#32-qualitätsattribute))
-- Qualitätsziel: Bestehende Frontends nutzen (Interoperabilität)
-- Qualitätsziel: Einladende Experimentierplattform (Änderbarkeit)
-- Anpassbarkeit (an zukünftige Schach-Software)
-- Betroffene Risiken
-- Anbindung an das Frontend schlägt fehl ([→ 6.1.](#61-risiko-anbindung-an-das-frontend-schlägt-fehl))
+- [Technische Randbedingungen](#141-technische-randbedingungen):
+  - Betrieb auf Windows Desktop Betriebssystemen
+  - Fremdsoftware frei verfügbar
+- [Konventionen](#143-konventionen): Schach-Spezifische Datenformate
+- Qualitätsmerkmale:
+  - [K01](#326-verwendung-alternativer-frontends-k01) (Verwendung alternativer Frontends)
+  - [P01](#329-unterstützung-neuer-protokolle-p01) (Unterstützung neuer Protokolle)
+- Betroffenes Risiko: ([Anbindung an das Frontend schlägt fehl](#61-risiko-anbindung-an-das-frontend-schlägt-fehl))
 
 #### 5.3.2. Lösungsidee
 
@@ -1115,6 +1108,11 @@ Mit der Entscheidung für das XBoard-Protokoll unterstützen wir zusätzlich zu 
 
 #### 5.4.1. Architektur-Treiber
 
+- Funktionale Anfoderungen an Fehlertoleranz und Fehlervermeidung: Z01 und Z02 in [3.1. Wesentliche funktionale Anforderungen](#31-wesentliche-funktionale-anforderungen)
+- Qualitätstreiber:
+  - [Zeitverhalten der Engine im Spiel (E01)](#327-zeitverhalten-der-engine-im-spiel-e01)
+  - [Zeitverhalten der Engine bei der Eröffnung (E02)](#328-zeitverhalten-der-engine-bei-der-eröffnung-e02)
+
 #### 5.4.2. Lösungsidee
 
 DokChess ist, vereinfacht ausgedrückt, ein Algorithmus, es antwortet auf Züge des Gegners mit eigenen Zügen. Für die Überprüfung von Eingaben sind zwei Kanäle relevant: das XBoard-Protokoll für interaktive Benutzereingaben des Gegners sowie Eröffnungsbibliotheken in Form von Dateien.
@@ -1140,6 +1138,8 @@ Zu diesem Konzept sind keine alternativen Lösungsansätze dokumentiert.
 ### 5.5. Ausnahme- und Fehlerbehandlung
 
 #### 5.5.1. Architektur-Treiber
+
+- Funktionale Anfoderungen an Fehlertoleranz und Fehlervermeidung: Z01 und Z02 in [3.1. Wesentliche funktionale Anforderungen](#31-wesentliche-funktionale-anforderungen)
 
 #### 5.5.2. Lösungsidee
 
@@ -1193,14 +1193,14 @@ Auf die Implementierung eines Kommunikationsprotokoll-Tracings innerhalb von Dok
 
 Innerhalb von DokChess gibt es zudem keine feinkörnigen Logging-Ausgaben.
 Die Funktionalität des Systems selbst lässt sich gut mit Unit-Tests überprüfen.
-Das gilt insbesondere für die korrekte Implementierung der Spielregeln, für die Spielweise der Engine (siehe [5.7. Testbarkeit](#57-testbarkeit)) und auch für eigene Erweiterungen.
+Das gilt insbesondere für die korrekte Implementierung der Spielregeln, für die Spielweise der Engine (siehe [5.7. Testkonzept](#57-testkonzept)) und auch für eigene Erweiterungen.
 
 #### 5.6.4. Verworfene Alternativen
 <!-- EDIT: von der ursprünglichen arc42-Doku übernommen -->
 Da es keine feinkörnigen Logging-Ausgaben gibt, kommen Lösungen wie log4j nicht zum Einsatz.
 Auf diese Weise wird eine Abhängigkeit zu einer Fremdbibliothek, die sich durch den ganzen Quelltext ziehen würde, vermieden und der Code nicht durch diesen Aspekt verschmutzt.
 
-### 5.7. Testbarkeit
+### 5.7. Testkonzept
 <!--
 Wir benutzten als Überschrift den konkreten Namen des Lösungskonzepts, z.B. "Mandantenkonzept", "Skalierbarkeit", "Logging", "Testbarkeit", "Internationalisierung", "Monitoring", "Konfiguration", "Offline-Fähigkeit und Datensynchronisation".
 -->
@@ -1211,9 +1211,10 @@ Wir benutzten als Überschrift den konkreten Namen des Lösungskonzepts, z.B. "M
 
 Es genügt, wenn wir Referenzen auf die Treiber einfügen (z.B. die Scenario-ID).
 -->
-- [Z01](#31-wesentliche-funktionale-anforderungen) (Ablehnung eines unzulässigen Zugs durch die Engine)
-- [Z02](#31-wesentliche-funktionale-anforderungen) (Erkennung unzulässiger Stellungen)
-- [Randbedingugnen](#14-randbedingungen-constraints) (Testwerkzeuge und -prozesse -> JUnit)
+- [Technische Randbedingungen](#141-technische-randbedingungen): Testwerkzeuge und -prozesse (JUnit)
+- Alle [funktionale Anforderungen](#31-wesentliche-funktionale-anforderungen):
+  - Generelle funktionale Eignung (F01 bis F04)
+  - Ablehnung unzulässiger Züge, Erkennung unzulässiger Stellungen (Z01, Z02)
 
 #### 5.7.2. Lösungsidee
 
@@ -1224,8 +1225,9 @@ Wir illustrieren die Idee mit Architektur-Sichten und entsprechendem Begleittext
 -->
 
 <!-- EDIT: von der ursprünglichen arc42-Doku übernommen -->
-Die Lösung von diesem Konzept wird dadurch umgesetzt, dass die Funktionalität der einzelnen Module von DokChess durch umfangreiche Unit-Tests sichergestellt wird. Dadurch werden die Treiber
-[Z01](#31-wesentliche-funktionale-anforderungen) und [Z02](#31-wesentliche-funktionale-anforderungen) umgesetzt.
+Nichts ist peinlicher für eine Engine als ein unzulässiger Zug.
+
+Die Funktionalität der einzelnen Module von DokChess wird durch umfangreiche Unit-Tests sichergestellt.
 In der Quelltextstruktur ist neben dem Ordner src/main, wo die Java-Quelltexte der Module abgelegt sind, ein Ordner *src/test* zu finden.
 Er enthält ein Spiegelbild der Paketstruktur, und in den entsprechenden Paketen Unit-Tests zu den Klassen, die mit [JUnit 4](https://junit.org/junit4/) realisiert sind.
 
