@@ -332,7 +332,7 @@ In den folgenden Kapiteln wird ein Überblick über die wichtigsten Anforderunge
 Die Anforderungen nehmen in der Benennung des betroffenen Bereichs bzw. der betroffenen Qualität Bezug auf den Qualitätsbaum (englisch: Utility Tree).
 
 <!-- EDIT: Bild von der ursprünglichen arc42-Doku übernommen -->
-![Qualitätsbaum](images/Abb09_25_Qualitaetsbaum.png)
+![Qualitätsbaum](images/qualitaetsbaum.png)
 
 *Bild: Einteilung der Treiber anhand des Qualitätsbaumes*
 
@@ -543,7 +543,7 @@ Die folgende Tabelle stellt die Qualitätsziele von DokChess passenden Architekt
 
 Kleine Buchstaben in Klammern →&nbsp;**(x)** verorten einzelne Ansätze aus der Tabelle im folgenden schematischen Bild.
 
-![Informelles Überblickbild für DokChess](images/Abb09_06_Ueberblick.png)
+![Informelles Überblickbild für DokChess](images/ueberblick_informell.png)
 
 *Bild: Informelles Überblickbild für DokChess*
 
@@ -557,7 +557,7 @@ DokChess besitzt keine grafische Benutzeroberfläche; die Kommunikation erfolgt 
 Als Kommunikationsprotokoll kommt das textbasierte XBoard-­Protokoll zum Einsatz (siehe [5.3. Benutzungsoberfläche und Kommunikationsprotokoll](#53-benutzungsoberfläche-und-kommunikationsprotokoll)).
 DokChess lässt sich interaktiv per Kommandozeile bedienen, wenn man die XBoard­-Kommandos kennt und die Engine-Antworten zu deuten weiß, siehe folgendes Bild.
 
-![DokChess über die Kommandozeile bedienen](images/Abb09_07_DokChess_Kommandozeile.png)
+![DokChess über die Kommandozeile bedienen](images/dokchess_kommandozeile.png)
 
 Die eigentliche Engine von DokChess wird dabei über einen reaktiven Ansatz („Reactive Extensions“) angebunden (siehe Diagramm *Zusammenspiel für eine Zugermittlung* in [4.2. Systemstruktur](#42-systemstruktur)).
 DokChess bleibt so auch während der Zugermittlung ansprechbar, ein Benutzer kann zum Beispiel ein sofortiges Ziehen erzwingen.
@@ -670,13 +670,13 @@ Eine Schachfigur ist gekennzeichnet durch Farbe (schwarz oder weiß) und Art (K�
 Im Domänenmodell von DokChess weiß eine Figur nicht, wo sie steht.
 Die Klasse ist unveränderlich (immutable) wie alle anderen im Domänenmodell auch.
 
-![Eine Figur hat eine Farbe und eine Art](images/Abb09_18_Figur.png)
+![Eine Figur hat eine Farbe und eine Art](images/figur_DataDT.png)
 
 *Diagramm: Datenmodellierung einer Figur (Data@Devtime)*
 
 Das Schachbrett besteht aus 8 x 8 Feldern die in 8 Reihen (1-8) und 8 Linien (a-h) angeordnet sind. Die Klasse *Feld* beschreibt ein ebensolches. Da ein Feld maximal von einer Figur besetzt sein kann, reicht für die Angabe eines Zuges, von wo nach wo gezogen wird. Einzige Ausnahme bildet die Umwandlung eines Bauern auf der gegnerischen Grundlinie, da der Spieler selbst entscheidet, in welche Figur er umwandelt (in der Regel, aber nicht zwingend, eine Dame). Rochadezüge werden als Königszüge über zwei Felder in die entsprechende Richtung repräsentiert.
 
-![Ein Zug geht von einem Feld zu einem Feld](images/Abb09_19_Zug.png)
+![Ein Zug geht von einem Feld zu einem Feld](images/zug_DataDT.png)
 
 *Diagramm: Datenmodellierung eines Zugs (Data@Devtime)*
 
@@ -685,7 +685,7 @@ Vor allem sind das die Figuren auf dem Brett, das intern als zweidimensionales A
 Falls ein Feld unbesetzt ist, steht null im Array.
 Zur Komplettierung der Spielsituation gehört die Information, wer am Zug ist, ob noch Rochaden möglich sind und ob en passant geschlagen werden kann.
 
-![Die Klasse Stellung](images/Abb09_20_Stellung.png)
+![Die Klasse Stellung](images/stellung_DataDT.png)
 
 *Diagramm: Die Klasse Stellung (Data@Devtime; Ausschnitt, Details wie Rochade fehlen)*
 
@@ -736,7 +736,7 @@ Die folgenden Unterkapitel beschreiben die Umsetzung der in [4.2. Systemstruktur
 
 Das XBoard-Modul stellt seine Funktionalität über die Java-Klassen *de.dokchess.xboard.XBoard* und *de.dokchess.xboard.Main* bereit:
 
-![Klassen XBoard und Main](images/Abb09_09_Schnittstellen_Xboard.png )
+![Klassen XBoard und Main](images/xboard_main_FunctionsDT.png )
 
 *Diagramm: Klassen XBoard und Main, Functions@Devtime*
 
@@ -755,7 +755,7 @@ Das Spielregeln-Modul stellt seine Funktionalität über das Java-Interface *de.
 Default-Implementierung der Schnittstelle ist die Klasse  
 *de.dokchess.regeln.DefaultSpielregeln*.
 
-![Schnittstelle Spielregeln](images/Abb09_10_Schnittstelle_Spielregeln.png)
+![Schnittstelle Spielregeln](images/spielregeln_FunctionsDT.png)
 
 *Diagramm: Schnittstelle Spielregeln (Functions@Devtime)*
 
@@ -776,7 +776,7 @@ Weitere Details entnehmen Sie der Quelltextdokumentation (javadoc).
 
 Das Engine-Modul stellt seine Funktionalität über das Java-Interface *de.dokchess.engine.Engine* bereit. Default-Implementierung ist die Klasse *de.dokchess.engine.DefaultEngine*.
 
-![Schnittstelle Engine, Implementierung](images/Abb09_11_Schnittstellen_Engine.png)
+![Schnittstelle Engine, Implementierung](images/engine_FunctionsDT.png)
 
 *Diagramm: Schnittstelle Engine und Default-Implementierung (Functions@Devtime)*
 
@@ -804,7 +804,7 @@ Details zum Engine-Subsystem finden Sie in [4.4.3. Engine, Implementierung](#443
 
 Das Eröffnungs-Modul stellt seine Funktionalität über das Java-Interface *de.dokchess.eroeffnung.Eroeffnungsbibliothek* bereit. Als Implementierung liegt die Klasse *de.dokchess.eroeffnung.polyglot.PolyglotOpeningBook* vor.
 
-![Schnittstelle Eroeffnungsbibliothek, Implementierung PolyglotOpeningBook](images/Abb09_12_SchnittstellenEroeffnung.png)
+![Schnittstelle Eroeffnungsbibliothek, Implementierung PolyglotOpeningBook](images/eroeffnung_FunctionsDT.png)
 
 *Diagramm: Schnittstelle Eroeffnungsbibliothek und Implementierung PolyglotOpeningBook (Functions@Devtime)*
 
@@ -835,7 +835,7 @@ Die Klasse *MinimaxParalleleSuche* nutzt den Algorithmus und implementiert gleic
 Sie untersucht mehrere Teilbäume parallel; wenn sie einen besseren Zug findet erhält der Aufrufer eine Nachricht onNext über das Observer-Pattern.
 Den Abschluss der Suche signalisiert die Suche über die Nachricht *onComplete*.
 
-![Schnittstelle Suche, Klassen MinimaxAlgorithmus und MinimaxParalleleSuche](images/Abb09_14_Schnittstellen_Zugsuche.png)
+![Schnittstelle Suche, Klassen MinimaxAlgorithmus und MinimaxParalleleSuche](images/zugsuche_FunctionsDT.png)
 
 *Diagramm: Schnittstelle Suche, Klassen MinimaxAlgorithmus und MinimaxParalleleSuche (Functions@Devtime)*
 
@@ -861,7 +861,7 @@ Den Abschluss der Suche signalisiert die Suche über die Nachricht *onComplete*.
 Das Stellungsbewertungs-Modul stellt seine Funktionalität über die Schnittstelle *de.dokchess.engine.bewertung.Bewertung* bereit, *de.dokchess.engine.bewertung.ReineMaterialBewertung* ist eine sehr einfache Implementierung.
 Die Schnittstelle enthält Konstanten für typische Bewertungen.
 
-![Schnittstelle Bewertung, Klasse ReineMaterialBewertung](images/Abb09_15_SchnittstellenBewertung.png)
+![Schnittstelle Bewertung, Klasse ReineMaterialBewertung](images/bewertung_FunctionsDT.png)
 
 *Diagramm: Schnittstelle Bewertung, Klasse ReineMaterialBewertung (Functions@Devtime)*
 
@@ -1073,7 +1073,7 @@ Das Protokoll selbst ist in [[Mann+2009]](https://www.gnu.org/software/xboard/en
 Die typische Verwendung von DokChess ist das Vorschalten eines grafischen Schachfrontends wie Arena (siehe Bild unten), das die Züge der anderen Seite – in der Regel eines Menschen – über eine komfortable Oberfläche entgegennimmt und diese in Form von XBoard-Kommandos wie in der Tabelle oben an DokChess weitergibt (Spalte "Client -> DokChess") und die Antworten (Spalte "DokChess -> Client") grafisch umsetzt.
 Die andere Seite kann auch eine andere Schach-Engine sein.
 
-![DokChess im Schach-Frontend Arena unter Windows](images/Abb09_21_FrontendArena.png)
+![DokChess im Schach-Frontend Arena unter Windows](images/arena_frontend.png)
 
 *Bild: DokChess im Schach-Frontend Arena unter Windows*
 
@@ -1159,7 +1159,7 @@ DokChess verfügt über keine eigene Oberfläche. Es muss Probleme daher über d
 
 Ein grafisches Frontend visualisiert sie in der Regel in einem Fehler-Dialog oder einer Alert-Box, das folgende Bild zeigt das für das Schachfrontend Arena.
 
-![DokChess-Fehlermeldung visualisiert durch Arena](images/Abb09_22_FehlermeldungArena.png)
+![DokChess-Fehlermeldung visualisiert durch Arena](images/arena_fehlermeldung.png)
 
 *Bild: DokChess-Fehlermeldung visualisiert durch Arena: Datei nicht gefunden*
 
@@ -1193,7 +1193,7 @@ Für Verbesserungen und Erweiterungen von DokChess durch Dritte sind die vorhand
 
 Für die Kommunikation zwischen Client und DokChess über das XBoard-Protokoll besteht neben der interaktiven Bedienung über eine Shell (s. [5.3. Benutzungsoberfläche und Kommunikationsprotokoll](#53-benutzungsoberfläche-und-kommunikationsprotokoll)) oft die Möglichkeit, den Client die Konversation protokollieren zu lassen. Gängige Schachfrontends erlauben dies über das Schreiben von Log-Dateien und/oder die simultane Anzeige eines Protokollfensters während des Spiels. Das folgende Bild zeigt diese Funktionalität exemplarisch für Arena.
 
-![Protokollfenster zum XBoard-Protokoll in Arena](images/Abb09_23_ProtokollfensterArena.png)
+![Protokollfenster zum XBoard-Protokoll in Arena](images/arena_protokollfenster.png)
 
 *Bild: Protokollfenster zum XBoard-Protokoll in Arena*
 
@@ -1261,7 +1261,7 @@ Die Grundstellung wird in FEN beispielsweise so notiert:
 
 Kleine Buchstaben stehen für schwarze, große für weiße Figuren, es werden die englischen Bezeichnungen (Rook für Turm, Pawn für Bauer, ...) verwendet.
 
-![Beispielstellung](images/Abb09_24_Beispielstellung.png)
+![Beispielstellung](images/beispielstellung.png)
 
 *Bild: Beispielstellung (weiß am Zug ist matt)*
 
@@ -1418,7 +1418,7 @@ Details finden Sie in den [Schachregeln der FIDE](http://www.bsv-spielausschuss.
 
 #### Namen der Schachfiguren <!-- omit in toc -->
 
-![Chess pieces (or chessmen)](images/12_01_ChessPieces.png)
+![Chess pieces (or chessmen)](images/chess_pieces.png)
 
 #### Schachbrett-Geometrie <!-- omit in toc -->
 
@@ -1426,7 +1426,7 @@ Details finden Sie in den [Schachregeln der FIDE](http://www.bsv-spielausschuss.
 >
 > aus den Schachregeln der FIDE
 
-![Chessboard](images/12_02_ChessBoard.png)
+![Chessboard](images/chess_board.png)
 <!--
 Hier definieren wir Begriffe, die der Zielgruppe beim Lesen des Dokuments unklar sein könnten. Der Umfang und Detailgrad variiert dabei stark je nach Wissenstand der Zielgruppe. Z.B. muss man erfahrenen Entwickler:innen nicht erklären, was eine NoSQL-Datenbank ist, dem Management aber eher schon. Umgekehrt gibt es vielleicht Fachbegriffe, die den Fachabteilungen geläufig sind, die für Architekten und Entwickler jedoch unbekannt sind.
 
