@@ -502,7 +502,7 @@ Nur wenn diese keinen Rat weiß, kommt die Zugsuche zum Einsatz.
 #### Zweck/Verantwortlichkeit <!-- omit in toc -->
 
 Das Modul ermittelt zu einer Stellung den unter bestimmten Bedingungen optimalen Zug.
-Theoretisch gäbe es im Schach ei2nen generell optimalen Zug.
+Theoretisch gäbe es im Schach einen generell optimalen Zug.
 Die hohe Anzahl der möglichen Züge und die damit verbundene schier unglaubliche Anzahl zu bewertender Spielsituationen macht es in der Praxis aber unmöglich, ihn zu bestimmen.
 Gängige Algorithmen wie der Minimax begnügen sich daher damit, den "Spielbaum" nur bis zu einer bestimmten Tiefe zu explorieren.
 
